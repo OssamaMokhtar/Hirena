@@ -51,7 +51,7 @@ export type SkillCategory =
   | "communication"
   | "tools";
 
-export type ProficiencyLevel = 0 | 1 | 2 | 3 | 4 | 5;
+export type ProficiencyLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export interface Skill {
   id: string;

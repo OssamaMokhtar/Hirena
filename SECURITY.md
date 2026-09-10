@@ -34,4 +34,4 @@ Contact the maintainer directly. Do not open a public issue for security vulnera
 
 ---
 
-*See [Improvement Plan — CareerOracle](../../Obsidian/Portfolio-Due-Diligence/06-Improvement-Plan-CareerOracle.md) for the full security hardening roadmap.*
+*See [Improvement Plan — Hirena](../../Obsidian/Portfolio-Due-Diligence/06-Improvement-Plan-Hirena.md) for the full security hardening roadmap.*

@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
 
-# OS3 / CareerOracle — Prototype career assessment platform.
+# OS3 / Hirena — Prototype career assessment platform.
 # This workflow validates the repository structure and will evolve into a
 # full npm/TypeScript pipeline when the project is production-hardened.
 
@@ -53,4 +53,4 @@ jobs:
           echo "Tailwind CSS: Currently loaded from CDN (known production issue)."
           echo "Migration to PostCSS plugin is on the roadmap."
           echo ""
-          echo "See improvement plan: Obsidian/Portfolio-Due-Diligence/06-Improvement-Plan-CareerOracle.md"
+          echo "See improvement plan: Obsidian/Portfolio-Due-Diligence/06-Improvement-Plan-Hirena.md"

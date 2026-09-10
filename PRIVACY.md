@@ -33,4 +33,4 @@ For privacy inquiries, contact the maintainer.
 
 ---
 
-*See [Improvement Plan — CareerOracle](../../Obsidian/Portfolio-Due-Diligence/06-Improvement-Plan-CareerOracle.md) for the full compliance roadmap.*
+*See [Improvement Plan — Hirena](../../Obsidian/Portfolio-Due-Diligence/06-Improvement-Plan-Hirena.md) for the full compliance roadmap.*

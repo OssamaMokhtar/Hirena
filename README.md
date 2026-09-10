@@ -1,63 +1,73 @@
-# CareerOracle Intelligence
+# Hirena
 
-> A career intelligence platform: cognitive assessment, CV parsing, and live market demand in one profile — so career decisions rest on measured signal rather than self-report.
+> **AI-powered skills assessment & career pathing.**
+> Assess your skills against any job description. See your gap. Find your path.
+> Bilingual Arabic/English. MENA-first. Global second.
 
-`TypeScript` · `React` · `Vite` · `Recharts` · `Gemini`
+`TypeScript` · `React` · `Vite` · `Tailwind` · `Gemini`
 
-**[Try it live →](https://os-3-ossamamokhtars-projects.vercel.app)**
+**[Try Hirena →](https://hirena.vercel.app)** *(coming soon)*
 
 ---
 
-## The problem
+## The Problem
 
-Career advice is built almost entirely on self-assessment. People rate their own skills, write their own CV summary, and receive guidance derived from that self-report — which is exactly the input least likely to be accurate about its own blind spots.
+Career decisions are built on guesswork. People guess their skills, compare themselves to vague job descriptions, and choose career paths based on gut feeling — not evidence.
 
-CareerOracle inverts the inputs. Cognitive assessment gives a measured baseline, CV parsing extracts what you have actually shipped, and market data supplies what employers are currently paying for. The gap between those three is the useful signal.
+Hirena replaces guesswork with measurement. You tell Hirena your current position and skillset, paste any job description you're targeting, and Hirena generates:
 
-## What it does
+- **Skills Scale** — your proficiency levels across every skill the role needs
+- **Gap Analysis** — exactly what you're missing, what you're overqualified for, what needs development
+- **Match Score** — how you stack up against the role, skill by skill
+- **Career Path** — your road to the role, with skill acquisition priorities and development roadmap
 
-- **Career score** derived from measured assessment and experience, not a self-rating
-- **Cognitive assessment** establishing a logical and verbal reasoning baseline
-- **Resume parser** extracting and verifying skills from an uploaded CV
-- **Skill & cognitive profile** as a radar chart across hard and soft skills
-- **Market insights** showing live demand movement for your role
-- **Priority actions** — the next highest-leverage step, not a generic checklist
+## What Hirena Does
 
-## MENA Positioning
+- **Skills Assessment** — AI measures your skills against any job description, generates proficiency scale and gap analysis
+- **Career Pathing** — AI recommends career paths based on your skills + market demand, with skill acquisition roadmap
+- **Bilingual AR/EN** — Full Arabic and English support, RTL layout, MENA-first design
+- **Self-Assessment** — Input your skills and experience, or upload your CV/resume/LinkedIn for automatic parsing
+- **Development Roadmap** — Prioritized skill acquisition plan to close your gaps and reach your target role
 
-CareerOracle is designed for the MENA job market: Arabic and English, GCC labor market insights, regional career paths. This is the defensible differentiation vs. LinkedIn, Coursera, and generic career platforms.
+## Hirena Skills Scale
 
-## Run locally
+Every skill is rated on a 6-level proficiency scale:
 
-**Prerequisites:** Node.js 18+
+| Level | Label | What It Means |
+|-------|-------|---------------|
+| 0 | No Exposure | You've heard of it, can't use it |
+| 1 | Aware | You understand the concept, can't apply it |
+| 2 | Basic | You can use it with guidance, simple cases |
+| 3 | Intermediate | You can use it independently, common cases |
+| 4 | Advanced | You can handle complex cases, mentor others |
+| 5 | Expert | You're an authority, can design/architect, teach it |
 
-```bash
-npm install
-cp .env.local.example .env.local    # add your GEMINI_API_KEY
-npm run dev
-```
+The Skills Scale shows: your proficiency vs the role's requirement, gap analysis, and priority-ranked development actions.
 
-## Architecture
+## Market
 
-Gemini runs **server-side only**. The browser calls `/api/analyze-resume` and `/api/market-insights`; the key never reaches the client, and a build-time check asserts it cannot appear in the bundle.
+**B2C:** Individual professionals assessing their skills, planning career transitions, targeting specific roles. Freemium + Premium ($9.99/month).
 
-Those routes deploy as Vercel serverless functions (`api/`) and share one implementation with the local dev server (`server.ts`) via `api/_lib/gemini.ts`, so there is a single source of truth per call.
+**B2B:** Companies offering career development as an employee benefit. HR teams getting skills intelligence for workforce planning. Per-employee pricing.
 
-## Deploying
+**MENA-first, Global second.** Bilingual Arabic/English from day one. GCC market undertransformed by HR tech.
 
-```bash
-vercel                                    # link the project
-vercel env add GEMINI_API_KEY production  # server-side only, never exposed
-vercel --prod
-```
+## Technology
+
+- **Frontend:** React + Vite + TypeScript + Tailwind CSS
+- **Backend:** Node.js + Express (server-side AI proxy)
+- **AI:** Gemini (server-side only, API key protected, never exposed to client)
+- **Deployment:** Vercel (frontend + serverless functions)
+- **Database:** Firebase Firestore (user profiles, assessment history — Phase 2)
 
 ## Status
 
-Working prototype. Dashboard, navigation, and profile visualisation are functional against seeded state; resume parsing and market insights call Gemini and need a key.
+**Active build.** Hirena is being rebuilt from the CareerOracle codebase with a new mission: skills assessment and career pathing, not cognitive assessment and market insights. The architecture (server-side AI, bilingual UI, React + Vite + TypeScript stack) transfers directly. The product surface is being redefined.
 
-**Known issues**
-- Tailwind is loaded from the play CDN (`cdn.tailwindcss.com`), which warns against production use. Move to the PostCSS plugin before serious traffic. See improvement plan.
-- No test coverage yet.
+**Known Issues**
+- Tailwind CSS is currently loaded from CDN. Migration to PostCSS pending.
+- Assessment engine being rebuilt — current CareerOracle assessment logic is being replaced with Hirena skills scale logic.
+- No user testing yet.
 
 ## Documentation
 
@@ -72,3 +82,4 @@ MIT
 ---
 
 *Built by [Ossama Mokhtar](https://github.com/OssamaMokhtar) — AI Product Manager, Dubai.*
+*Hirena — Assess your skills. Find your path.*

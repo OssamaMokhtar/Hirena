@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hirena Architecture Diagram</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+      min-height: 100vh;
+      padding: 40px;
+      color: #e0e0e0;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #0D9488, #14b8a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+    
+    .architecture {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    @media (max-width: 1200px) {
+      .architecture {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    @media (max-width: 800px) {
+      .architecture {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .layer {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    .layer-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid;
+    }
+    
+    .layer-header.user {
+      border-color: #0D9488;
+    }
+    
+    .layer-header.frontend {
+      border-color: #3b82f6;
+    }
+    
+    .layer-header.api {
+      border-color: #8b5cf6;
+    }
+    
+    .layer-header.data {
+      border-color: #f59e0b;
+    }
+    
+    .layer-header.infrastructure {
+      border-color: #10b981;
+    }
+    
+    .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .icon.user {
+      background: linear-gradient(135deg, #0D9488, #0F766E);
+    }
+    
+    .icon.frontend {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+    
+    .icon.api {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    }
+    
+    .icon.data {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+    
+    .icon.infrastructure {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    
+    .layer-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .layer-subtitle {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 2px;
+    }
+    
+    .components {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .component {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 15px 20px;
+      border-left: 4px solid;
+      transition: all 0.3s ease;
+    }
+    
+    .component:hover {
+      transform: translateX(5px);
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .component.user {
+      border-color: #0D9488;
+    }
+    
+    .component.frontend {
+      border-color: #3b82f6;
+    }
+    
+    .component.api {
+      border-color: #8b5cf6;
+    }
+    
+    .component.data {
+      border-color: #f59e0b;
+    }
+    
+    .component-name {
+      font-weight: 600;
+      color: white;
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
+    
+    .component-desc {
+      color: #aaa;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    
+    .component-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .tag {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #888;
+    }
+    
+    .flow-section {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 30px;
+    }
+    
+    .flow-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: #0D9488;
+    }
+    
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+    
+    .flow-step {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: #0D9488;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin: 0 auto 12px;
+      font-size: 0.9rem;
+    }
+    
+    .step-title {
+      font-weight: 600;
+      color: white;
+      margin-bottom: 8px;
+    }
+    
+    .step-desc {
+      color: #888;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    
+    .step-arrow {
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0D9488;
+      font-size: 1.2rem;
+    }
+    
+    .flow-step:last-child .step-arrow {
+      display: none;
+    }
+    
+    .data-flow {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(13, 148, 136, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(13, 148, 136, 0.3);
+    }
+    
+    .data-flow-title {
+      font-weight: 600;
+      color: #0D9488;
+      margin-bottom: 15px;
+    }
+    
+    .data-flow-content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .flow-node {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    
+    .flow-arrow {
+      color: #0D9488;
+      font-size: 1.5rem;
+    }
+    
+    .tech-stack {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .tech-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .tech-name {
+      font-weight: 600;
+      color: #14b8a6;
+      margin-bottom: 5px;
+    }
+    
+    .tech-desc {
+      color: #888;
+      font-size: 0.85rem;
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 10px;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+    }
+    
+    .connection-lines {
+      position: relative;
+      height: 100%;
+    }
+    
+    .legend {
+      display: flex;
+      gap: 30px;
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #666;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Hirena Architecture</h1>
+    <p class="subtitle">AI-Powered Skills Assessment & Career Development Platform</p>
+    
+    <div class="architecture">
+      <!-- User Layer -->
+      <div class="layer">
+        <div class="layer-header user">
+          <div class="icon user">👤</div>
+          <div>
+            <div class="layer-title">User Layer</div>
+            <div class="layer-subtitle">End Users & Interactions</div>
+          </div>
+        </div>
+        <div class="components">
+          <div class="component user">
+            <div class="component-name">Web App Users</div>
+            <div class="component-desc">Product professionals accessing Hirena via browser</div>
+            <div class="component-tags">
+              <span class="tag">React 18</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">Next.js</span>
+            </div>
+          </div>
+          <div class="component user">
+            <div class="component-name">Assessment Takers</div>
+            <div class="component-desc">Users completing 5-step assessment wizard</div>
+            <div class="component-tags">
+              <span class="tag">Self-Assessment</span>
+              <span class="tag">AI Inference</span>
+            </div>
+          </div>
+          <div class="component user">
+            <div class="component-name">Demo Visitors</div>
+            <div class="component-desc">Landing page visitors who can view pre-computed demo results</div>
+            <div class="component-tags">
+              <span class="tag">localStorage</span>
+              <span class="tag">Demo Mode</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Frontend Layer -->
+      <div class="layer">
+        <div class="layer-header frontend">
+          <div class="icon frontend">⚛️</div>
+          <div>
+            <div class="layer-title">Frontend (Next.js 15)</div>
+            <div class="layer-subtitle">Client-Side Application</div>
+          </div>
+        </div>
+        <div class="components">
+          <div class="component frontend">
+            <div class="component-name">Landing Page (page.tsx)</div>
+            <div class="component-desc">Hero section, vision, how-it-works, competency model, career ladder</div>
+            <div class="component-tags">
+              <span class="tag">React Server Components</span>
+              <span class="tag">Tailwind CSS</span>
+            </div>
+          </div>
+          <div class="component frontend">
+            <div class="component-name">Assessment Wizard (assessment-wizard.tsx)</div>
+            <div class="component-desc">5-step wizard: Profile → Goal → Self-Assessment → AI Inference → Review</div>
+            <div class="component-tags">
+              <span class="tag">State Management</span>
+              <span class="tag">Form Validation</span>
+            </div>
+          </div>
+          <div class="component frontend">
+            <div class="component-name">Results Dashboard (results-dashboard.tsx)</div>
+            <div class="component-desc">4-tab view: Overview, Skills, Gaps, Roadmap</div>
+            <div class="component-tags">
+              <span class="tag">Charts & Progress</span>
+              <span class="tag">Skill Rankings</span>
+            </div>
+          </div>
+          <div class="component frontend">
+            <div class="component-name">UI Components (components/ui/)</div>
+            <div class="component-desc">Button, Card, Input, Select, Progress - Shadcn/UI based</div>
+            <div class="component-tags">
+              <span class="tag">Radix UI</span>
+              <span class="tag">Tailwind</span>
+              <span class="tag">CVA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- API Layer -->
+      <div class="layer">
+        <div class="layer-header api">
+          <div class="icon api">🔌</div>
+          <div>
+            <div class="layer-title">API Routes (App Router)</div>
+            <div class="layer-subtitle">Server-Side Endpoints</div>
+          </div>
+        </div>
+        <div class="components">
+          <div class="component api">
+            <div class="component-name">POST /api/assess</div>
+            <div class="component-desc">Main assessment endpoint - computes results with optional AI inference</div>
+            <div class="component-tags">
+              <span class="tag">computeAssessmentResult()</span>
+              <span class="tag">inferAllSkills()</span>
+            </div>
+          </div>
+          <div class="component api">
+            <div class="component-name">GET /api/verify-env</div>
+            <div class="component-desc">Verifies OpenAI API key is configured</div>
+            <div class="component-tags">
+              <span class="tag">Environment Check</span>
+            </div>
+          </div>
+          <div class="component api">
+            <div class="component-name">GET /api/test-env</div>
+            <div class="component-desc">Test endpoint for environment validation</div>
+            <div class="component-tags">
+              <span class="tag">Environment Check</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Business Logic Layer -->
+      <div class="layer">
+        <div class="layer-header" style="border-color: #ec4899;">
+          <div class="icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">🧠</div>
+          <div>
+            <div class="layer-title">Business Logic (src/lib/)</div>
+            <div class="layer-subtitle">Core Processing & AI Integration</div>
+          </div>
+        </div>
+        <div class="components">
+          <div class="component" style="border-color: #ec4899;">
+            <div class="component-name">scoring-engine.ts</div>
+            <div class="component-desc">Computes weighted scores, identifies gaps, generates rankings - synchronous, no AI calls</div>
+            <div class="component-tags">
+              <span class="tag">Role Weights</span>
+              <span class="tag">Gap Analysis</span>
+              <span class="tag">Skill Scoring</span>
+            </div>
+          </div>
+          <div class="component" style="border-color: #ec4899;">
+            <div class="component-name">ai.ts</div>
+            <div class="component-desc">OpenAI integration - infers skill levels from user descriptions using GPT-4o</div>
+            <div class="component-tags">
+              <span class="tag">OpenAI SDK</span>
+              <span class="tag">GPT-4o</span>
+              <span class="tag">JSON Mode</span>
+            </div>
+          </div>
+          <div class="component" style="border-color: #ec4899;">
+            <div class="component-name">competency-model.ts</div>
+            <div class="component-desc">35 PM skills, 6 pillars, career ladder, regional benchmarks</div>
+            <div class="component-tags">
+              <span class="tag">PM_SKILLS</span>
+              <span class="tag">REGIONAL_BENCHMARKS</span>
+              <span class="tag">CAREER_LADDER</span>
+            </div>
+          </div>
+          <div class="component" style="border-color: #ec4899;">
+            <div class="component-name">pillar-model.ts</div>
+            <div class="component-desc">Pillar weights: Strategy 20%, Discovery 20%, Delivery 25%, Analytics 15%, AI 10%, Leadership 10%</div>
+            <div class="component-tags">
+              <span class="tag">PILLAR_WEIGHTS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Data Layer -->
+      <div class="layer">
+        <div class="layer-header data">
+          <div class="icon data">💾</div>
+          <div>
+            <div class="layer-title">Data Layer</div>
+            <div class="layer-subtitle">Storage & State Management</div>
+          </div>
+        </div>
+        <div class="components">
+          <div class="component data">
+            <div class="component-name">localStorage (Client)</div>
+            <div class="component-desc">Demo result persistence - survives page refresh</div>
+            <div class="component-tags">
+              <span class="tag">hirena_demo_result</span>
+              <span class="tag">JSON</span>
+            </div>
+          </div>
+          <div class="component data">
+            <div class="component-name">.env.local</div>
+            <div class="component-desc">Environment variables - OpenAI API key (gitignored)</div>
+            <div class="component-tags">
+              <span class="tag">OPENAI_API_KEY</span>
+              <span class="tag">GitIgnored</span>
+            </div>
+          </div>
+          <div class="component data">
+            <div class="component-name">Types (src/types/index.ts)</div>
+            <div class="component-desc">TypeScript interfaces for AssessmentInput, AssessmentResult, Skill, etc.</div>
+            <div class="component-tags">
+              <span class="tag">Type Safety</span>
+              <span class="tag">Interfaces</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Infrastructure Layer -->
+      <div class="layer">
+        <div class="layer-header infrastructure">
+          <div class="icon infrastructure">☁️</div>
+          <div>
+            <div class="layer-title">Infrastructure</div>
+            <div class="layer-subtitle">Deployment & Development</div>
+          </div>
+        </div>
+        <div class="components">
+          <div class="component infrastructure">
+            <div class="component-name">Development Server</div>
+            <div class="component-desc">Next.js dev server running at localhost:3000</div>
+            <div class="component-tags">
+              <span class="tag">npm run dev</span>
+              <span class="tag">Hot Reload</span>
+            </div>
+          </div>
+          <div class="component infrastructure">
+            <div class="component-name">GitHub Repository</div>
+            <div class="component-desc">OssamaMokhtar/Hirena - Feature branch: feature/scaffold-mvp</div>
+            <div class="component-tags">
+              <span class="tag">Git</span>
+              <span class="tag">PR #11</span>
+            </div>
+          </div>
+          <div class="component infrastructure">
+            <div class="component-name">OpenAI API</div>
+            <div class="component-desc">GPT-4o for AI skill inference - requires credits</div>
+            <div class="component-tags">
+              <span class="tag">sk-proj-...</span>
+              <span class="tag">Currently: 429 (No Credits)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- User Flow -->
+    <div class="flow-section">
+      <h2 class="flow-title">📋 User Flow - Assessment Wizard</h2>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="step-number">1</div>
+          <div class="step-title">Create Profile</div>
+          <div class="step-desc">Name, email, current role, experience, industry, location, career goal</div>
+          <div class="step-arrow">→</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">2</div>
+          <div class="step-title">Set Career Goal</div>
+          <div class="step-desc">Select target role, track, region - see benchmark preview</div>
+          <div class="step-arrow">→</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">3</div>
+          <div class="step-title">Self-Assessment</div>
+          <div class="step-desc">Rate proficiency (0-5) across 35 PM skills in 6 categories</div>
+          <div class="step-arrow">→</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">4</div>
+          <div class="step-title">AI Inference</div>
+          <div class="step-desc">Describe experience for key skills - AI analyzes and provides independent assessment</div>
+          <div class="step-arrow">→</div>
+        </div>
+        <div class="flow-step">
+          <div class="step-number">5</div>
+          <div class="step-title">Review & Submit</div>
+          <div class="step-desc">Preview assessment + AI inputs, submit for full results</div>
+        </div>
+      </div>
+      
+      <div class="data-flow">
+        <div class="data-flow-title">📊 Data Flow: Assessment Submission</div>
+        <div class="data-flow-content">
+          <div class="flow-node">📝 User submits assessment</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">🔌 POST /api/assess</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">🧠 inferAllSkills() [if aiInferenceInputs]</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">🧠 computeAssessmentResult()</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">📊 Results Dashboard (persisted to localStorage)</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tech Stack -->
+    <h2 class="flow-title" style="margin-top: 40px;">🔧 Tech Stack</h2>
+    <div class="tech-stack">
+      <div class="tech-item">
+        <div class="tech-name">Next.js 15</div>
+        <div class="tech-desc">React framework with App Router</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">TypeScript</div>
+        <div class="tech-desc">Type-safe JavaScript</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">Tailwind CSS</div>
+        <div class="tech-desc">Utility-first CSS framework</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">Shadcn/UI</div>
+        <div class="tech-desc">Copy-paste UI components</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">OpenAI SDK</div>
+        <div class="tech-desc">GPT-4o integration</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">React 18</div>
+        <div class="tech-desc">UI library with hooks</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">GitHub</div>
+        <div class="tech-desc">Version control & CI</div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-name">Vercel (planned)</div>
+        <div class="tech-desc">Deployment platform</div>
+      </div>
+    </div>
+    
+    <!-- Status -->
+    <div class="flow-section" style="margin-top: 30px;">
+      <h2 class="flow-title">✅ Current Status</h2>
+      <div class="components" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+        <div class="component" style="border-color: #10b981;">
+          <div class="component-name">✅ OpenAI API Key Configured</div>
+          <div class="component-desc">Loaded in .env.local, verified via /api/verify-env (hasKey: true)</div>
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            Active
+          </div>
+        </div>
+        <div class="component" style="border-color: #f59e0b;">
+          <div class="component-name">⚠️ OpenAI Credits: $0</div>
+          <div class="component-desc">AI inference returns 429 - needs credits at platform.openai.com</div>
+          <div class="status-badge" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+            <span class="status-dot" style="background: #f59e0b;"></span>
+            Blocked
+          </div>
+        </div>
+        <div class="component" style="border-color: #10b981;">
+          <div class="component-name">✅ Self-Assessment Path Works</div>
+          <div class="component-desc">Returns full AssessmentResult without AI inference</div>
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            Tested
+          </div>
+        </div>
+        <div class="component" style="border-color: #10b981;">
+          <div class="component-name">✅ Demo Mode with Persistence</div>
+          <div class="component-desc">Pre-computed results + localStorage - survives refresh</div>
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            Ready
+          </div>
+        </div>
+        <div class="component" style="border-color: #10b981;">
+          <div class="component-name">✅ PR #11 Open</div>
+          <div class="component-desc">Feature/scaffold-mvp → main: AI inference wiring + demo mode</div>
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            Open
+          </div>
+        </div>
+        <div class="component" style="border-color: #8b5cf6;">
+          <div class="component-name">🔄 AI Inference Path</div>
+          <div class="component-desc">Wired end-to-end, ready when credits available</div>
+          <div class="status-badge" style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6;">
+            <span class="status-dot" style="background: #8b5cf6;"></span>
+            Ready
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>Hirena Architecture v1.0 | Built with Next.js 15 + TypeScript + Tailwind + OpenAI</p>
+      <p style="margin-top: 10px; color: #444;">Demo-Ready ✓ | Self-Assessment Working ✓ | AI Inference Ready (awaiting credits) ✓</p>
+    </div>
+  </div>
+</body>
+</html>

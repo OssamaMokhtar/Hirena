@@ -7,7 +7,49 @@ export type SkillCategory =
   | "delivery"
   | "analytics"
   | "ai"
-  | "leadership";
+  | "leadership"
+  | "technical-foundation"
+  | "engineering-practices"
+  | "system-design"
+  | "data"
+  | "cloud-infrastructure"
+  | "collaboration"
+  | "testing"
+  | "security"
+  | "frontend"
+  | "backend"
+  | "databases"
+  | "devops"
+  | "frontend-core"
+  | "frontend-frameworks"
+  | "frontend-engineering"
+  | "backend-core"
+  | "backend-security"
+  | "backend-engineering"
+  | "cloud-platforms"
+  | "os-infrastructure"
+  | "containerization"
+  | "ci-cd"
+  | "observability"
+  | "operations"
+  | "data-retrieval"
+  | "data-analysis"
+  | "data-tools"
+  | "data-programming"
+  | "data-engineering"
+  | "domain-knowledge"
+  | "domain"
+  | "process"
+  | "tools"
+  | "testing-strategy"
+  | "testing-execution"
+  | "test-automation"
+  | "testing-specialist"
+  | "testing-tools"
+  | "analysis"
+  | "stakeholder"
+  | "communication"
+  | "tools";
 
 export type ProficiencyLevel = 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -70,6 +112,13 @@ export interface AssessmentResult {
   aiInferenceNotes: Record<string, string>; // skillId -> inference note
   createdAt: Date;
   completedAt: Date;
+}
+
+export interface CareerLevel {
+  role: string;
+  track: string;
+  expectedProficiency: Partial<Record<SkillCategory, number>>;
+  description: string;
 }
 
 export interface SkillGap {

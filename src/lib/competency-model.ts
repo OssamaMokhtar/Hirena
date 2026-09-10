@@ -6,11 +6,11 @@ import type { Skill } from "@/types";
  * Defines the skills and competency areas for Product Management assessment.
  */
 
-export const COMPETENCY_AREAS: Record<SkillCategory, {
+export const COMPETENCY_AREAS: Partial<Record<SkillCategory, {
   name: string;
   description: string;
   weight: number; // Default weight (adjusted by target role)
-}> = {
+}>> = {
   strategy: {
     name: "Strategy",
     description: "Product vision, business strategy, market analysis, and strategic thinking",
@@ -457,7 +457,7 @@ export function getExpectedProficiency(role: string): Partial<Record<SkillCatego
 /**
  * Regional benchmarks (seed data — to be replaced with real market data over time)
  */
-export const REGIONAL_BENCHMARKS: Record<string, Record<string, Record<SkillCategory, { average: number; topQuartile: number }>>> = {
+export const REGIONAL_BENCHMARKS: Record<string, Record<string, Partial<Record<SkillCategory, { average: number; topQuartile: number }>>>> = {
   "MENA": {
     "Senior Product Manager": {
       strategy: { average: 3.2, topQuartile: 4.0 },
@@ -535,7 +535,7 @@ export const REGIONAL_BENCHMARKS: Record<string, Record<string, Record<SkillCate
 /**
  * Get benchmark for a region and role
  */
-export function getBenchmark(region: string, role: string): Record<SkillCategory, { average: number; topQuartile: number }> | undefined {
+export function getBenchmark(region: string, role: string): Partial<Record<SkillCategory, { average: number; topQuartile: number }>> | undefined {
   return REGIONAL_BENCHMARKS[region]?.[role];
 }
 

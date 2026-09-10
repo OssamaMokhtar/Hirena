@@ -135,7 +135,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
 
   // Group skills by category
   const skillsByCategory = React.useMemo(() => {
-    const grouped: Record<SkillCategory, typeof PM_SKILLS> = {
+    const grouped: Partial<Record<SkillCategory, typeof PM_SKILLS>> = {
       strategy: {},
       discovery: {},
       delivery: {},
@@ -145,7 +145,8 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
     };
 
     Object.entries(PM_SKILLS).forEach(([id, skill]) => {
-      grouped[skill.category][id] = skill;
+      if (!grouped[skill.category]) grouped[skill.category] = {};
+      grouped[skill.category]![id] = skill;
     });
 
     return grouped;

@@ -1,13 +1,141 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import type { AssessmentInput } from "@/types";
+import { computeAssessmentResult } from "@/lib/scoring-engine";
 import { AssessmentWizard } from "@/components/assessment-wizard";
 import { ResultsDashboard } from "@/components/results-dashboard";
+import { InterviewWizard } from "@/components/interview-wizard";
+import { SOFTWARE_ROLES } from "@/lib/software-competency-model";
+
+// Pre-computed demo assessment — realistic self-ratings across all 6 pillars
+// for a Senior Product Manager in MENA, plus AI-inferred skill inferences
+// so the dashboard renders isAiInferred badges and AI evidence text.
+const DEMO_INPUT: AssessmentInput = {
+  targetRole: "Senior Product Manager",
+  targetTrack: "product-management",
+  region: "MENA",
+  selfAssessment: {
+    "product-vision": 3,
+    "business-strategy": 2,
+    "market-analysis": 2,
+    "competitive-analysis": 2,
+    "pricing-strategy": 1,
+    "go-to-market": 2,
+    "customer-research": 3,
+    "problem-validation": 3,
+    "user-interviews": 2,
+    "usability-testing": 1,
+    "data-discovery": 2,
+    "opportunity-assessment": 2,
+    "agile-scrum": 4,
+    "roadmapping": 3,
+    "prioritization": 3,
+    "stakeholder-management": 3,
+    "execution-management": 3,
+    "cross-functional-leadership": 2,
+    "product-metrics": 3,
+    "sql-data-querying": 1,
+    "experimentation": 2,
+    "analytics-tools": 2,
+    "dashboarding": 2,
+    "causal-inference": 1,
+    "genai-fundamentals": 2,
+    "ai-product-strategy": 2,
+    "llm-applications": 1,
+    "ai-ethics-governance": 1,
+    "emerging-tech-awareness": 2,
+    "team-leadership": 2,
+    "executive-communication": 2,
+    "pl-ownership": 1,
+    "org-design-awareness": 1,
+    "negotiation": 2,
+  },
+  aiInferenceInputs: [
+    { skillId: "product-vision", description: "Led multiple product launches and defines quarterly vision documents aligned to company OKRs." },
+    { skillId: "business-strategy", description: "Contributes to business case discussions and understands revenue models." },
+    { skillId: "customer-research", description: "Runs weekly user interviews and synthesizes findings into insights docs." },
+    { skillId: "agile-scrum", description: "Has run 20+ sprints, coaches junior PMs on ceremony, consistently ships within sprint goals." },
+    { skillId: "prioritization", description: "Applies RICE and WSJF regularly, maintains a prioritized backlog with clear rationale." },
+    { skillId: "llm-applications", description: "Shipped one RAG-based internal tool and understands chat vs embedding trade-offs." },
+  ],
+};
+
+const DEMO_AI_INFERENCE_RESULTS: Record<
+  string,
+  { level: number; confidence: number; reasoning: string }
+> = {
+  "product-vision": {
+    level: 3,
+    confidence: 0.82,
+    reasoning:
+      "User has led multiple product launches and defines quarterly vision documents aligned to company OKRs. Shapes roadmap narrative for executive review — consistent with intermediate-to-advanced product vision.",
+  },
+  "business-strategy": {
+    level: 2,
+    confidence: 0.71,
+    reasoning:
+      "User contributes to business case discussions and understands revenue models, but does not own P&L or set company-level strategy independently — basic-to-intermediate.",
+  },
+  "customer-research": {
+    level: 3,
+    confidence: 0.88,
+    reasoning:
+      "User runs weekly user interviews, synthesizes findings into insights docs, and has used research to kill two proposed features — solid intermediate customer research practice.",
+  },
+  "agile-scrum": {
+    level: 4,
+    confidence: 0.93,
+    reasoning:
+      "User has run 20+ sprints as SM-adjacent, coaches junior PMs on ceremony, and consistently ships within sprint goals — advanced agile execution.",
+  },
+  "prioritization": {
+    level: 3,
+    confidence: 0.84,
+    reasoning:
+      "User applies RICE and WSJF regularly, maintains a prioritized backlog with clear rationale, and pushes back on stakeholder requests with data — intermediate-to-advanced.",
+  },
+  "llm-applications": {
+    level: 2,
+    confidence: 0.76,
+    reasoning:
+      "User has shipped one RAG-based internal tool and understands chat vs. embedding trade-offs, but has not productionized agentic workflows — basic-to-intermediate.",
+  },
+};
+
+const DEMO_RESULT = computeAssessmentResult(DEMO_INPUT, "demo-user", DEMO_AI_INFERENCE_RESULTS);
 
 export default function Home() {
   const [showAssessment, setShowAssessment] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [showVideoInterview, setShowVideoInterview] = useState(false);
+  const [interviewResult, setInterviewResult] = useState<any>(null);
+  const [selectedRole, setSelectedRole] = useState("software-engineer");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const saved = localStorage.getItem("hirena_demo_result");
+      if (saved) setResult(JSON.parse(saved));
+    } catch {
+      // ignore corrupt storage
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (result) {
+        localStorage.setItem("hirena_demo_result", JSON.stringify(result));
+      } else {
+        localStorage.removeItem("hirena_demo_result");
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [result]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,20 +162,37 @@ export default function Home() {
               >
                 How It Works
               </a>
+              <a
+                href="#video-interview"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Video Interview
+              </a>
               {showAssessment ? (
                 <button
-                  onClick={() => setShowAssessment(false)}
+                  onClick={() => {
+                    setShowAssessment(false);
+                    setResult(null);
+                  }}
                   className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary-dark transition-colors"
                 >
                   Exit
                 </button>
               ) : (
-                <button
-                  onClick={() => setShowAssessment(true)}
-                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary-dark transition-colors"
-                >
-                  Start Free Assessment
-                </button>
+                <>
+                  <button
+                    onClick={() => setShowAssessment(true)}
+                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary-dark transition-colors"
+                  >
+                    See a demo assessment
+                  </button>
+                  <button
+                    onClick={() => setShowAssessment(true)}
+                    className="rounded-lg border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground shadow-sm hover:bg-secondary transition-colors"
+                  >
+                    Start Free Assessment
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -58,6 +203,14 @@ export default function Home() {
       <main className="pt-16">
         {showAssessment && result ? (
           <ResultsDashboard result={result} />
+        ) : showVideoInterview && interviewResult ? (
+          <ResultsDashboard result={interviewResult} />
+        ) : showVideoInterview ? (
+          <InterviewWizard
+            targetRole={selectedRole}
+            onComplete={setInterviewResult}
+            onCancel={() => setShowVideoInterview(false)}
+          />
         ) : showAssessment ? (
           <AssessmentWizard onComplete={setResult} />
         ) : (
@@ -91,7 +244,7 @@ export default function Home() {
                   <h2 className="mb-6 text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
                     Know where you stand.
                     <br />
-                    See what&apos;s next.
+                    See what's next.
                     <br />
                     Get there.
                   </h2>
@@ -105,12 +258,15 @@ export default function Home() {
                   {/* CTA */}
                   <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <button
-                      onClick={() => setShowAssessment(true)}
+                      onClick={() => {
+                        setResult(DEMO_RESULT);
+                        setShowAssessment(true);
+                      }}
                       className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-dark hover:shadow-xl transition-all duration-200 active:scale-[0.98]"
                     >
-                      Start Free Assessment
+                      See a demo assessment
                       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 5.136l-3.197-3.197a1.25 1.25 0 00-1.768 0L6.864 10.803m0 0l3.197 3.197m-3.197-3.197h12.588a1.25 1.25 0 011.768 1.768L14.752 19.136" />
                       </svg>
                     </button>
                     <a
@@ -227,6 +383,56 @@ export default function Home() {
               </div>
             </section>
 
+            {/* Video Interview Section — Option 1 */}
+            <section id="video-interview" className="border-t border-border bg-background">
+              <div className="mx-auto max-w-6xl px-4 py-24">
+                <div className="text-center mb-16">
+                  <h2 className="text-3xl font-bold text-foreground">Video Interview Assessment</h2>
+                  <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground-muted">
+                    Practice with an AI mentor who asks real interview questions and analyzes your video responses.
+                    Get instant feedback on technical accuracy, communication, and problem-solving approach.
+                  </p>
+                </div>
+
+                <div className="mx-auto max-w-xl">
+                  {/* Role selector */}
+                  <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
+                    <label className="block text-sm font-medium text-foreground mb-3">
+                      Select your role for tailored questions:
+                    </label>
+                    <select
+                      value={selectedRole}
+                      onChange={(e) => {
+                        setSelectedRole(e.target.value);
+                        setShowVideoInterview(false);
+                      }}
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    >
+                      {Object.entries(SOFTWARE_ROLES).map(([key, role]) => (
+                        <option key={key} value={key}>
+                          {role.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <Button
+                    onClick={() => setShowVideoInterview(true)}
+                    className="w-full mt-4"
+                    size="lg"
+                  >
+                    <svg className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 10.552a14.03 14.03 0 01-3.503 1.383l-7.003 7.003a14.03 14.03 0 01-1.95 0l-3.478-3.478a14.03 14.03 0 010-1.95l7.003-7.003a14.03 14.03 0 011.383-3.503l-3.478-3.478a14.03 14.03 0 011.95-1.95l3.478 3.478a14.03 14.03 0 013.503-1.383l7.003-7.003a14.03 14.03 0 014.886 0l7.003 7.003a14.03 14.03 0 011.383 3.503l-3.478 3.478a14.03 14.03 0 010 1.95l7.003 7.003a14.03 14.03 0 01-1.383 3.503l-7.003 7.003a14.03 14.03 0 01-3.503-1.383l3.478-3.478a14.03 14.03 0 01-1.95 0l-7.003-7.003a14.03 14.03 0 01-3.503-1.383l-3.478 3.478a14.03 14.03 0 010 1.95l-7.003 7.003a14.03 14.03 0 011.383 3.503z" />
+                    </svg>
+                    Start Video Interview
+                  </Button>
+                  <p className="mt-3 text-center text-sm text-foreground-muted">
+                    5 questions · 10-15 minutes · AI-powered analysis
+                  </p>
+                </div>
+              </div>
+            </section>
+
             {/* How It Works Section */}
             <section id="how-it-works" className="border-t border-border bg-background">
               <div className="mx-auto max-w-6xl px-4 py-24">
@@ -281,7 +487,7 @@ export default function Home() {
                 <div className="mt-16 rounded-2xl border border-border bg-surface p-8 shadow-lg shadow-black/5">
                   <h3 className="text-center text-xl font-semibold text-foreground">Assessment Flow Preview</h3>
                   <p className="mt-2 text-center text-foreground-muted">
-                    Here&apos;s what your assessment experience looks like
+                    Here's what your assessment experience looks like
                   </p>
 
                   <div className="mt-8 grid gap-6 lg:grid-cols-3">
@@ -475,12 +681,15 @@ export default function Home() {
 
                   <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                     <button
-                      onClick={() => setShowAssessment(true)}
+                      onClick={() => {
+                        setResult(DEMO_RESULT);
+                        setShowAssessment(true);
+                      }}
                       className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-dark hover:shadow-xl transition-all duration-200 active:scale-[0.98]"
                     >
-                      Start Free Assessment
+                      See a demo assessment
                       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 5.136l-3.197-3.197a1.25 1.25 0 00-1.768 0L6.864 10.803m0 0l3.197 3.197m-3.197-3.197h12.588a1.25 1.25 0 011.768 1.768L14.752 19.136" />
                       </svg>
                     </button>
                   </div>
@@ -520,4 +729,3 @@ export default function Home() {
     </div>
   );
 }
-

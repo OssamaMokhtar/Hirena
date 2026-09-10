@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hirena Architecture Overview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      color: var(--foreground, #1a1a1a);
+      background: var(--card, #fafafa);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: var(--muted-foreground, #666);
+      margin-bottom: 2rem;
+    }
+    .legend {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .diagram {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 640px) {
+      .diagram { grid-template-columns: 1fr; }
+    }
+    .box {
+      border: 2px solid var(--border, #e0e0e0);
+      border-radius: 12px;
+      padding: 16px;
+      background: var(--card, #fff);
+      transition: box-shadow 0.2s;
+    }
+    .box:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .box-header {
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border, #e0e0e0);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .box-body {
+      font-size: 0.875rem;
+      color: var(--muted-foreground, #555);
+    }
+    .box-body ul {
+      list-style: none;
+      padding: 0;
+    }
+    .box-body li {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid var(--border, #eee);
+    }
+    .box-body li:last-child { border-bottom: none; }
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      color: var(--muted-foreground, #888);
+      font-size: 1.25rem;
+    }
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .highlight {
+      background: var(--accent, #e8f5e9);
+      border-left: 3px solid var(--accent, #4caf50);
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .status-✅ { background: #e8f5e9; color: #2e7d32; }
+    .status-🔧 { background: #fff3e0; color: #e65100; }
+    .status-⏳ { background: #e3f2fd; color: #1565c0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hirena — Architecture Overview</h1>
+    <p class="subtitle">Next.js 15 + TypeScript + Tailwind + Shadcn/UI · OpenAI GPT-4o · Supabase (optional)</p>
+
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#0D9488"></span> Hirena (current)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#1976d2"></span> OpenAI</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#7b1fa2"></span> Supabase</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f57c00"></span> User / Browser</div>
+    </div>
+
+    <div class="diagram">
+      <!-- Client Layer -->
+      <div class="box" style="border-color:#0D9488">
+        <div class="box-header" style="color:#0D9488">🖥️ Client (Browser)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Landing Page</b> — Hero, Vision, How It Works, PM Competency Model, Career Ladder, Demo CTA</li>
+            <li><b>Assessment Wizard</b> — 5-step wizard: Profile → Goal → Self-Rate → AI Skill Analysis → Review &amp; Submit</li>
+            <li><b>Results Dashboard</b> — Overall score, competency breakdown, skill ranking, gap analysis, roadmap tabs</li>
+            <li><b>localStorage</b> — Persists demo result across page reloads (key: <code>hirena-demo-result</code>)</li>
+            <li><b>React state</b> — <code>aiInference</code> state (descriptions per skill, submitting flag)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- API Layer -->
+      <div class="box" style="border-color:#1976d2">
+        <div class="box-header" style="color:#1976d2">⚡ API Routes (Next.js App Router)</div>
+        <div class="box-body">
+          <ul>
+            <li><code>/api/verify-env/route.ts</code> — Tests whether <code>OPENAI_API_KEY</code> is loaded ✅</li>
+            <li><code>/api/test-env/route.ts</code> — Alternate env test endpoint ✅</li>
+            <li><code>/api/assess/route.ts</code> — POST endpoint: receives <code>AssessmentInput</code>, calls <code>inferAllSkills</code> (AI) if <code>aiInferenceInputs</code> present, passes to <code>computeAssessmentResult</code>, returns <code>{ success, result }</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Library Layer -->
+      <div class="box" style="border-color:#0D9488">
+        <div class="box-header" style="color:#0D9488">📦 Server-Side Libraries</div>
+        <div class="box-body">
+          <ul>
+            <li><b><code>scoring-engine.ts</code></b> — <code>computeAssessmentResult(input, userId, aiInferenceResults?)</code>: sync function, merges AI-inferred levels over self-assessment, computes weighted pillar scores, identifies strengths/gaps/missing, generates roadmap actions</li>
+            <li><b><code>ai.ts</code></b> — OpenAI client, <code>inferAllSkills()</code>, <code>generateRoadmapActions()</code>, <code>generateLearningResources()</code> — throws on import if no key</li>
+            <li><b><code>competency-model.ts</code></b> — 35 PM skills across 6 pillars, career ladder (APM→CPO), regional benchmarks</li>
+            <li><b><code>pillar-model.ts</code></b> — Pillar weights: Strategy 20%, Discovery 20%, Delivery 25%, Analytics 15%, AI 10%, Leadership 10%</li>
+            <li><b><code>utils.ts</code></b> — <code>cn</code> utility (clsx + tailwind-merge)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Data Models -->
+      <div class="box" style="border-color:#0D9488">
+        <div class="box-header" style="color:#0D9488">📐 Types &amp; Data Models</div>
+        <div class="box-body">
+          <ul>
+            <li><code>Skill</code> — id, name, description, category, region-specific benchmarks</li>
+            <li><code>ProficiencyLevel</code> — 0 (none) → 5 (expert)</li>
+            <li><code>AssessmentInput</code> — targetRole, targetTrack, region, selfAssessment: Record&lt;skillId, 0-5&gt;, aiInferenceInputs: { skillId, description }[]</li>
+            <li><code>AssessmentResult</code> — overallScore (0-100), competencyScores, skillRanking (with isAiInferred, aiConfidence, evidence), strengths, gaps, missingSkills, roadmapActions (immediate/intermediate/long-term), learningResources</li>
+            <li><code>SkillGap</code> — skill, currentLevel, targetLevel, gapSize, priority</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Design System -->
+      <div class="box" style="border-color:#0D9488">
+        <div class="box-header" style="color:#0D9488">🎨 Design System (Shadcn + Custom)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Primary:</b> Teal #0D9488 (Hirena brand color)</li>
+            <li><b>Neutrals:</b> Warm gray scale for surfaces, borders, backgrounds</li>
+            <li><b>Components:</b> Button, Card, Input, Select, Progress (Shadcn + Radix UI primitives)</li>
+            <li><b>Dark mode:</b> Supported via CSS variables + prefers-color-scheme</li>
+            <li><b>Typography:</b> System font stack (Inter fallback), clean/minimal/Apple-inspired</li>
+            <li><b>Bilingual:</b> Arabic/English — MENA-first, RTL support ready</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Infrastructure -->
+      <div class="box" style="border-color:#7b1fa2">
+        <div class="box-header" style="color:#7b1fa2">☁️ Infrastructure (Optional / Future)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Supabase</b> — User auth, profile storage, assessment history (not wired yet; placeholders in .env)</li>
+            <li><b>Vercel</b> — Deployment target (Next.js native)</li>
+            <li><b>OpenAI</b> — GPT-4o / GPT-4-turbo for AI inference (requires credits; account currently at $0 → 429)</li>
+            <li><b>GitHub Actions</b> — CI pipeline (stubbed; PR #11 open)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Flow -->
+    <h2>Data Flow: Assessment</h2>
+    <div class="flow">
+      <div class="box" style="border-color:#f57c00; width:100%">
+        <div class="box-header" style="color:#f57c00">👤 User completes 5-step wizard</div>
+        <div class="box-body">
+          Step 1: Profile (role, experience, region) → Step 2: Goal (target role, track) → Step 3: Self-rate 35 skills (0-5) → Step 4: AI Skill Analysis (describe experience for rated skills) → Step 5: Review &amp; Submit
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#1976d2; width:100%">
+        <div class="box-header" style="color:#1976d2">📤 POST /api/assess</div>
+        <div class="box-body">
+          Body: <code>{ targetRole, targetTrack, region, selfAssessment: { skillId: level, ... }, aiInferenceInputs: [{ skillId, description }, ...] }</code>
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#0D9488; width:100%">
+        <div class="box-header" style="color:#0D9488">⚙️ Route Handler</div>
+        <div class="box-body">
+          1. Validate input<br>
+          2. If <code>aiInferenceInputs</code> present → call <code>inferAllSkills()</code> (OpenAI GPT-4o) → returns <code>{ skillId: { level, confidence, reasoning } }</code><br>
+          3. Pass <code>input</code> + <code>aiInferenceResults</code> to <code>computeAssessmentResult()</code><br>
+          4. Scoring engine merges AI levels over self-assessment, computes weighted scores, identifies gaps/strengths/missing
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#0D9488; width:100%">
+        <div class="box-header" style="color:#0D9488">📊 Results Dashboard</div>
+        <div class="box-body">
+          Displays: overallScore (0-100), 6 pillar scores with bars, 35-skill ranking (self vs AI-inferred highlighted), top gaps with priority, roadmap actions (immediate / intermediate / long-term), learning resources per gap
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo Path -->
+    <h2>Demo Path (No API Credits Required)</h2>
+    <div class="highlight">
+      <p><b>The demo bypasses the OpenAI API entirely.</b></p>
+      <p><code>page.tsx</code> pre-computes a demo result at module load time using <code>computeAssessmentResult(DEMO_INPUT, "demo-user", DEMO_AI_INFERENCE_RESULTS)</code> where <code>DEMO_AI_INFERENCE_RESULTS</code> is seed data (not a real API call). The "See a demo assessment" button sets React state to this pre-computed result and renders the results dashboard. The result is persisted to <code>localStorage</code> (key: <code>hirena-demo-result</code>) so it survives page refresh.</p>
+      <p><b>Why this works without credits:</b> The OpenAI account balance is $0, which causes a 429 "You have no credits remaining" error when <code>inferAllSkills()</code> is called. The demo avoids this by using pre-computed AI inference results embedded in the page bundle. The real assessment path still works for self-assessment-only submissions (no <code>aiInferenceInputs</code>) — confirmed: <code>overallScore: 42</code> returned successfully.</p>
+    </div>
+
+    <!-- Current Status -->
+    <h2>Current Status</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem">
+      <div class="box" style="border-color:#4caf50">
+        <div class="box-header" style="color:#2e7d32">✅ Verified Working</div>
+        <div class="box-body">
+          <ul>
+            <li>Landing page renders (HTTP 200, 39,500 chars)</li>
+            <li>"See a demo assessment" button present (×3)</li>
+            <li>"Start Free Assessment" button present</li>
+            <li><code>/api/verify-env</code> → <code>hasKey: true</code></li>
+            <li><code>/api/assess</code> self-assessment path → <code>overallScore: 42</code></li>
+            <li>TypeScript compiles clean (<code>npx tsc --noEmit</code> exit 0)</li>
+            <li>Dev server running at localhost:3000</li>
+            <li><code>DEMO_INPUT</code> includes <code>aiInferenceInputs</code></li>
+            <li><code>DEMO_AI_INFERENCE_RESULTS</code> seed data present</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#ff9800">
+        <div class="box-header" style="color:#e65100">🔧 In Progress</div>
+        <div class="box-body">
+          <ul>
+            <li>AI inference path blocked by 429 (OpenAI balance $0)</li>
+            <li>Demo uses pre-computed results — works without credits ✅</li>
+            <li><code>page.tsx</code> has duplicate <code>DEMO_INPUT</code>/<code>DEMO_AI_INFERENCE_RESULTS</code> declarations (cleanup pending)</li>
+            <li><code>component temporarily omitted</code> text in console output (expected — component not yet rendered)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#2196f3">
+        <div class="box-header" style="color:#1565c0">⏳ Next Up</div>
+        <div class="box-body">
+          <ul>
+            <li>Remove duplicate declarations from <code>page.tsx</code></li>
+            <li>Verify demo button click actually renders results (need browser interaction test)</li>
+            <li>Wire Supabase (auth + profile storage) — placeholder only for now</li>
+            <li>Push all changes to GitHub, update PR #11</li>
+            <li>Demo to stakeholder</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture note -->
+    <div class="highlight" style="margin-top:1.5rem">
+      <p><b>Key design decisions:</b></p>
+      <ul>
+        <li><b>Hybrid assessment:</b> Self-rating (0-5) + AI inference from experience descriptions — gives both subjective and objective reads</li>
+        <li><b>Scoring engine is sync:</b> <code>computeAssessmentResult</code> is synchronous (no async/await) — AI calls happen in the route handler before passing results to the engine</li>
+        <li><b>AI inference is optional:</b> The flow works with self-assessment alone; AI inference adds depth when credits are available</li>
+        <li><b>MENA-first, global-ready:</b> Regional benchmarks for MENA, APAC, NA, EMEA; bilingual AR/EN</li>
+        <li><b>PM vertical first:</b> 35 PM skills across 6 pillars; career ladder APM→CPO; expandable to other tracks later</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>

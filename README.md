@@ -6,8 +6,6 @@
 
 **[Try it live →](https://os-3-ossamamokhtars-projects.vercel.app)**
 
-![CareerOracle dashboard](docs/screenshot.png)
-
 ---
 
 ## The problem
@@ -24,6 +22,10 @@ CareerOracle inverts the inputs. Cognitive assessment gives a measured baseline,
 - **Skill & cognitive profile** as a radar chart across hard and soft skills
 - **Market insights** showing live demand movement for your role
 - **Priority actions** — the next highest-leverage step, not a generic checklist
+
+## MENA Positioning
+
+CareerOracle is designed for the MENA job market: Arabic and English, GCC labor market insights, regional career paths. This is the defensible differentiation vs. LinkedIn, Coursera, and generic career platforms.
 
 ## Run locally
 
@@ -54,13 +56,19 @@ vercel --prod
 Working prototype. Dashboard, navigation, and profile visualisation are functional against seeded state; resume parsing and market insights call Gemini and need a key.
 
 **Known issues**
-- Tailwind is loaded from the play CDN (`cdn.tailwindcss.com`), which warns against production use. Move to the PostCSS plugin before serious traffic.
+- Tailwind is loaded from the play CDN (`cdn.tailwindcss.com`), which warns against production use. Move to the PostCSS plugin before serious traffic. See improvement plan.
 - No test coverage yet.
 
-## A note on the repository name
+## Documentation
 
-This repo is named `OS3` for historical reasons and was previously described as a note-taking app. Neither matches what it became — the project is CareerOracle Intelligence. The name is kept for now to avoid breaking existing links.
+- [Security](SECURITY.md) — architecture security model, data classification, known gaps
+- [Privacy](PRIVACY.md) — data collection, storage, UAE PDPL rights
+- [CI Workflow](.github/workflows/ci.yml) — repository structure validation + secret scanning
 
 ## License
 
 MIT
+
+---
+
+*Built by [Ossama Mokhtar](https://github.com/OssamaMokhtar) — AI Product Manager, Dubai.*

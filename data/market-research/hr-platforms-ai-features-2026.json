@@ -1,0 +1,1366 @@
+{
+  "report": {
+    "title": "Hirena Market Research: HR Platforms & AI Feature Landscape",
+    "subtitle": "Competitive Analysis, Product-Layer Gap Assessment, and Impact-Based Feature Prioritization",
+    "date": "2026-09-10",
+    "prepared_for": "Hirena (Ossama Mokhtar)",
+    "market_size": {
+      "global_hr Tech_2026": "$53B (Sapient Insights 2025-2026 HR Systems Survey)",
+      "ai_in_hr_share": "Jumped from 12% in 2023 to majority of solutions shipping AI as first-class feature by 2026",
+      "ai_hr_buyer_shift": "Buyers now evaluate: (1) AI capability depth, (2) integration with buyer's AI stack, (3) governance posture (bias auditing, EU AI Act, NYC AEDT, Colorado AI Act)"
+    },
+    "key_trends": [
+      "AI stops being a separate HR tech category — becomes default capability across every layer",
+      "Skill-based hiring replaces role-based hiring — AI evaluates against skill graphs, not job titles",
+      "Agentic AI: autonomous agents for sourcing, matching, workforce planning (Eightfold 2025 framework)",
+      "HR tech consolidation: 200+ vendors compressing into AI agent platforms (Workday, Rippling, Deel, ServiceNow, Microsoft Copilot for HR)",
+      "Regulation tightening: EU AI Act (fully applicable 2026) classifies hiring/firing/promotion as high-risk; NYC Local Law 144 bias audits; Colorado AI Act; EEOC guidance",
+      "Internal talent marketplaces replace 'tap on the shoulder' — Gloat, Fuel50, Eightfold match employees to gigs/projects/mentorships by skill",
+      "AI HR audit becomes a category by 2028 — Big Four + employment law firms + HR audit specialists",
+      "Candidate experience: 10+ AI interactions before human moment — trust collapse when AI decisions undisclosed"
+    ]
+  },
+  "competitors": [
+    {
+      "name": "Eightfold AI",
+      "category": "AI Talent Intelligence Platform",
+      "headquarters": "Santa Clara, CA",
+      "valuation": "$2.1B",
+      "customers": "2000+ companies (Bayer, Hyatt, Capgemini, Tata, Booz Allen)",
+      "pricing": "$200K-2M/yr (enterprise-only, no transparency)",
+      "ai_features": [
+        "Talent Intelligence Platform: deep learning AI on 1.6B career trajectories + 1.6M skills",
+        "AI skills inference from work history (no self-reporting required)",
+        "Internal opportunity + role matching (talent marketplace)",
+        "Agentic AI: autonomous agents for sourcing, matching, workforce planning",
+        "AI Interviewer: structured interview automation, candidate summaries",
+        "AI Interview Companion: real-time guidance + structured insights for human-led rounds",
+        "Diversity analytics + bias monitoring (Equal Opportunity Algorithms)",
+        "Career Hub: personalized career paths, projects, mentors, jobs, courses per employee",
+        "Job Intelligence Engine: auto-recommend job role updates based on skills + market trends",
+        "Workforce planning: predict regrettable hires, identify high-potential candidates",
+        "Internal mobility: match internal employees to internal openings before role is public",
+        "ATS/HRIS/LMS bi-directional integration",
+        "Global: 145+ countries, 19 languages",
+        "FedRAMP Moderate Authorized (2025)",
+        "ISO/IEC 42001:2023 certified (all 3 levels) — first HR tech vendor"
+      ],
+      "differentiation": "1.6B career profiles = largest talent data set; skills inference without self-reporting; unified AI-native platform across hiring + retention",
+      "gaps_vs_hirana": [
+        "Focused on enterprise B2B (recruiters + HR teams), not individual B2C professional assessment",
+        "No self-assessment wizard for professionals to evaluate their own skills",
+        "No video interview mockup for practice",
+        "No avatar mentor",
+        "No bilingual AR/EN consumer-facing product",
+        "No MENA-first regional benchmarks",
+        "Pricing $200K+ — inaccessible for individuals or small companies"
+      ]
+    },
+    {
+      "name": "Vervoe",
+      "category": "Skills Intelligence Platform (Hiring)",
+      "ai_features": [
+        "AI Assessment Builder: upload job description → AI generates tailored assessment",
+        "AI Scoring: ML models watch top performers → rank new applicants against same bar",
+        "Personalized Grading: train model to match team's standards, gets sharper with each assessment",
+        "Automatic Grading + Ranking: every answer graded automatically, ranked by skill fit",
+        "AI Screening Agent: filter unsuitable applicants early",
+        "Anti-cheating: tab-switch detection, identity checks, randomized questions",
+        "300+ skills-based assessments library",
+        "Video answers, code tasks, spreadsheets, multiple choice question types",
+        "Candidate behavior monitoring (detailed behavior log per session)",
+        "Ranked shortlist with explainable signal",
+        "Side-by-side video + written answer review",
+        "On-demand reporting: completion rates, score distribution, question-level signal",
+        "Integrations: Greenhouse, Lever, SmartRecruiters, Zapier (1000+ apps)",
+        "Branded assessments (logo, colors, tone)",
+        "Timed questions/tests",
+        "File upload (documents, portfolios, work samples)",
+        "Mobile-friendly assessments"
+      ],
+      "differentiation": "Skills-based hiring platform for employers to assess candidates — not a self-assessment tool for professionals",
+      "gaps_vs_hirana": [
+        "Employer-side hiring tool (B2B), not individual professional development (B2C)",
+        "No career guidance or roadmap generation for assessed individuals",
+        "No competency model expansion across roles",
+        "No video interview mockup for practice",
+        "No avatar mentor",
+        "No bilingual support",
+        "No MENA regional benchmarks",
+        "Assessment is for hiring decisions, not professional growth"
+      ]
+    },
+    {
+      "name": "TestGorilla",
+      "category": "Skills-Based Talent Assessments",
+      "ai_features": [
+        "AI Job Builder: enter job description/title → AI suggests ideal evaluation mix (skills tests, custom questions, AI interviews)",
+        "AI Interviews: conversational AI interviews, 100+ behavior/role tracks, auto-scored",
+        "AI Auto-Scoring: essays + video responses scored quickly/consistently by I-O psychologists",
+        "AI Scoring criteria generation: for custom questions, AI generates scoring criteria",
+        "Resume Scoring: biodata framework, evaluates what candidates actually did (not titles)",
+        "AI Talent Sourcing: recommends top matches from 2M+ pre-tested candidates",
+        "350+ scientifically validated skills tests",
+        "Percentile scores for skills tests",
+        "Candidate behavior monitoring (detailed behavior log)",
+        "Trust Layer: identity confidence + trust signals",
+        "Bias-tested AI interviews, scored on transcripts only (not facial cues/emotion)",
+        "Human-in-the-loop by design: every suggestion editable/reviewable/optional",
+        "Fairness-first: benchmarked against expert human scorers, tested for adverse impact",
+        "Private by default: never train AI on customer data, no PII to LLMs",
+        "AI fluency assessment: 5 components (Applied AI use, Learning/digital ability, Systems thinking, Human-AI collaboration, Decision-making)"
+      ],
+      "differentiation": "Scientific/psychometric approach, fairness-first AI (transcript-only scoring, no facial analysis), 350+ validated tests, AI fluency assessment",
+      "gaps_vs_hirana": [
+        "Employer-side assessment for hiring, not individual professional development",
+        "No self-assessment wizard — candidates are tested, not self-evaluating",
+        "No career roadmap or learning plan generation",
+        "No video interview mockup/practice",
+        "No avatar mentor",
+        "No competency model across software roles",
+        "No bilingual AR/EN",
+        "No MENA regional benchmarks",
+        "No personalized skill gap analysis for career development"
+      ]
+    },
+    {
+      "name": "Criteria Corp (HireVue)",
+      "category": "Pre-Employment Assessment + Video Interviewing",
+      "ai_features": [
+        "Interview Intelligence (IIQ): AI-powered scoring of video interviews — as accurate as expert human grader",
+        "AI-assisted question screening: guides to select valid, structured interview questions that predict success",
+        "Shortlist in seconds: every video interview scored by same objective model",
+        "Built on 20+ years of I-O psychology data + science",
+        "Scoring based on transcripts only (not appearance/tone of voice) — minimize bias",
+        "Guiding Principles for AI: scientific standards, relevant data training, oversight + security",
+        "Real-Time Video Interviewing: structured interviews, AI intelligence, human judgment in one workflow",
+        "On-Demand Assessment: automated skills assessments",
+        "Interview authoring: structured interview kits"
+      ],
+      "notable_pivot": "January 2021: HireVue publicly DROPPED facial analysis entirely. Today only speech + answer content analyzed. Scores feed interviewer tooling, NOT automatic accept/reject decisions. Reason: bias risk + regulatory pressure.",
+      "differentiation": "I-O psychology-backed, science-first AI, transcript-only scoring (no facial analysis after 2021 pivot), structured interview discipline",
+      "gaps_vs_hirana": [
+        "Employer-side hiring tool, not individual professional development",
+        "No self-assessment",
+        "No career roadmap",
+        "No avatar mentor",
+        "No video interview mockup for practice (interviews are real hiring assessments)",
+        "No competency model across roles",
+        "No bilingual support",
+        "No MENA benchmarks",
+        "Dropped facial analysis due to bias concerns — Hirena's facial analysis feature is a differentiator but carries same risk"
+      ]
+    },
+    {
+      "name": "Greenhouse",
+      "category": "ATS + AI Recruiting",
+      "ai_features": [
+        "Greenhouse Voice AI: two-way voice-based AI interviewing — dynamic interview, candidates can ask questions (NOT one-way recording, NOT chatbot)",
+        "Greenhouse Notetaker: automatically records + transcribes interviews, maps AI-generated notes to scorecard questions",
+        "Candidate Insights Assistant (Q3 2026): ask questions about any candidate based on scorecards, notes, activity",
+        "Job Setup Assistant (Q3 2026): turn kickoff notes/docs/text into structured job setup",
+        "AI Report Insights (August 2026): analytics chart builder from plain-text questions",
+        "AI Insights: create report filters + build reports from text prompts",
+        "Offer Forecasting: predict when offers likely accepted",
+        "Automated hiring plans: generate structured interview stages, questions, scorecard attributes for every interviewer",
+        "Resume review: Greenhouse-patented parsing, identifying details redacted",
+        "Talent rediscovery + filtering",
+        "Fast branded job boards",
+        "Structured hiring framework (proprietary)",
+        "Greenhouse MCP (Model Context Protocol): connect Claude/Gemini/Copilot directly to Greenhouse",
+        "Grounded in human experience: AI recognizes cognitive load, reduces bias under pressure",
+        "Explicit decision ownership: AI informs/summarizes/surfaces — decision is always human's",
+        "Explainability non-negotiable: every AI output transparent, grounded in observable signals"
+      ],
+      "ai_philosophy": "5 design pillars: (1) Structured hiring at core, (2) AI cuts manual work not judgment, (3) Grounded in human experience, (4) Explicit decision ownership, (5) Explainability non-negotiable",
+      "differentiation": "Structured hiring framework + responsible AI (human-in-loop, explainable, transparent), Voice AI (two-way dynamic, not chatbot), Notetaker with scorecard mapping",
+      "gaps_vs_hirana": [
+        "Enterprise ATS for recruiters/hiring teams, not individual professional assessment",
+        "No self-assessment wizard",
+        "No career development roadmap",
+        "No competency model for professional skills",
+        "No video interview mockup (Voice AI is for real hiring, not practice)",
+        "No avatar mentor",
+        "No bilingual AR/EN",
+        "No MENA benchmarks",
+        "Different domain: recruiting workflow vs professional development"
+      ]
+    },
+    {
+      "name": "Lever",
+      "category": "ATS + CRM (Recruiting)",
+      "ai_features": [
+        "AI embedded across full funnel: screening → interviewing → reporting → next-best-action recommendations",
+        "Built-in automation + native AI + advanced analytics from day one",
+        "Candidate relationship management (CRM) + ATS unified",
+        "Talent pipeline management + passive candidate nurturing",
+        "Collaborative hiring tools",
+        "Interview scheduling automation",
+        "Analytics: hiring performance measurement, ROI",
+        "Workflow automation"
+      ],
+      "differentiation": "ATS+CRM hybrid, AI embedded across full funnel, modern UX, strong on sourcing + candidate experience",
+      "gaps_vs_hirana": [
+        "Recruiting platform for teams, not individual professional development",
+        "No self-assessment",
+        "No competency model",
+        "No career roadmap",
+        "No video interview mockup",
+        "No avatar mentor",
+        "No bilingual support",
+        "No MENA benchmarks"
+      ]
+    },
+    {
+      "name": "Gloat",
+      "category": "Internal Talent Marketplace",
+      "valuation": "$1B",
+      "customers": "Spotify, HSBC, Nestle, Unilever",
+      "pricing": "$200K-1M/yr",
+      "ai_features": [
+        "Internal talent marketplace: match employees to internal openings, gigs, projects, mentorships by skill",
+        "AI-driven career pathing: personalized next-role pathways + development plan + gap analysis",
+        "Loomra knowledge graph: skills inference engine",
+        "Career hub: employees discover projects, mentors, jobs, courses for their goals",
+        "Internal mobility recommendations",
+        "Skills gap analysis per employee",
+        "External hiring integration: match internal candidates to external openings",
+        "Workforce planning analytics",
+        "HCM integration (Workday, SAP, etc.)"
+      ],
+      "differentiation": "Internal talent marketplace standard — employees find internal opportunities by skill, not manager referral",
+      "gaps_vs_hirana": [
+        "Enterprise internal mobility platform (B2B), not B2C professional assessment",
+        "Requires HCM integration + employee data — not standalone for individuals",
+        "No self-assessment wizard",
+        "No video interview mockup",
+        "No avatar mentor",
+        "No bilingual consumer product",
+        "No MENA benchmarks",
+        "No competency model for software roles (focuses on internal mobility, not skill assessment)"
+      ]
+    },
+    {
+      "name": "Fuel50",
+      "category": "Career Pathing + Skills Intelligence",
+      "customers": "500+ companies (Mastercard, AT&T)",
+      "pricing": "$50-300K/yr",
+      "ai_features": [
+        "Career pathing: personalized career pathways + development plans",
+        "Skills intelligence: skills ontology + gap analysis",
+        "Internal talent marketplace: gigs, projects, mentorships, roles",
+        "AI-driven career recommendations",
+        "Skills gap analysis per employee",
+        "Learning recommendations based on skill gaps",
+        "HCM integration"
+      ],
+      "differentiation": "Career pathing + skills intelligence for internal mobility (mid-market focus vs Gloat enterprise)",
+      "gaps_vs_hirana": [
+        "Enterprise internal mobility (B2B), not B2C professional assessment",
+        "No self-assessment wizard for individuals",
+        "No video interview mockup",
+        "No avatar mentor",
+        "No bilingual AR/EN consumer product",
+        "No MENA benchmarks",
+        "No competency model for software roles"
+      ]
+    },
+    {
+      "name": "Phenom",
+      "category": "Talent Experience Management",
+      "valuation": "$1B",
+      "customers": "500+ companies (Anheuser-Busch, Lockheed Martin)",
+      "pricing": "$100K-1M/yr",
+      "ai_features": [
+        "Talent experience management: career site + chatbot + CRM",
+        "AI chatbot (conversational): candidate engagement, Q&A, scheduling",
+        "AI-powered candidate matching + prioritization",
+        "Recruiter experience platform: build pipelines faster, prioritize outreach by skills/title/experience/location",
+        "Career site personalization",
+        "Candidate engagement analytics",
+        "Talent CRM + sourcing",
+        "CRM + sourcing + career site unified"
+      ],
+      "differentiation": "End-to-end talent experience (career site + chatbot + CRM), conversational AI for candidate engagement",
+      "gaps_vs_hirana": [
+        "Enterprise talent acquisition platform (B2B), not individual professional development",
+        "No self-assessment wizard",
+        "No competency model for software roles",
+        "No video interview mockup",
+        "No avatar mentor",
+        "No bilingual AR/EN",
+        "No MENA benchmarks",
+        "Different domain: candidate engagement/recruiting vs professional skills assessment"
+      ]
+    },
+    {
+      "name": "SeekOut",
+      "category": "AI Talent Search + Sourcing",
+      "pricing": "$30K/yr (enterprise)",
+      "ai_features": [
+        "AI builds rubrics, recommends candidates, scores profiles",
+        "Skill graph-based candidate search (not keyword)",
+        "Diversity filters for DEI hiring mandates",
+        "Passive candidate sourcing by skill",
+        "Profile scoring + progress tracking",
+        "Unified interface: sourcing + screening + engagement",
+        "Agentic AI: autonomous candidate sourcing + outreach"
+      ],
+      "differentiation": "Diversity-focused AI sourcing, skill graph search, DEI mandates",
+      "gaps_vs_hirana": [
+        "Sourcing tool for recruiters (B2B), not individual professional assessment",
+        "No self-assessment",
+        "No competency model for assessed individual",
+        "No career roadmap",
+        "No video interview mockup",
+        "No avatar mentor",
+        "No bilingual AR/EN",
+        "No MENA benchmarks"
+      ]
+    },
+    {
+      "name": "HireVue",
+      "category": "Video Interviewing + Assessment (Legacy)",
+      "ai_features": [
+        "Structured video interviews (on-demand + live)",
+        "AI scoring of interview responses (speech + answer content only — facial analysis DROPPED 2021)",
+        "Interview scheduling automation",
+        "Candidate assessment workflows",
+        "Interviewee practice tools (limited)"
+      ],
+      "notable_pivot": "DROPPED facial analysis January 2021 due to bias risk + regulatory pressure. Now only speech + answer content analyzed. Scores feed interviewer tooling, NOT auto accept/reject.",
+      "differentiation": "Largest video interviewing platform (legacy), structured interview discipline, AI scoring (transcript-only post-2021)",
+      "gaps_vs_hirana": [
+        "Employer-side hiring tool (B2B), not individual professional development (B2C)",
+        "No self-assessment wizard",
+        "No career roadmap generation",
+        "No competency model for software roles",
+        "Dropped facial analysis — Hirena's facial analysis feature is higher-risk (same bias concerns that drove HireVue to drop it)",
+        "No avatar mentor",
+        "No bilingual AR/EN consumer product",
+        "No MENA benchmarks",
+        "Video interviews are for real hiring, not practice/mockup"
+      ]
+    },
+    {
+      "name": "Talentee",
+      "category": "AI Interview Practice + Coaching (B2C)",
+      "ai_features": [
+        "AI mock interview practice with video + voice analysis",
+        "AI interviewer 'Nova' asks questions + analyzes body language, voice patterns, content quality",
+        "Replay + feedback on facial expressions, voice patterns, answer quality",
+        "Multi-modal analysis: emotion + speech analytics + LLM scoring",
+        "B2C: candidates practice for real interviews"
+      ],
+      "differentiation": "Closest to Hirena's vision: B2C AI interview practice with video + voice + content analysis. Smaller scale, less comprehensive competency model.",
+      "gaps_vs_hirana": [
+        "Smaller platform, less comprehensive competency model (Hirena has 35 PM skills + expanding to 10+ software roles)",
+        "No evidence of multi-role competency framework",
+        "No evidence of regional benchmarks (MENA)",
+        "No evidence of bilingual AR/EN",
+        "No evidence of career ladder or roadmap generation",
+        "No evidence of self-assessment + AI inference hybrid model"
+      ]
+    },
+    {
+      "name": "Interview Prep Guru",
+      "category": "AI Mock Interview Practice (B2C)",
+      "ai_features": [
+        "AI mock interviews with facial expression tracking",
+        "Voice pattern analysis",
+        "Answer quality scoring",
+        "Replay with feedback"
+      ],
+      "differentiation": "Simple B2C AI mock interview practice — facial + voice + content feedback",
+      "gaps_vs_hirana": [
+        "Simpler platform, less comprehensive",
+        "No competency model",
+        "No multi-role support",
+        "No career roadmap",
+        "No bilingual AR/EN",
+        "No MENA benchmarks",
+        "No self-assessment + AI inference hybrid"
+      ]
+    }
+  ],
+  "hr_platform_categories": [
+    {
+      "category": "AI Talent Intelligence",
+      "players": ["Eightfold AI", "Beamery", "Gloat", "Fuel50", "Phenom", "SeekOut", "hireEZ", "Workday Skills Cloud", "Visier"],
+      "core_ai_features": [
+        "Skills graph (taxonomy of every skill + proficiency by employee + gap-to-role)",
+        "AI skills inference from work history (no self-reporting)",
+        "Internal mobility + career path recommendations",
+        "External candidate matching",
+        "Workforce planning (predict regrettable hires, identify high-potential)",
+        "Agentic AI agents (sourcing, matching, workforce planning)",
+        "DEI analytics + bias monitoring",
+        "Talent rediscovery",
+        "HCM/ATS integration"
+      ]
+    },
+    {
+      "category": "Skills Assessment Platforms",
+      "players": ["Vervoe", "TestGorilla", "Criteria Corp", "HireVue", "Korn Ferry", "Pymetrics", "Harver", "CoderPad", "CodeSignal", "Codility", "HackerRank"],
+      "core_ai_features": [
+        "AI assessment builder (job description → tailored assessment)",
+        "AI auto-scoring (essays, video responses, open-ended answers)",
+        "AI interviews (conversational, auto-scored)",
+        "Resume scoring (biodata framework)",
+        "AI talent sourcing (recommend top matches from pre-tested pool)",
+        "Anti-cheating (tab-switch detection, identity checks, behavior monitoring)",
+        "Personalized grading (train model on team's standards)",
+        "Ranked shortlists (explainable signal)",
+        "350+ validated skills tests (TestGorilla)",
+        "Science-backed: I-O psychology, bias testing, adverse impact monitoring"
+      ]
+    },
+    {
+      "category": "ATS + Recruiting AI",
+      "players": ["Greenhouse", "Lever", "Workday Recruiting", "iCIMS", "SmartRecruiters", "Ashby", "BambooHR", "Manatal", "Ceipal"],
+      "core_ai_features": [
+        "AI resume parsing + screening",
+        "AI interview scheduling",
+        "AI-generated interview stages + scorecard attributes",
+        "AI notetaker (transcribe + map to scorecard)",
+        "AI candidate insights (ask questions about candidate)",
+        "AI report builder (text prompts → charts)",
+        "Offer forecasting",
+        "Talent rediscovery",
+        "Voice AI interviewing (two-way dynamic — Greenhouse)",
+        "Structured hiring framework",
+        "MCP (Model Context Protocol) — connect external AI (Claude/Gemini/Copilot)"
+      ]
+    },
+    {
+      "category": "Video Interviewing + AI Analysis",
+      "players": ["HireVue", "Spark Hire", "VidCruiter", "Hireflix", "Willo", "Criteria Corp Real-Time", "Karat (technical)"],
+      "core_ai_features": [
+        "Structured video interviews (on-demand + live)",
+        "AI scoring of responses (speech + content — facial DROPPED by HireVue 2021)",
+        "Interview intelligence (auto-shortlist from video)",
+        "Real-time video interviewing with AI guidance",
+        "Technical interview automation (Karat for engineering)",
+        "Chat-based interviews (Sapia)"
+      ],
+      "key_lesson": "HireVue dropped facial analysis in 2021 due to bias risk. AI interview scoring should be based on transcripts/content, not facial cues or emotion. Hirena's facial analysis feature carries same regulatory/bias risk."
+    },
+    {
+      "category": "Internal Talent Marketplace + Career Development",
+      "players": ["Gloat", "Fuel50", "Eightfold (Career Hub)", "Phenom (CX)", "Lattice", "15Five", "Culture Amp", "Cornerstone", "Docebo", "360Learning", "Workera", "Sana"],
+      "core_ai_features": [
+        "Internal talent marketplace (gigs, projects, mentorships, roles by skill)",
+        "AI career pathing (next-role pathways + development plan + gap analysis)",
+        "Personalized learning paths (skill gaps detected before employee/manager noticed)",
+        "Career hub (discover projects, mentors, jobs, courses)",
+        "Skills gap analysis per employee",
+        "AI performance reviews (draft from meeting transcripts + Slack history)",
+        "Manager coaching prompts",
+        "Attrition prediction",
+        "AI-generated learning recommendations"
+      ]
+    },
+    {
+      "category": "AI Interview Practice + Coaching (B2C)",
+      "players": ["Talentee", "Interview Prep Guru"],
+      "core_ai_features": [
+        "AI mock interview practice (video + voice + content analysis)",
+        "AI interviewer persona (asks questions + analyzes body language, voice, content)",
+        "Replay + feedback (facial expressions, voice patterns, answer quality)",
+        "Multi-modal analysis (emotion + speech + LLM scoring)"
+      ],
+      "note": "Smallest category, closest to Hirena's B2C vision. Talentee is the most comparable. Hirena differentiates with: competency model + self-assessment + AI inference hybrid + multi-role + MENA benchmarks + bilingual AR/EN + career roadmap."
+    },
+    {
+      "category": "Performance + Learning + EX",
+      "players": ["Lattice", "15Five", "Culture Amp", "BetterUp", "Cornerstone", "Docebo", "360Learning", "Workera", "Sana", "LinkedIn Learning"],
+      "core_ai_features": [
+        "AI performance reviews (draft from transcripts + Slack)",
+        "Bias detection in language",
+        "Manager coaching prompts",
+        "Attrition prediction",
+        "Personalized learning paths (skill gap detection)",
+        "AI-generated learning recommendations",
+        "360 feedback",
+        "Engagement surveys + analytics",
+        "Coaching (BetterUp)"
+      ]
+    }
+  ],
+  "hirana_current_features": {
+    "assessment": [
+      "Self-rating wizard (0-5 scale, 35 PM skills)",
+      "AI inference from text descriptions (GPT-4o)",
+      "Hybrid model: self-assessment + AI inference",
+      "Weighted pillar scoring (Strategy 20%, Discovery 20%, Delivery 25%, Analytics 15%, AI 10%, Leadership 10%)",
+      "Competency scores per pillar",
+      "Skill ranking (with isAiInferred, aiConfidence, evidence)",
+      "Strengths identification",
+      "Gaps identification (with priority: critical/important/nice-to-have)",
+      "Missing skills detection",
+      "Roadmap generation (immediate/intermediate/long-term actions)",
+      "Learning resources per gap (article/video/course/book/podcast/template)",
+      "Bilingual AR/EN support",
+      "MENA-first regional benchmarks"
+    ],
+    "career": [
+      "Career ladder (APM → CPO for PM track)",
+      "Career levels with expected proficiency per pillar",
+      "Target role selection (goal-oriented assessment)"
+    ],
+    "real_time_interview_option_2_3": [
+      "Video interview capture (MediaRecorder + webcam)",
+      "Voice analysis API (/api/voice/analyze) — simulated: confidence, clarity, pacing, emotion, engagement, fillerWords",
+      "Facial analysis API (/api/facial/analyze) — simulated: eyeContact, engagement, confidence, stress, expressiveness, smileWarmth, 6 frames, emotion distribution",
+      "Results fusion API (/api/fusion/result) — voice 30% + facial 20% + self 25% + content 25%",
+      "Avatar mentor component (CSS/SVG + TTS ready)",
+      "8-step real-time interview wizard (greeting → context → instruction → avatar question → record → voice analysis → facial analysis → feedback → follow-up → final result)",
+      "WebSocket session management (/api/interview/session)",
+      "Multi-role competency models (10+ software roles planned: Data Analyst, BA, QA, Tester, Architect, Engineer, Frontend, Backend, Full-Stack, DevOps, UX/UI, Eng Manager, Tech Lead, PM, Scrum Master, Data Engineer, ML Engineer)",
+      "Proficiency levels 0-7 (expanded from 0-5)"
+    ],
+    "tech_stack": [
+      "Next.js 15 + TypeScript + Tailwind + Shadcn/UI + Radix UI",
+      "OpenAI GPT-4o (multi-modal: text + vision + audio)",
+      "Apple-inspired design (teal #0D9488, clean/minimal)",
+      "localStorage persistence for demo",
+      "Vercel deployment target",
+      "Supabase placeholders (auth, profile storage, assessment history — not wired)"
+    ]
+  },
+  "gap_analysis": {
+    "critical_missing": [
+      {
+        "feature": "AI Interview Practice (B2C)",
+        "competitors_have": "Talentee, Interview Prep Guru (B2C mock interviews with video + voice + content analysis)",
+        "hirana_has": "8-step real-time interview wizard with avatar mentor, voice + facial + content analysis APIs (Option 2/3 — built but simulated)",
+        "gap_severity": "LOW — Hirena already building this. Differentiator: competency model + multi-role + fused scoring vs Talentee's simpler analysis.",
+        "priority": "HIGH — Core differentiator vs existing B2C players. Finish real AI integration (GPT-4o Vision + Whisper) → Option 1."
+      },
+      {
+        "feature": "Multi-Role Competency Models (10+ software roles)",
+        "competitors_have": "Eightfold (1.6M skills, all roles), Vervoe (300+ assessments, role-specific), TestGorilla (350+ tests, all roles), Greenhouse (structured hiring per role), HireVue (role-specific interviews)",
+        "hirana_has": "35 PM skills (baseline). 10+ software roles designed but not fully built. Proficiency levels 0-7 designed.",
+        "gap_severity": "HIGH — Most competitors have comprehensive role coverage. Hirena needs 10+ roles × 25 skills = 250+ skills to compete on comprehensiveness.",
+        "priority": "CRITICAL — Foundation for all assessment features. Without multi-role models, can't serve software professionals beyond PM."
+      },
+      {
+        "feature": "Career Roadmap + Learning Path (Personalized)",
+        "competitors_have": "Eightfold (Career Hub: projects, mentors, jobs, courses), Gloat/Fuel50 (career pathing + development plan + gap analysis), Lattice/15Five/Culture Amp (AI performance reviews + coaching), Cornerstone/360Learning/Workera/Sana (personalized learning paths from skill gaps)",
+        "hirana_has": "Roadmap actions (immediate/intermediate/long-term) + learning resources per gap. Basic version exists.",
+        "gap_severity": "MEDIUM — Hirena has roadmap + resources, but lacks: (1) curated learning content library (Cornerstone/Docebo have content libraries), (2) mentor matching (Eightfold/Gloat have mentor recommendations), (3) project/gig recommendations (Gloat has internal gigs), (4) career path visualization (Gloat/Fuel50 have visual career paths), (5) progress tracking over time (Lattice has recurring reviews).",
+        "priority": "HIGH — Roadmap is core value prop. Enhance with: curated content, mentor matching, career path visualization, progress tracking."
+      },
+      {
+        "feature": "Skills Graph + Inference (No Self-Reporting)",
+        "competitors_have": "Eightfold (AI infers skills from 1.6B career trajectories — no self-reporting required, fixes 'skill profiles partly wrong, partly blank, partly 3 years out of date'), Beamery (Talent Graph), Gloat (Loomra knowledge graph)",
+        "hirana_has": "Self-assessment (user rates own skills 0-5) + AI inference from text descriptions. Requires user effort + honest self-rating.",
+        "gap_severity": "HIGH — Eightfold's key differentiator: skills inference without self-reporting. Hirena's self-assessment depends on user honesty + effort. Can't match Eightfold's passive inference quality without billions of career profiles.",
+        "priority": "MEDIUM — Hard to replicate Eightfold's data advantage. Mitigation: (1) Keep hybrid self-assessment + AI inference (Hirena's unique approach — combines subjective + objective), (2) Add AI inference from LinkedIn/profile data if user provides, (3) Position as 'self-aware professional' tool (user actively assesses, not passive inference)."
+      },
+      {
+        "feature": "Internal Talent Marketplace",
+        "competitors_have": "Gloat, Fuel50, Eightfold (internal mobility: match employees to gigs/projects/mentorships/roles by skill), Phenom (talent CRM + sourcing)",
+        "hirana_has": "None. Hirena is B2C individual-focused, not enterprise internal mobility.",
+        "gap_severity": "LOW for B2C — Not relevant for Hirena's current B2C freemium positioning. Would only matter if Hirena expands to B2B enterprise (match employees to internal opportunities).",
+        "priority": "LOW — Out of scope for B2C MVP. Future B2B expansion consideration only."
+      },
+      {
+        "feature": "Bias Mitigation + Fairness + Compliance",
+        "competitors_have": "TestGorilla (fairness-first: transcript-only scoring, no facial cues, bias-tested, adverse impact monitoring, human-in-loop, private by default — never train on customer data), Eightfold (Equal Opportunity Algorithms, diversity analytics), Greenhouse (5 AI design pillars: structured hiring, human judgment, explainability, decision ownership), Criteria Corp (I-O psychology science, transcript-only scoring, Guiding Principles for AI), HireVue (DROPPED facial analysis 2021 due to bias risk)",
+        "hirana_has": "None explicit. Facial analysis feature carries same bias risk that drove HireVue to drop it. No bias auditing, no fairness testing, no regulatory compliance (EU AI Act, NYC AEDT, Colorado AI Act).",
+        "gap_severity": "CRITICAL — Facial analysis is the highest-risk feature. HireVue dropped it. TestGorilla explicitly scores on transcripts only, NOT facial cues. EU AI Act classifies hiring/firing/promotion as high-risk AI (fully applicable 2026). Hirena's facial analysis + voice analysis for assessment/judgment purposes could be classified as high-risk AI under EU AI Act if used for hiring decisions. Even for B2C practice, bias risk exists (candidates judge themselves on potentially biased AI scores).",
+        "priority": "CRITICAL — Must address before real-time interview feature goes to production: (1) Add disclaimer: 'Simulated practice feedback, not hiring decision', (2) Document facial analysis limitations + bias risks, (3) Consider dropping facial analysis or making it optional + clearly labeled as experimental, (4) Plan for bias auditing if expanding to hiring use case, (5) Monitor EU AI Act + NYC AEDT + Colorado AI Act compliance requirements."
+      },
+      {
+        "feature": "AI Interviewer (Conversational, Two-Way)",
+        "competitors_have": "Greenhouse Voice AI (two-way voice interview — dynamic, candidates can ask questions, NOT one-way recording, NOT chatbot), Eightfold AI Interviewer (structured interview automation + candidate summaries), Paradox Olivia (conversational ATS chatbot for scheduling + Q&A), Sapia (chat-based interviews), Eightfold AI Interview Companion (real-time guidance for human-led rounds)",
+        "hirana_has": "Avatar mentor (CSS/SVG + TTS ready) — planned conversational AI interview flow. 8-step wizard with avatar question → record → analyze → feedback → follow-up loop. NOT yet real two-way voice conversation (avatar speaks via TTS, candidate responds via video — not live voice conversation).",
+        "gap_severity": "MEDIUM — Greenhouse's Voice AI is the gold standard: true two-way voice conversation, not pre-recorded. Hirena's avatar mentor is one-way TTS + video response (closer to asynchronous). To match Greenhouse: need real-time voice conversation (WebSocket + voice streaming + LLM voice response).",
+        "priority": "MEDIUM — Avatar mentor (TTS + video response) is sufficient for MVP/demo. Two-way voice conversation is Option 3 advanced feature (real-time WebSocket + voice streaming). Not required for initial demo."
+      },
+      {
+        "feature": "Resume/CV Scoring + Parsing",
+        "competitors_have": "TestGorilla (resume scoring: biodata framework, evaluates what candidates actually did, not titles), Greenhouse (patented resume parsing, redacts identifying details), SeekOut (profile scoring), Eightfold (skills inference from work history)",
+        "hirana_has": "None. Hirena focuses on skills assessment, not resume analysis.",
+        "gap_severity": "LOW — Not core to Hirena's value prop (skills assessment + career development, not resume screening). Could be complementary feature for B2B expansion (help companies assess candidates' resumes against competency models).",
+        "priority": "LOW — Out of scope for B2C MVP. Future B2B feature if expanding to candidate assessment for employers."
+      },
+      {
+        "feature": "Anti-Cheating + Trust Layer",
+        "competitors_have": "Vervoe (tab-switch detection, identity checks, randomized questions), TestGorilla (Trust Layer: identity confidence + trust signals, candidate behavior monitoring with detailed behavior log)",
+        "hirana_has": "None. Hirena's assessment is self-directed (user self-rates + describes experience) — no proctoring needed for B2C self-assessment. Real-time interview mockup could benefit from basic integrity signals.",
+        "gap_severity": "LOW for B2C self-assessment — User is assessing themselves, not being screened for a job. No cheating risk. For real-time interview mockup practice: basic integrity signals (ensure user is recording themselves, not pre-recorded video) would add credibility.",
+        "priority": "LOW — Only relevant if Hirena expands to proctored assessments for B2B (employers assessing candidates). Not needed for B2C self-assessment or practice mockups."
+      },
+      {
+        "feature": "Talent Sourcing + Talent Pool",
+        "competitors_have": "TestGorilla (2M+ pre-tested candidates in talent pool, AI talent sourcing recommends top matches), SeekOut (passive candidate sourcing by skill graph), Eightfold (talent rediscovery), hireEZ (1.5B-profile pool, Boolean + AI search), Gem (ATS+CRM+sourcing+scheduling)",
+        "hirana_has": "None. Hirena is assessment tool, not sourcing platform.",
+        "gap_severity": "LOW — Not relevant for B2C professional development. Only relevant if Hirena expands to B2B (employers source + assess candidates).",
+        "priority": "LOW — Out of scope for B2C MVP."
+      },
+      {
+        "feature": "Compensation + Offer Intelligence",
+        "competitors_have": "Pave, Aeqium, Compa (live compensation benchmarks, data-anchored offers), Greenhouse (offer forecasting: predict when offers likely accepted)",
+        "hirana_has": "None. Hirena focuses on skills, not compensation.",
+        "gap_severity": "LOW — Not core to skills assessment value prop. Could be complementary (show salary ranges for target role based on skill level), but not required.",
+        "priority": "LOW — Optional enhancement: show market salary ranges for target role + required skill level. Not critical for MVP."
+      },
+      {
+        "feature": "Analytics + Reporting Dashboard",
+        "competitors_have": "Greenhouse (AI Report Insights, Chart Builder, analytics), Lever (hiring performance analytics, ROI), Visier (people analytics, workforce intelligence), Eightfold (workforce planning analytics), Vervoe (on-demand reporting: completion rates, score distribution, question-level signal), TestGorilla (side-by-side comparison, percentile scores, anti-cheating flags)",
+        "hirana_has": "Results dashboard (overall score, competency breakdown, skill ranking, gap analysis, roadmap tabs). Basic dashboard exists.",
+        "gap_severity": "MEDIUM — Hirena's dashboard is user-focused (individual's results). Competitors' dashboards are recruiter/HR-focused (candidate comparison, pipeline analytics, score distributions). Different use case. Enhancement: (1) Progress tracking over time (compare assessments across months), (2) Skill trajectory visualization (how skills improve), (3) Benchmark comparison (vs regional + role averages), (4) Shareable report (PDF/link for LinkedIn/profile).",
+        "priority": "MEDIUM — Enhance dashboard with: progress tracking, skill trajectory, benchmark comparison, shareable report. Differentiator vs competitor dashboards (which are team/recruiter-focused, not individual-focused)."
+      },
+      {
+        "feature": "Multi-Modal AI Analysis (Voice + Facial + Content)",
+        "competitors_have": "Talentee (multi-modal: emotion + speech analytics + LLM scoring), Interview Prep Guru (facial + voice + content), HireVue (DROPPED facial — now speech + content only), Criteria Corp IIQ (transcript-only scoring, no facial/tone), TestGorilla (transcript-only, no facial cues — fairness-first), Greenhouse Voice AI (two-way voice, dynamic conversation)",
+        "hirana_has": "Voice analysis API (simulated: 6 dimensions), Facial analysis API (simulated: 6 frames, 6 dimensions, emotion distribution), Results fusion (voice 30% + facial 20% + self 25% + content 25%), Content analysis via LLM (competency model scoring). All simulated — not yet real AI integration.",
+        "gap_severity": "MEDIUM — Hirena is building this (Option 2/3 architecture). Competitors: Talentee has real multi-modal analysis (closest). TestGorilla + Criteria Corp + HireVue (post-2021) explicitly AVOID facial analysis due to bias. Hirena's facial analysis is a differentiator but also highest-risk feature (same bias concerns).",
+        "priority": "HIGH — Core differentiator vs B2C players (Talentee). But must address bias risk. Recommend: (1) Keep voice + content analysis as core (lower risk, high value), (2) Make facial analysis optional + experimental + clearly labeled with bias disclaimer, (3) Position as 'practice feedback' not 'assessment judgment', (4) Real AI integration (GPT-4o Vision + Whisper) for Option 1."
+      },
+      {
+        "feature": "Bilingual AR/EN + MENA Regional Focus",
+        "competitors_have": "Eightfold (145+ countries, 19 languages — global), Vervoe (global, English-first), TestGorilla (English-first), Greenhouse (global, English-first), Gloat (global enterprises — multi-language support via HCM integration), Workday (global HCM, multi-language)",
+        "hirana_has": "Bilingual AR/EN (designed), MENA-first regional benchmarks (designed). Not yet fully implemented for all features.",
+        "gap_severity": "LOW — Competitors are global-first (English-primary, multi-language via enterprise HCM). Hirena's MENA-first + bilingual AR/EN is a DIFFERENTIATOR for the region. No major competitor has MENA-specific benchmarks or Arabic-first UX.",
+        "priority": "HIGH — Key differentiator. Compete on: (1) MENA regional benchmarks (not available from global competitors), (2) Arabic-first UX + RTL support, (3) MENA job market context (different skills in demand, different career paths). Fully implement bilingual for all features (assessment wizard, results dashboard, roadmap, interview wizard)."
+      },
+      {
+        "feature": "Enterprise Integrations (ATS/HRIS/LMS)",
+        "competitors_have": "Eightfold (ATS/HRIS/LMS bi-directional), Vervoe (Greenhouse, Lever, SmartRecruiters, Zapier 1000+), TestGorilla (ATS integrations), Greenhouse (MCP — connect Claude/Gemini/Copilot), Gloat (Workday, SAP HCM), Fuel50 (HCM integration)",
+        "hirana_has": "None. Supabase placeholders only (not wired).",
+        "gap_severity": "LOW for B2C — Individual professionals don't have ATS/HRIS/LMS to integrate with. Relevant only for B2B expansion (employers integrate Hirena assessments into their ATS/HRIS).",
+        "priority": "LOW — Out of scope for B2C MVP. Future B2B enterprise feature if expanding to employer-facing assessment."
+      },
+      {
+        "feature": "User Profiles + Assessment History + Progress Tracking",
+        "competitors_have": "Eightfold (Career Hub: persistent employee profile, career history, skill evolution), Gloat/Fuel50 (employee profiles, skill tracking over time), Lattice (recurring performance reviews, progress tracking), Vervoe (candidate assessment history for employers), TestGorilla (assessment history for employers)",
+        "hirana_has": "localStorage persistence for demo only. No user accounts, no persistent profiles, no assessment history, no progress tracking over time.",
+        "gap_severity": "HIGH — Critical missing infrastructure. Without user accounts + persistent profiles + assessment history: (1) Can't track skill improvement over time, (2) Can't show skill trajectory, (3) Can't compare current vs past assessments, (4) Can't personalize roadmap based on history, (5) Can't build long-term engagement (users take one assessment and leave).",
+        "priority": "CRITICAL — Required for product maturity. Must add: (1) User accounts (Supabase auth or similar), (2) Persistent profiles, (3) Assessment history (store past assessments), (4) Progress tracking (compare assessments over time, skill trajectory), (5) Personalized roadmap updates based on new assessments."
+      },
+      {
+        "feature": "Social + Community + Sharing",
+        "competitors_have": "Eightfold (internal sharing: managers, mentors), Gloat (social features in talent marketplace), LinkedIn (social professional network — not an assessment tool but context), LinkedIn Learning (content + social)",
+        "hirana_has": "None. No social features, no community, no sharing.",
+        "gap_severity": "LOW — Not core to assessment value prop. Could enhance: (1) Share assessment results on LinkedIn (social proof), (2) Community features (discuss skill gaps, share learning resources), (3) Mentor matching (connect with mentors for specific skills).",
+        "priority": "LOW-MEDIUM — Optional enhancement: LinkedIn sharing (social proof + viral growth), mentor matching (connects to career development value prop). Not critical for MVP."
+      },
+      {
+        "feature": "Gamification + Engagement",
+        "competitors_have": "Limited in HR tech. Some assessment platforms use: timed challenges, badges, leaderboards (mostly for candidate assessment engagement, not professional development).",
+        "hirana_has": "None.",
+        "gap_severity": "LOW — Not standard in HR tech. Could enhance engagement: (1) Skill badges/certifications per competency area, (2) Progress milestones, (3) Streaks/reminders to reassess, (4) Challenge mode (timed skill challenges).",
+        "priority": "LOW — Optional engagement enhancement. Not critical for MVP. Could differentiate on engagement if done well."
+      }
+    ],
+    "summary": {
+      "total_gaps_identified": 17,
+      "critical_priority": [
+        "Multi-role competency models (10+ software roles, 250+ skills)",
+        "Bias mitigation + fairness + compliance (facial analysis risk, EU AI Act, NYC AEDT)",
+        "User accounts + persistent profiles + assessment history + progress tracking"
+      ],
+      "high_priority": [
+        "Career roadmap enhancement (curated content, mentor matching, career path visualization, progress tracking)",
+        "AI interview practice (finish real AI integration — GPT-4o Vision + Whisper for Option 1)",
+        "Multi-modal analysis (voice + content as core, facial as optional/experimental with disclaimer)",
+        "Bilingual AR/EN full implementation + MENA regional benchmarks",
+        "Analytics dashboard enhancement (progress tracking, skill trajectory, benchmark comparison, shareable report)"
+      ],
+      "medium_priority": [
+        "AI interviewer (two-way voice conversation — Option 3 advanced, not required for MVP)",
+        "Resume/CV scoring (B2B expansion feature, not B2C MVP)",
+        "Compensation/salary intelligence (optional enhancement)"
+      ],
+      "low_priority": [
+        "Internal talent marketplace (B2B enterprise, out of scope for B2C)",
+        "Talent sourcing/talent pool (B2B, out of scope)",
+        "Enterprise integrations ATS/HRIS/LMS (B2B, out of scope)",
+        "Anti-cheating/trust layer (not needed for B2C self-assessment)",
+        "Social/community/sharing (optional enhancement)",
+        "Gamification (optional engagement)"
+      ]
+    }
+  },
+  "impact_analysis": {
+    "methodology": "Impact = (User Value × Differentiation × Market Fit) / (Effort × Risk). Scored 1-5 for each dimension. Priority = Impact score × strategic alignment with Hirena's B2C MENA-first positioning.",
+    "features": [
+      {
+        "feature": "Multi-Role Competency Models (10+ software roles, 250+ skills)",
+        "user_value": 5,
+        "differentiation": 4,
+        "market_fit": 5,
+        "effort": 4,
+        "risk": 2,
+        "impact_score": "20/20 — CRITICAL",
+        "rationale": "Foundation for all assessment features. Without multi-role models, Hirena only serves PM professionals (narrow market). With 10+ roles, opens to all software professionals (large market). Competitors (Eightfold, Vervoe, TestGorilla) all have multi-role coverage. MENA-first + bilingual makes this differentiated in region. Effort: high (250+ skills to define + validate). Risk: low (content definition, no technical risk).",
+        "dependencies": ["Proficiency levels 0-7 (already designed)", "Career ladders per role (designed)", "Role selection UI in assessment wizard", "Competency model loading per role"],
+        "priority": 1,
+        "phase": "Phase 1 (MVP) — Must have before demo to stakeholders"
+      },
+      {
+        "feature": "User Accounts + Persistent Profiles + Assessment History + Progress Tracking",
+        "user_value": 5,
+        "differentiation": 3,
+        "market_fit": 5,
+        "effort": 4,
+        "risk": 2,
+        "impact_score": "15/20 — CRITICAL",
+        "rationale": "Without user accounts, can't track progress over time (core value prop: skill improvement). Users take one assessment and leave — no retention, no engagement, no recurring value. Competitors (Eightfold, Gloat, Lattice) all have persistent profiles + history. Hirena's current localStorage demo is 임시 (temporary) — not production-ready. Supabase auth placeholders exist but not wired. Effort: high (auth, database, profile storage, assessment history, progress tracking UI). Risk: medium (data model, privacy/GDPR for user data).",
+        "dependencies": ["Supabase auth + database (or alternative)", "User profile data model", "Assessment result storage", "Progress tracking UI (compare assessments, skill trajectory)", "Privacy policy + data handling"],
+        "priority": 2,
+        "phase": "Phase 1 (MVP) — Must have before demo to stakeholders (or clearly position as 'demo only, no accounts' for initial demo)"
+      },
+      {
+        "feature": "Bias Mitigation + Fairness + Compliance (Facial Analysis Risk + EU AI Act + NYC AEDT)",
+        "user_value": 3,
+        "differentiation": 4,
+        "market_fit": 4,
+        "effort": 3,
+        "risk": 5,
+        "impact_score": "12/20 — CRITICAL (risk-driven)",
+        "rationale": "Facial analysis is highest-risk feature. HireVue dropped it in 2021. TestGorilla + Criteria Corp score on transcripts only (no facial cues). EU AI Act classifies hiring/firing/promotion as high-risk AI (fully applicable 2026). If Hirena's facial analysis is used for any hiring/judgment purpose, could be regulated as high-risk AI. Even for B2C practice: candidates judge themselves on potentially biased AI scores → trust issue. Mitigation: (1) Clear disclaimer: 'Practice feedback only, not hiring decision', (2) Document facial analysis limitations + bias risks, (3) Make facial analysis optional + experimental, (4) Position voice + content analysis as core (lower risk), (5) Plan for bias auditing if expanding to hiring use case. Effort: medium (documentation, disclaimers, optional toggle, potential feature removal). Risk: high (regulatory, reputational, bias).",
+        "dependencies": ["Legal/regulatory review (EU AI Act, NYC AEDT, Colorado AI Act)", "Bias risk documentation", "User-facing disclaimers", "Optional/experimental toggle for facial analysis"],
+        "priority": 3,
+        "phase": "Phase 1 (MVP) — Must address before real-time interview feature goes to production. Can demo with disclaimer, but production needs compliance posture."
+      },
+      {
+        "feature": "Career Roadmap Enhancement (Curated Content + Mentor Matching + Career Path Visualization + Progress Tracking)",
+        "user_value": 5,
+        "differentiation": 4,
+        "market_fit": 4,
+        "effort": 4,
+        "risk": 2,
+        "impact_score": "16/20 — HIGH",
+        "rationale": "Roadmap is core value prop (hirena = 'skills assessment + career roadmap'). Current roadmap: generated actions + learning resources (basic). Competitors (Eightfold Career Hub, Gloat, Cornerstone, 360Learning, Workera, Sana) have: curated content libraries, mentor matching, visual career paths, project/gig recommendations, progress tracking. Enhancement: (1) Curated learning content (articles, courses, videos — could partner with Coursera/Udemy/edX or curate internally), (2) Mentor matching (connect users with mentors for specific skills — could be community-driven or AI-matched), (3) Career path visualization (visual ladder: Junior → Senior → Lead → Principal with required skills at each step), (4) Progress tracking (update roadmap as user completes actions + reassesses). Differentiation: MENA-first content (region-specific courses, Arabic resources, local mentor network). Effort: high (content curation/partnering, mentor matching infrastructure, visualization UI, progress tracking). Risk: low.",
+        "dependencies": ["Multi-role competency models (for role-specific career paths)", "User accounts + assessment history (for progress tracking)", "Learning content library (curated or partnered)", "Mentor matching infrastructure (or community-driven)", "Career path visualization UI"],
+        "priority": 4,
+        "phase": "Phase 1-2 — Critical for value prop. Can launch with basic roadmap (current) + enhance with curated content + career path visualization in Phase 1-2."
+      },
+      {
+        "feature": "AI Interview Practice — Real AI Integration (GPT-4o Vision + Whisper for Option 1)",
+        "user_value": 5,
+        "differentiation": 5,
+        "market_fit": 5,
+        "effort": 3,
+        "risk": 3,
+        "impact_score": "25/20 — HIGH (differentiation-driven)",
+        "rationale": "closest B2C competitor (Talentee) has real multi-modal analysis. Hirena's architecture (Option 1) uses GPT-4o multi-modal (vision + audio) — same capability, plus Hirena's differentiators (competency model + multi-role + fused scoring + MENA benchmarks + bilingual). This is Hirena's strongest differentiator vs Talentee/Interview Prep Guru. Real AI integration (vs simulated) is required for credibility. Effort: medium (GPT-4o Vision for frames, Whisper for audio, LLM for content scoring — all via existing OpenAI key). Risk: medium (OpenAI costs scale with video — $5-13/interview, cost management needed).",
+        "dependencies": ["OpenAI API key with credits (currently $0 → 429 — need credits)", "Video frame extraction (server-side)", "GPT-4o Vision integration (frames → facial expression analysis)", "Whisper integration (audio → transcription)", "GPT-4o content analysis (transcription + competency model → score)", "Cost management (per-interview cost tracking, limits)"],
+        "priority": 5,
+        "phase": "Phase 1 (MVP) — Core differentiator. Need OpenAI credits to go live. Simulated APIs work for demo; real AI integration for production."
+      },
+      {
+        "feature": "Bilingual AR/EN Full Implementation + MENA Regional Benchmarks",
+        "user_value": 4,
+        "differentiation": 5,
+        "market_fit": 5,
+        "effort": 3,
+        "risk": 2,
+        "impact_score": "20/20 — HIGH (differentiation-driven)",
+        "rationale": "No major competitor has MENA-specific benchmarks or Arabic-first UX. Global competitors (Eightfold, Vervoe, TestGorilla, Greenhouse) are English-primary with multi-language via enterprise HCM. Hirena's MENA-first + bilingual AR/EN is clear differentiator for the region. Differentiation: (1) MENA regional benchmarks (not available from global competitors), (2) Arabic-first UX + RTL support, (3) MENA job market context (different skills in demand, different career paths, different salary expectations). Effort: medium (translate all UI + content to Arabic, implement RTL, build MENA benchmark data). Risk: low.",
+        "dependencies": ["Arabic translations for all UI + content", "RTL layout support", "MENA benchmark data (regional skill averages, top quartile, median per role)", "Bilingual content for competency models (skill names + descriptions in AR + EN)"],
+        "priority": 6,
+        "phase": "Phase 1 (MVP) — Key differentiator. Implement for all core features (assessment wizard, results dashboard, roadmap, interview wizard). MENA benchmarks: start with PM role, expand to software roles."
+      },
+      {
+        "feature": "Multi-Modal Analysis — Voice + Content as Core, Facial as Optional/Experimental",
+        "user_value": 4,
+        "differentiation": 4,
+        "market_fit": 4,
+        "effort": 3,
+        "risk": 4,
+        "impact_score": "12/20 — HIGH (with risk mitigation)",
+        "rationale": "Voice + content analysis = high value, lower risk (HireVue, TestGorilla, Criteria Corp all do speech + content analysis — no facial). Facial analysis = differentiator vs B2C players (Talentee has it), but also highest risk (HireVue dropped it, TestGorilla avoids it). Strategy: (1) Voice + content as core analysis (standard, lower risk, high value), (2) Facial analysis as optional + experimental + clearly labeled 'experimental feature, bias risk documented', (3) Default to voice + content for assessment scoring, facial as supplementary feedback only, (4) If regulatory pressure increases, facial can be dropped without losing core functionality (same path as HireVue). Effort: medium (implement voice + content as core, facial as optional toggle). Risk: medium (facial analysis risk managed by making it optional + experimental).",
+        "dependencies": ["Voice analysis API (real AI integration — Whisper + GPT-4o or Deepgram)", "Content analysis (LLM + competency model scoring)", "Facial analysis API (optional, with disclaimer)", "User toggle: include facial analysis? (default: off or experimental)"],
+        "priority": 7,
+        "phase": "Phase 1-2 — Voice + content as core (Phase 1). Facial as optional/experimental (Phase 1-2, with clear disclaimer + bias documentation)."
+      },
+      {
+        "feature": "Analytics Dashboard Enhancement (Progress Tracking + Skill Trajectory + Benchmark Comparison + Shareable Report)",
+        "user_value": 4,
+        "differentiation": 3,
+        "market_fit": 4,
+        "effort": 3,
+        "risk": 2,
+        "impact_score": "12/20 — MEDIUM-HIGH",
+        "rationale": "Current dashboard: overall score, competency breakdown, skill ranking, gaps, roadmap. Enhancement: (1) Progress tracking (compare assessments over time — requires user accounts + assessment history), (2) Skill trajectory visualization (how skills improve across assessments), (3) Benchmark comparison (vs regional + role averages — requires MENA benchmark data), (4) Shareable report (PDF/link for LinkedIn/profile — social proof + viral growth). Differentiation: Individual-focused dashboard (vs competitor dashboards which are recruiter/HR-focused — candidate comparison, pipeline analytics). Hirena's dashboard is for the assessed individual, not the recruiter. Effort: medium (progress tracking UI, trajectory visualization, benchmark comparison, shareable report generation). Risk: low.",
+        "dependencies": ["User accounts + assessment history (for progress tracking)", "MENA benchmark data (for benchmark comparison)", "Shareable report generation (PDF or web link)", "Skill trajectory visualization UI"],
+        "priority": 8,
+        "phase": "Phase 1-2 — Enhance dashboard with progress tracking + benchmark comparison (Phase 1-2). Shareable report (Phase 2)."
+      },
+      {
+        "feature": "AI Interviewer — Two-Way Voice Conversation (Option 3 Advanced)",
+        "user_value": 4,
+        "differentiation": 5,
+        "market_fit": 3,
+        "effort": 5,
+        "risk": 4,
+        "impact_score": "6/20 — LOW (effort + risk high, market fit uncertain)",
+        "rationale": "Greenhouse Voice AI is gold standard: true two-way voice conversation, dynamic, candidates can ask questions. Hirena's avatar mentor (TTS + video response) is one-way, asynchronous (closer to pre-recorded). Two-way voice conversation requires: real-time WebSocket + voice streaming + LLM voice response + low latency (<2-5 sec per turn). High effort, high risk (latency, voice quality, conversation coherence). Market fit: uncertain — is two-way voice conversation necessary for practice mockup? Or is asynchronous (avatar asks via TTS, candidate responds via video, analysis runs, feedback delivered) sufficient? Talentee + Interview Prep Guru do asynchronous (AI asks, candidate responds, analysis delivered). Two-way voice is overkill for practice mockup. Effort: very high (real-time WebSocket + voice streaming + LLM voice + lip-sync + latency optimization). Risk: high (complexity, latency, voice quality, conversation coherence).",
+        "dependencies": ["Real-time WebSocket infrastructure", "Voice streaming (audio in/out)", "LLM voice response (TTS + voice AI)", "Lip-sync animation", "Latency optimization (<2-5 sec per turn)", "Conversation state management (multi-turn dialogue)"],
+        "priority": 9,
+        "phase": "Phase 3 (Optional) — Not required for MVP or demo. Async avatar mentor (TTS + video response) is sufficient for practice mockup. Two-way voice is Option 3 advanced feature, only if validated demand + budget."
+      },
+      {
+        "feature": "Resume/CV Scoring + Parsing (B2B Expansion)",
+        "user_value": 2,
+        "differentiation": 2,
+        "market_fit": 2,
+        "effort": 4,
+        "risk": 2,
+        "impact_score": "1/20 — LOW (out of scope for B2C)",
+        "rationale": "Not core to Hirena's B2C value prop (skills assessment + career development for individuals). Only relevant for B2B expansion (employers assess candidates' resumes against competency models). TestGorilla, Greenhouse, SeekOut, Eightfold all have resume parsing/scoring for hiring. Hirena's focus is individual professional development, not employer-side screening. Effort: high (resume parsing, scoring against competency model, bias mitigation). Risk: low (but duplicates existing solutions — TestGorilla, Greenhouse already do this well).",
+        "dependencies": ["B2B expansion strategy (employer-facing assessment)", "Resume parsing infrastructure", "Scoring against competency model", "Bias mitigation (same risks as facial analysis)"],
+        "priority": 10,
+        "phase": "Future (B2B expansion) — Out of scope for B2C MVP. Only relevant if Hirena expands to employer-facing candidate assessment."
+      },
+      {
+        "feature": "Internal Talent Marketplace (B2B Enterprise)",
+        "user_value": 1,
+        "differentiation": 1,
+        "market_fit": 1,
+        "effort": 5,
+        "risk": 3,
+        "impact_score": "0.2/20 — VERY LOW (out of scope for B2C)",
+        "rationale": "Gloat, Fuel50, Eightfold dominate internal talent marketplace (enterprise B2B). Requires HCM integration + employee data + organizational structure. Not relevant for Hirena's B2C individual-focused positioning. Effort: very high (HCM integration, employee data model, organizational structure, internal opportunity management, matching engine). Risk: medium (enterprise integration complexity, data privacy).",
+        "dependencies": ["B2B enterprise expansion strategy", "HCM integration (Workday, SAP, etc.)", "Employee data + organizational structure", "Internal opportunity management (gigs, projects, mentorships, roles)"],
+        "priority": 11,
+        "phase": "Future (B2B enterprise) — Out of scope for B2C MVP. Only relevant if Hirena expands to enterprise internal mobility platform."
+      },
+      {
+        "feature": "Talent Sourcing + Talent Pool (B2B)",
+        "user_value": 1,
+        "differentiation": 1,
+        "market_fit": 1,
+        "effort": 5,
+        "risk": 2,
+        "impact_score": "0.2/20 — VERY LOW (out of scope for B2C)",
+        "rationale": "TestGorilla (2M+ pre-tested candidates), SeekOut, Eightfold, hireEZ, Gem dominate talent sourcing. Requires large candidate database + sourcing infrastructure. Not relevant for B2C individual professional development. Effort: very high (candidate database, sourcing engine, matching, outreach). Risk: low (but duplicates existing solutions).",
+        "dependencies": ["B2B expansion strategy", "Candidate database (millions of profiles)", "Sourcing engine (skill graph search, AI matching)", "Outreach infrastructure"],
+        "priority": 12,
+        "phase": "Future (B2B) — Out of scope for B2C MVP."
+      },
+      {
+        "feature": "Enterprise Integrations ATS/HRIS/LMS (B2B)",
+        "user_value": 1,
+        "differentiation": 1,
+        "market_fit": 1,
+        "effort": 4,
+        "risk": 2,
+        "impact_score": "0.25/20 — VERY LOW (out of scope for B2C)",
+        "rationale": "Eightfold, Vervoe, TestGorilla, Gloat, Fuel50 all have ATS/HRIS/LMS integrations for enterprise customers. Not relevant for B2C individuals (no ATS/HRIS/LMS to integrate with). Only relevant for B2B expansion (employers integrate Hirena into their ATS/HRIS). Effort: high (integration development, API management, enterprise security + compliance). Risk: medium (enterprise integration complexity).",
+        "dependencies": ["B2B enterprise expansion strategy", "ATS/HRIS/LMS API integrations", "Enterprise security + compliance (SOC 2, GDPR, etc.)"],
+        "priority": 13,
+        "phase": "Future (B2B) — Out of scope for B2C MVP."
+      },
+      {
+        "feature": "Anti-Cheating + Trust Layer (B2B Proctored Assessments)",
+        "user_value": 1,
+        "differentiation": 1,
+        "market_fit": 1,
+        "effort": 3,
+        "risk": 2,
+        "impact_score": "0.33/20 — VERY LOW (not needed for B2C)",
+        "rationale": "Vervoe, TestGorilla have anti-cheating for employer-side candidate assessment (tab-switch detection, identity checks, behavior monitoring). Not needed for B2C self-assessment (user assesses themselves — no cheating risk). Only relevant if Hirena expands to proctored assessments for B2B (employers assessing candidates). Effort: medium (proctoring infrastructure, identity verification, behavior monitoring). Risk: low.",
+        "dependencies": ["B2B expansion to proctored candidate assessment", "Proctoring infrastructure", "Identity verification", "Behavior monitoring"],
+        "priority": 14,
+        "phase": "Future (B2B proctored assessments) — Not needed for B2C self-assessment or practice mockups."
+      },
+      {
+        "feature": "Compensation + Salary Intelligence",
+        "user_value": 3,
+        "differentiation": 2,
+        "market_fit": 3,
+        "effort": 3,
+        "risk": 2,
+        "impact_score": "6/20 — LOW-MEDIUM (optional enhancement)",
+        "rationale": "Pave, Aeqium, Compa dominate compensation intelligence. Greenhouse has offer forecasting. Hirena's focus is skills, not compensation. Optional enhancement: show market salary ranges for target role based on skill level (e.g., 'Software Engineer with your skill profile: $X-$Y in MENA region'). Adds context to career roadmap (what's the financial payoff for skill improvement?). Not core to value prop. Effort: medium (salary benchmark data, display UI). Risk: low (but requires accurate, regional salary data — MENA-specific salary benchmarks are scarce).",
+        "dependencies": ["MENA salary benchmark data (scarce — may need to curate or estimate)", "Role + skill level → salary mapping", "Display UI in results dashboard"],
+        "priority": 15,
+        "phase": "Phase 2 (Optional) — Nice-to-have enhancement. Not critical for MVP. Could differentiate with MENA-specific salary data (scarce, so competitive advantage if done well)."
+      },
+      {
+        "feature": "Social + Community + Sharing (LinkedIn Integration)",
+        "user_value": 3,
+        "differentiation": 3,
+        "market_fit": 3,
+        "effort": 2,
+        "risk": 2,
+        "impact_score": "9/20 — MEDIUM (engagement + viral growth)",
+        "rationale": "LinkedIn sharing of assessment results = social proof + viral growth (users share 'I assessed my skills on Hirena, here's my competency breakdown'). Mentor matching = connects to career development value prop (find mentors for specific skills). Community features (discuss skill gaps, share resources) = engagement + retention. Effort: low-medium (LinkedIn sharing is simple — OAuth + share dialog. Mentor matching is harder — requires mentor database + matching logic. Community features = forum/messaging infrastructure). Risk: low.",
+        "dependencies": ["LinkedIn OAuth (for sharing)", "Shareable assessment report (PDF or web link)", "Mentor database + matching (or community-driven)", "Community features (forum, messaging — optional)"],
+        "priority": 16,
+        "phase": "Phase 2 (Optional) — LinkedIn sharing is simple + high impact (viral growth + social proof). Mentor matching + community are Phase 2 enhancements."
+      },
+      {
+        "feature": "Gamification + Engagement (Badges, Milestones, Streaks)",
+        "user_value": 2,
+        "differentiation": 2,
+        "market_fit": 2,
+        "effort": 2,
+        "risk": 1,
+        "impact_score": "4/20 — LOW (optional engagement)",
+        "rationale": "Not standard in HR tech. Could enhance engagement: skill badges/certifications per competency area, progress milestones, streaks/reminders to reassess, challenge mode (timed skill challenges). Effort: low (badge system, milestone tracking, reminder notifications). Risk: low. Differentiation: Could differentiate on engagement if done well (most HR tech is utilitarian — gamification could make skill development more engaging + sticky). Risk: gamification could trivialize serious skill assessment — need balance (professional, not game-like).",
+        "dependencies": ["User accounts + assessment history (for progress + streaks)", "Badge/milestone system", "Notification/reminders infrastructure"],
+        "priority": 17,
+        "phase": "Phase 2-3 (Optional) — Engagement enhancement. Not critical for MVP. Could differentiate on engagement if done thoughtfully (professional, not trivial)."
+      }
+    ],
+    "prioritized_features": [
+      {
+        "rank": 1,
+        "feature": "Multi-Role Competency Models (10+ software roles, 250+ skills)",
+        "impact": "CRITICAL — Foundation for all assessment features. Opens market from PM-only to all software professionals.",
+        "effort": "High (250+ skills to define + validate across 10+ roles)",
+        "risk": "Low (content definition, no technical risk)",
+        "phase": "Phase 1 (MVP) — Before demo to stakeholders",
+        "dependencies": ["Proficiency levels 0-7 (designed)", "Career ladders per role (designed)", "Role selection UI", "Competency model loading per role"]
+      },
+      {
+        "rank": 2,
+        "feature": "User Accounts + Persistent Profiles + Assessment History + Progress Tracking",
+        "impact": "CRITICAL — Required for product maturity. Without it: no retention, no progress tracking, no recurring value.",
+        "effort": "High (auth, database, profile storage, assessment history, progress tracking UI)",
+        "risk": "Medium (data model, privacy/GDPR)",
+        "phase": "Phase 1 (MVP) — Before demo or clearly position as 'demo only'",
+        "dependencies": ["Supabase auth + database (or alternative)", "User profile data model", "Assessment result storage", "Privacy policy"]
+      },
+      {
+        "rank": 3,
+        "feature": "Bias Mitigation + Fairness + Compliance (Facial Analysis Risk + EU AI Act)",
+        "impact": "CRITICAL (risk-driven) — Must address before real-time interview feature goes to production. Facial analysis carries same bias risk that drove HireVue to drop it.",
+        "effort": "Medium (documentation, disclaimers, optional toggle, potential feature removal)",
+        "risk": "High (regulatory, reputational, bias)",
+        "phase": "Phase 1 (MVP) — Before production, can demo with disclaimer",
+        "dependencies": ["Legal/regulatory review", "Bias risk documentation", "User-facing disclaimers", "Optional/experimental toggle for facial analysis"]
+      },
+      {
+        "rank": 4,
+        "feature": "Career Roadmap Enhancement (Curated Content + Career Path Visualization + Progress Tracking)",
+        "impact": "HIGH — Core value prop (skills assessment + career roadmap). Enhancement: curated content, mentor matching, career path visualization, progress tracking.",
+        "effort": "High (content curation/partnering, mentor matching, visualization UI, progress tracking)",
+        "risk": "Low",
+        "phase": "Phase 1-2 — Launch with basic roadmap, enhance in Phase 1-2",
+        "dependencies": ["Multi-role competency models", "User accounts + assessment history", "Learning content library", "Career path visualization UI"]
+      },
+      {
+        "rank": 5,
+        "feature": "AI Interview Practice — Real AI Integration (GPT-4o Vision + Whisper for Option 1)",
+        "impact": "HIGH — Strongest differentiator vs B2C players (Talentee). Hirena's multi-modal + competency model + multi-role + MENA benchmarks + bilingual is unique combination.",
+        "effort": "Medium (GPT-4o Vision, Whisper, LLM content analysis — all via existing OpenAI key)",
+        "risk": "Medium (OpenAI costs scale with video — $5-13/interview, need credits + cost management)",
+        "phase": "Phase 1 (MVP) — Core differentiator. Need OpenAI credits to go live.",
+        "dependencies": ["OpenAI API key with credits (currently $0 → 429)", "Video frame extraction", "GPT-4o Vision integration", "Whisper integration", "Cost management"]
+      },
+      {
+        "rank": 6,
+        "feature": "Bilingual AR/EN Full Implementation + MENA Regional Benchmarks",
+        "impact": "HIGH — Key differentiator. No major competitor has MENA-specific benchmarks or Arabic-first UX.",
+        "effort": "Medium (Arabic translations, RTL, MENA benchmark data)",
+        "risk": "Low",
+        "phase": "Phase 1 (MVP) — Implement for all core features",
+        "dependencies": ["Arabic translations for all UI + content", "RTL layout support", "MENA benchmark data", "Bilingual competency model content"]
+      },
+      {
+        "rank": 7,
+        "feature": "Multi-Modal Analysis — Voice + Content as Core, Facial as Optional/Experimental",
+        "impact": "HIGH (with risk mitigation) — Voice + content = high value, lower risk. Facial = differentiator but highest risk. Strategy: voice + content as core, facial as optional + experimental + disclaimer.",
+        "effort": "Medium (voice + content as core, facial as optional toggle)",
+        "risk": "Medium (facial risk managed by optional + experimental + disclaimer)",
+        "phase": "Phase 1-2 — Voice + content core (Phase 1), facial optional (Phase 1-2)",
+        "dependencies": ["Voice analysis API (real AI)", "Content analysis (LLM + competency model)", "Facial analysis API (optional, with disclaimer)", "User toggle for facial analysis"]
+      },
+      {
+        "rank": 8,
+        "feature": "Analytics Dashboard Enhancement (Progress Tracking + Skill Trajectory + Benchmark Comparison + Shareable Report)",
+        "impact": "MEDIUM-HIGH — Enhance dashboard with progress tracking, skill trajectory, benchmark comparison, shareable report. Individual-focused (vs competitor recruiter-focused dashboards).",
+        "effort": "Medium (progress tracking UI, trajectory visualization, benchmark comparison, shareable report)",
+        "risk": "Low",
+        "phase": "Phase 1-2 — Progress tracking + benchmark comparison (Phase 1-2), shareable report (Phase 2)",
+        "dependencies": ["User accounts + assessment history", "MENA benchmark data", "Shareable report generation", "Skill trajectory visualization UI"]
+      },
+      {
+        "rank": 9,
+        "feature": "LinkedIn Sharing + Social Proof (Viral Growth)",
+        "impact": "MEDIUM — Simple + high impact. Users share assessment results on LinkedIn (social proof + viral growth).",
+        "effort": "Low (LinkedIn OAuth + share dialog + shareable report)",
+        "risk": "Low",
+        "phase": "Phase 2 (Optional) — Simple win for engagement + growth",
+        "dependencies": ["LinkedIn OAuth", "Shareable assessment report", "User accounts"]
+      },
+      {
+        "rank": 10,
+        "feature": "Compensation + Salary Intelligence (MENA-Specific)",
+        "impact": "LOW-MEDIUM — Optional enhancement. Shows market salary ranges for target role based on skill level. MENA-specific salary data is scarce — could differentiate if done well.",
+        "effort": "Medium (salary benchmark data, display UI)",
+        "risk": "Low (but MENA salary data is scarce — may need to curate/estimate)",
+        "phase": "Phase 2 (Optional) — Nice-to-have, not critical for MVP",
+        "dependencies": ["MENA salary benchmark data", "Role + skill level → salary mapping", "Display UI"]
+      },
+      {
+        "rank": 11,
+        "feature": "AI Interviewer — Two-Way Voice Conversation (Option 3 Advanced)",
+        "impact": "LOW — High effort + high risk + uncertain market fit. Async avatar mentor (TTS + video response) is sufficient for practice mockup. Two-way voice is overkill for practice.",
+        "effort": "Very high (real-time WebSocket + voice streaming + LLM voice + lip-sync + latency optimization)",
+        "risk": "High (complexity, latency, voice quality, conversation coherence)",
+        "phase": "Phase 3 (Optional) — Only if validated demand + budget",
+        "dependencies": ["Real-time WebSocket", "Voice streaming", "LLM voice response", "Lip-sync animation", "Latency optimization", "Conversation state management"]
+      },
+      {
+        "rank": 12,
+        "feature": "Gamification + Engagement (Badges, Milestones, Streaks)",
+        "impact": "LOW — Optional engagement enhancement. Not standard in HR tech. Could differentiate on engagement if done thoughtfully (professional, not trivial).",
+        "effort": "Low (badge system, milestone tracking, reminders)",
+        "risk": "Low (but gamification could trivialize serious assessment — need balance)",
+        "phase": "Phase 2-3 (Optional) — Engagement enhancement, not critical for MVP",
+        "dependencies": ["User accounts + assessment history", "Badge/milestone system", "Notification infrastructure"]
+      },
+      {
+        "rank": 13,
+        "feature": "Resume/CV Scoring + Parsing (B2B Expansion)",
+        "impact": "LOW — Out of scope for B2C. Only relevant for B2B expansion (employers assess candidates' resumes). Duplicates existing solutions (TestGorilla, Greenhouse).",
+        "effort": "High (resume parsing, scoring, bias mitigation)",
+        "risk": "Low (but duplicates existing solutions)",
+        "phase": "Future (B2B expansion) — Out of scope for B2C MVP",
+        "dependencies": ["B2B expansion strategy", "Resume parsing infrastructure", "Scoring against competency model", "Bias mitigation"]
+      },
+      {
+        "rank": 14,
+        "feature": "Internal Talent Marketplace (B2B Enterprise)",
+        "impact": "VERY LOW — Out of scope for B2C. Gloat, Fuel50, Eightfold dominate enterprise internal mobility. Requires HCM integration + employee data + organizational structure.",
+        "effort": "Very high (HCM integration, employee data model, organizational structure, internal opportunity management, matching engine)",
+        "risk": "Medium (enterprise integration complexity, data privacy)",
+        "phase": "Future (B2B enterprise) — Out of scope for B2C MVP",
+        "dependencies": ["B2B enterprise expansion", "HCM integration", "Employee data + organizational structure", "Internal opportunity management"]
+      },
+      {
+        "rank": 15,
+        "feature": "Talent Sourcing + Talent Pool (B2B)",
+        "impact": "VERY LOW — Out of scope for B2C. TestGorilla, SeekOut, Eightfold, hireEZ, Gem dominate talent sourcing. Requires large candidate database + sourcing infrastructure.",
+        "effort": "Very high (candidate database, sourcing engine, matching, outreach)",
+        "risk": "Low (but duplicates existing solutions)",
+        "phase": "Future (B2B) — Out of scope for B2C MVP",
+        "dependencies": ["B2B expansion", "Candidate database (millions of profiles)", "Sourcing engine", "Outreach infrastructure"]
+      },
+      {
+        "rank": 16,
+        "feature": "Enterprise Integrations ATS/HRIS/LMS (B2B)",
+        "impact": "VERY LOW — Out of scope for B2C. Only relevant for B2B expansion (employers integrate Hirena into ATS/HRIS). Eightfold, Vervoe, TestGorilla, Gloat, Fuel50 all have these integrations.",
+        "effort": "High (integration development, API management, enterprise security + compliance)",
+        "risk": "Medium (enterprise integration complexity)",
+        "phase": "Future (B2B) — Out of scope for B2C MVP",
+        "dependencies": ["B2B enterprise expansion", "ATS/HRIS/LMS API integrations", "Enterprise security + compliance (SOC 2, GDPR)"]
+      },
+      {
+        "rank": 17,
+        "feature": "Anti-Cheating + Trust Layer (B2B Proctored Assessments)",
+        "impact": "VERY LOW — Not needed for B2C self-assessment (user assesses themselves — no cheating risk). Only relevant for B2B proctored candidate assessment. Vervoe, TestGorilla have this for employer-side screening.",
+        "effort": "Medium (proctoring infrastructure, identity verification, behavior monitoring)",
+        "risk": "Low",
+        "phase": "Future (B2B proctored assessments) — Not needed for B2C",
+        "dependencies": ["B2B proctored candidate assessment", "Proctoring infrastructure", "Identity verification", "Behavior monitoring"]
+      }
+    ]
+  },
+  "competitive_positioning": {
+    "hirana_unique_value_proposition": "AI-powered skills assessment + career roadmap for MENA professionals — bilingual AR/EN, MENA-first regional benchmarks, software role competency models (10+ roles), hybrid self-assessment + AI inference, real-time interview practice with multi-modal analysis (voice + facial + content), avatar mentor, career roadmap with learning resources.",
+    "market_positioning": "B2C freemium: individual professionals assess skills + get career roadmap. Differentiated from: (1) B2B hiring platforms (Eightfold, Vervoe, TestGorilla, Greenhouse, Lever) — they serve employers, not individuals; (2) B2C practice tools (Talentee, Interview Prep Guru) — they have simpler analysis, no competency model, no career roadmap, no MENA focus; (3) Enterprise internal mobility (Gloat, Fuel50) — they require HCM integration, serve enterprises, not individuals.",
+    "competitive_advantage": [
+      "MENA-first + bilingual AR/EN — no major competitor has MENA-specific benchmarks or Arabic-first UX",
+      "B2C individual-focused — competitors are B2B employer-facing (Eightfold, Vervoe, TestGorilla, Greenhouse, Lever, Gloat, Fuel50) or simpler B2C practice tools (Talentee, Interview Prep Guru)",
+      "Hybrid assessment model — self-assessment + AI inference (subjective + objective), unique approach vs pure AI scoring (TestGorilla, Criteria Corp) or pure self-reporting",
+      "Multi-role competency models — 10+ software roles with 250+ skills, career ladders, proficiency levels 0-7 (designed)",
+      "Real-time interview practice + multi-modal analysis — voice + facial + content fusion (closest competitor: Talentee, but Hirena has competency model + multi-role + fused scoring + MENA + bilingual)",
+      "Career roadmap + learning resources — core value prop (skills assessment + career development), competitors focus on hiring/screening, not career development for individuals",
+      "Avatar mentor — AI avatar that interviews candidate (CSS/SVG + TTS, upgradeable to D-ID/HeyGen)",
+      "Open architecture — Option 1 (OpenAI-native) → Option 2 (specialized services) → Option 3 (real-time avatar) — evolutionary path, not locked into single vendor"
+    ],
+    "competitive_vulnerabilities": [
+      "Facial analysis feature carries bias risk — HireVue dropped it, TestGorilla/Criteria Corp avoid it. Must mitigate with disclaimer + optional/experimental toggle + bias documentation. Regulatory risk (EU AI Act, NYC AEDT, Colorado AI Act) if used for hiring decisions.",
+      "No user accounts + persistent profiles yet — current demo uses localStorage only. Critical infrastructure missing for product maturity (progress tracking, assessment history, retention).",
+      "No real AI integration yet — voice/facial/fusion APIs are simulated. Need OpenAI credits ($0 balance → 429) + GPT-4o Vision + Whisper integration for Option 1 to go live.",
+      "Multi-role competency models designed but not fully built — 35 PM skills only, 10+ software roles designed but not implemented. Must build 250+ skills across 10+ roles to compete on comprehensiveness.",
+      "Career roadmap is basic — generated actions + learning resources only. Lacks: curated content library, mentor matching, career path visualization, progress tracking (competitors: Eightfold Career Hub, Gloat, Cornerstone, 360Learning, Workera, Sana have these).",
+      "B2C freemium monetization unclear — competitors are enterprise B2B (high-ticket: $50K-2M/yr). Individual B2C freemium model needs: (1) free tier (basic assessment), (2) premium tier (detailed roadmap, mentor matching, progress tracking, unlimited interviews), (3) B2B expansion (employers pay for candidate assessment). Revenue model TBD.",
+      "No user base + no validation — product is in development, no live users, no validation of value prop, no retention data, no engagement metrics. Need to launch + measure."
+    ],
+    "market_opportunity": {
+      "target_market": "MENA software professionals (developers, engineers, QA, data analysts, designers, product managers, tech leads, engineering managers) seeking career development + skills assessment + interview practice",
+      "market_size_estimate": "MENA tech workforce: ~2M+ software professionals (estimate). Global skills assessment + career development market: part of $53B HR tech market (2026). B2C freemium: large addressable market (any professional can use), monetization via premium tier + B2B expansion.",
+      "differentiation_strategy": "Compete on: (1) MENA-first + bilingual AR/EN (no competitor has this), (2) B2C individual-focused (competitors are B2B employer-facing), (3) Hybrid assessment model (self-assessment + AI inference — unique), (4) Multi-role competency models (10+ software roles), (5) Real-time interview practice + multi-modal analysis + avatar mentor (closest B2C competitor: Talentee, but Hirena has more comprehensive feature set), (6) Career roadmap + learning resources (core value prop — competitors focus on hiring, not career development).",
+      "go_to_market": "B2C freemium: (1) Landing page + demo (current), (2) Free tier: basic assessment + roadmap (3 skills deep-dive), (3) Premium tier ($X/month or $Y/year): full assessment + detailed roadmap + mentor matching + progress tracking + unlimited interviews + certificate, (4) Viral loop: LinkedIn sharing of assessment results, (5) Content marketing: MENA tech career content, skill development tips, interview prep, (6) Partnerships: tech communities, bootcamps, universities in MENA.",
+      "b2b_expansion_path": "Future: (1) Employers pay for candidate assessment (Hirena assesses candidates against competency models — alternative to Vervoe/TestGorilla), (2) Enterprise license: companies subscribe for employee skill development + progress tracking, (3) Integrations: ATS/HRIS/LMS (Greenhouse, Lever, Workday, etc.) for employer workflow. B2B expansion only after B2C validation."
+    }
+  },
+  "architecture_implications": {
+    "new_components_required": [
+      {
+        "component": "User Auth + Profile Service",
+        "description": "Supabase auth + user profiles + assessment history storage. Required for: user accounts, persistent profiles, assessment history, progress tracking.",
+        "priority": "CRITICAL",
+        "phase": "Phase 1",
+        "files_to_create": ["src/lib/auth.ts (Supabase auth client)", "src/lib/profile-storage.ts (user profile CRUD)", "src/app/api/user/route.ts (user profile API)", "src/app/api/assessments/route.ts (assessment history API)"],
+        "data_model_changes": ["Add User + Profile types to src/types/index.ts (already exists — extend with assessments[], progress tracking)", "Add assessment history storage (database table or Supabase)", "Add progress tracking types (AssessmentComparison, SkillTrajectory)"]
+      },
+      {
+        "component": "Multi-Role Competency Model Service",
+        "description": "Load + serve competency models for 10+ software roles. Each role: 20-35 skills, 4-6 pillars, proficiency levels 0-7, career ladder. Required for: multi-role assessment, role-specific roadmap, career path visualization.",
+        "priority": "CRITICAL",
+        "phase": "Phase 1",
+        "files_to_create": ["src/lib/competency-models/ (directory: software-engineer.ts, frontend-engineer.ts, backend-engineer.ts, full-stack-engineer.ts, devops-engineer.ts, qa-engineer.ts, data-analyst.ts, uxui-designer.ts, engineering-manager.ts, tech-lead.ts, product-manager.ts (existing), scrum-master.ts, data-engineer.ts, ml-engineer.ts, business-analyst.ts, tester.ts, software-architect.ts)"],
+        "data_model_changes": ["Extend SkillCategory type (already has software roles categories)", "Add RoleCompetencyModel interface (or extend existing)", "Add career ladder types per role", "Add expected proficiency per level per role"]
+      },
+      {
+        "component": "Bias Mitigation + Compliance Layer",
+        "description": "Documentation, disclaimers, optional/experimental toggle for facial analysis, bias risk documentation, regulatory compliance posture (EU AI Act, NYC AEDT, Colorado AI Act). Required for: responsible AI, user trust, regulatory compliance.",
+        "priority": "CRITICAL",
+        "phase": "Phase 1",
+        "files_to_create": ["docs/ai-ethics-and-bias.md (bias risk documentation, facial analysis limitations, regulatory compliance)", "src/lib/bias-mitigation.ts (bias mitigation utilities, disclaimer generation)", "src/components/facial-analysis-disclaimer.tsx (user-facing disclaimer component)"],
+        "data_model_changes": ["Add bias disclaimer to facial analysis API response", "Add optional/experimental toggle for facial analysis in assessment input", "Document AI use cases + limitations in user-facing materials"]
+      },
+      {
+        "component": "Career Path Visualization",
+        "description": "Visual career ladder: Junior → Senior → Lead → Principal (per role), with required skills at each step, skill gap to next level, progression path. Required for: career roadmap enhancement, career development value prop.",
+        "priority": "HIGH",
+        "phase": "Phase 1-2",
+        "files_to_create": ["src/components/career-path-visualization.tsx (visual career ladder component)", "src/lib/career-path.ts (career path logic: next level, required skills, gap analysis)"],
+        "data_model_changes": ["Add CareerPathVisualization type (current level, next level, required skills, gap to next level, progression path)", "Extend CareerLevel type with visual progression data"]
+      },
+      {
+        "component": "Learning Content Library",
+        "description": "Curated learning resources: articles, courses, videos, books, podcasts per skill + per role. Could be internally curated or partnered (Coursera, Udemy, edX, LinkedIn Learning, Arabic content platforms). Required for: enhanced career roadmap.",
+        "priority": "HIGH",
+        "phase": "Phase 1-2",
+        "files_to_create": ["src/lib/learning-library.ts (learning resource database + search + recommendation logic)", "src/app/api/learning/route.ts (learning resource API)", "data/learning-resources/ (directory: per-skill or per-role JSON files with curated resources)"],
+        "data_model_changes": ["Extend Resource type with more fields (skill, role, level, format, url, provider, cost, duration, region, language, rating)", "Add learning resource database/storage", "Add curated content per skill + per role"]
+      },
+      {
+        "component": "Mentor Matching Service",
+        "description": "Match users with mentors for specific skills. Could be community-driven (users volunteer as mentors) or AI-matched (based on skill profile + career goals). Required for: career roadmap enhancement, professional development value prop.",
+        "priority": "MEDIUM",
+        "phase": "Phase 2",
+        "files_to_create": ["src/lib/mentor-matching.ts (mentor matching logic: skill match, availability, location, language)", "src/app/api/mentors/route.ts (mentor matching API)", "src/components/mentor-matching.tsx (mentor search + match UI)"],
+        "data_model_changes": ["Add Mentor type (id, name, skills, expertise, availability, location, language, bio, LinkedIn/profile)", "Add mentor matching request + response types", "Add mentor-user connection types (mentorship relationship)"]
+      },
+      {
+        "component": "Progress Tracking + Skill Trajectory",
+        "description": "Track skill changes across assessments. Compare current vs past assessments. Show skill trajectory (improvement over time). Generate updated roadmap based on new assessment. Required for: analytics dashboard enhancement, progress tracking, recurring value.",
+        "priority": "HIGH",
+        "phase": "Phase 1-2",
+        "files_to_create": ["src/lib/progress-tracking.ts (compare assessments, compute skill trajectory, generate updated roadmap)", "src/components/skill-trajectory.tsx (skill trajectory visualization component)", "src/app/api/progress/route.ts (progress tracking API)"],
+        "data_model_changes": ["Add AssessmentComparison type (current vs past assessment, skill changes, overall score change, competency score changes)", "Add SkillTrajectory type (skill id, past levels, current level, trend, projected level)", "Extend AssessmentResult with previousAssessmentId (link to past assessment)"]
+      },
+      {
+        "component": "Shareable Report Generation",
+        "description": "Generate shareable assessment report (PDF or web link) for LinkedIn sharing + social proof. Required for: viral growth, social proof, LinkedIn sharing.",
+        "priority": "MEDIUM",
+        "phase": "Phase 2",
+        "files_to_create": ["src/lib/report-generation.ts (generate assessment report: PDF or web page)", "src/app/api/report/route.ts (report generation API)", "src/components/shareable-report.tsx (shareable report view + LinkedIn share dialog)"],
+        "data_model_changes": ["Add ShareableReport type (report id, assessment id, user id, public URL, expire date, view count)", "Add LinkedIn OAuth (for share dialog)"]
+      },
+      {
+        "component": "MENA Benchmark Data Service",
+        "description": "Regional benchmark data: skill averages, top quartile, median per role per region (MENA, APAC, NA, EMEA). Required for: benchmark comparison in analytics dashboard, MENA-first positioning.",
+        "priority": "HIGH",
+        "phase": "Phase 1",
+        "files_to_create": ["src/lib/benchmarks.ts (benchmark data: regional skill averages per role)", "src/app/api/benchmarks/route.ts (benchmark data API)", "data/benchmarks/ (directory: per-region, per-role benchmark JSON files)"],
+        "data_model_changes": ["Extend Benchmark type with per-role, per-region skill averages (already exists — extend with software roles)", "Add MENA-specific benchmark data (regional skill averages for software roles)"]
+      },
+      {
+        "component": "Compensation + Salary Intelligence",
+        "description": "Market salary ranges per role per skill level per region (MENA-specific). Required for: optional compensation enhancement, career roadmap context (financial payoff for skill improvement).",
+        "priority": "LOW",
+        "phase": "Phase 2",
+        "files_to_create": ["src/lib/salary-benchmarks.ts (salary data: role + skill level + region → salary range)", "src/app/api/salary/route.ts (salary data API)", "data/salary/ (directory: per-region, per-role salary JSON files)"],
+        "data_model_changes": ["Add SalaryBenchmark type (role, skill level, region, min, median, max, currency, source, lastUpdated)", "Add MENA-specific salary data (scarce — may need to curate/estimate)"]
+      }
+    ],
+    "architecture_evolution_path": {
+      "phase_1_mvp": {
+        "timeline": "Weeks 1-4 (Option 1: OpenAI-Native)",
+        "features": [
+          "Multi-role competency models (10+ software roles, 250+ skills)",
+          "User accounts + Supabase auth + profiles + assessment history",
+          "Bias mitigation + compliance layer (disclaimers, facial analysis optional/experimental)",
+          "Bilingual AR/EN full implementation + MENA benchmarks (PM role first)",
+          "Career roadmap enhancement (basic: curated content + career path visualization)",
+          "AI interview practice — real AI integration (GPT-4o Vision + Whisper for Option 1)",
+          "Voice + content analysis as core, facial as optional/experimental",
+          "Analytics dashboard enhancement (progress tracking + benchmark comparison)",
+          "MENA benchmark data service"
+        ],
+        "architecture": "Option 1: Next.js + OpenAI GPT-4o (multi-modal: vision + audio) + Supabase (auth + database). All AI via OpenAI. No new vendor integrations.",
+        "cost": "OpenAI: $5-13/interview (video frames + audio + LLM). Supabase: free tier → $25/month. Total: ~$10-20/interview + infrastructure."
+      },
+      "phase_2_enhancement": {
+        "timeline": "Weeks 5-10 (Option 2: Specialized Services Upgrade)",
+        "features": [
+          "Learning content library (curated + partnered content)",
+          "Mentor matching service",
+          "Skill trajectory visualization + progress tracking enhancement",
+          "Shareable report generation (LinkedIn sharing)",
+          "Compensation + salary intelligence (MENA-specific)",
+          "Upgrade voice analysis to Deepgram/AssemblyAI (better quality than GPT-4o)",
+          "Upgrade facial analysis to AWS Rekognition or DeepFace (structured emotion scores)",
+          "Upgrade avatar to D-ID/HeyGen API (realistic talking head)",
+          "Bilingual AR/EN for all features (learning library, mentor matching, report generation)",
+          "MENA benchmarks for all software roles"
+        ],
+        "architecture": "Option 2: Next.js + OpenAI (LLM + content analysis) + Deepgram/AssemblyAI (voice) + AWS Rekognition/DeepFace (facial) + D-ID/HeyGen (avatar) + Supabase (auth + database). Specialized services for each analysis type.",
+        "cost": "Deepgram: ~$0.50-2/interview. AWS Rekognition: ~$1-10/interview. D-ID: ~$3-5/interview. OpenAI: ~$1-3/interview. Total: ~$8-19/interview + infrastructure."
+      },
+      "phase_3_real_time_optional": {
+        "timeline": "Weeks 11-20 (Option 3: Real-Time Avatar — Optional)",
+        "features": [
+          "Real-time WebSocket interview session",
+          "Two-way voice conversation (avatar speaks via voice AI, candidate responds via voice, real-time analysis)",
+          "3D avatar (Three.js + ReadyPlayerMe) or 2D animated avatar with lip-sync",
+          "Continuous voice + facial analysis during interview",
+          "Real-time feedback overlay (confidence indicator, speaking pace, suggested follow-up)",
+          "Advanced conversation state management (multi-turn dialogue, context-aware follow-ups)"
+        ],
+        "architecture": "Option 3: Next.js + WebSocket + real-time voice streaming + 3D/2D avatar renderer + TTS streaming + continuous analysis pipeline. Most complex architecture.",
+        "cost": "Real-time voice AI: ~$1-3/interview. Continuous facial analysis: ~$5-15/interview. Avatar rendering (SDK): ~$0.50-2/session. TTS: ~$0.50-1/interview. Total: ~$9-26/interview + infrastructure."
+      }
+    },
+    "dependency_graph": {
+      "foundation": ["User auth + profiles (Supabase)", "Multi-role competency models", "Bias mitigation + compliance layer"],
+      "assessment_features": ["Multi-role competency models", "User auth + profiles", "Bilingual AR/EN", "MENA benchmarks"],
+      "interview_features": ["Multi-role competency models", "Voice analysis API (real AI)", "Content analysis (LLM)", "Facial analysis API (optional)", "Avatar mentor component", "Bias mitigation + compliance (facial disclaimer)"],
+      "roadmap_features": ["Multi-role competency models", "User auth + profiles + assessment history", "Learning content library", "Career path visualization", "Mentor matching (Phase 2)", "Progress tracking + skill trajectory"],
+      "analytics_features": ["User auth + profiles + assessment history", "MENA benchmarks", "Progress tracking + skill trajectory", "Shareable report generation (Phase 2)"],
+      "growth_features": ["User auth + profiles", "Shareable report + LinkedIn sharing", "Bilingual AR/EN", "MENA benchmarks"]
+    }
+  },
+  "recommendations": {
+    "immediate_next_steps": [
+      {
+        "step": 1,
+        "action": "Address bias risk + compliance before production",
+        "details": "Create docs/ai-ethics-and-bias.md: document facial analysis limitations + bias risks, EU AI Act high-risk classification, NYC AEDT requirements. Add user-facing disclaimer to facial analysis API response + interview wizard. Make facial analysis optional + experimental (default: off or labeled 'experimental'). Position voice + content analysis as core (lower risk). This is critical before real-time interview feature goes to production.",
+        "owner": "Ossama",
+        "priority": "CRITICAL — Before production demo"
+      },
+      {
+        "step": 2,
+        "action": "Build multi-role competency models (10+ software roles, 250+ skills)",
+        "details": "Create src/lib/competency-models/ directory with per-role competency model files. Start with Top 5 roles: Software Engineer, Frontend Engineer, Backend Engineer, Full-Stack Engineer, QA Engineer. Each role: 25-35 skills, 5-6 pillars, proficiency levels 0-7, career ladder (Jr → Sr → Lead → Principal). Extend to remaining 5+ roles in Phase 1-2.",
+        "owner": "Ossama",
+        "priority": "CRITICAL — Before demo to stakeholders"
+      },
+      {
+        "step": 3,
+        "action": "Wire Supabase auth + user profiles + assessment history",
+        "details": "Set up Supabase project (auth + database). Create user profiles table, assessment results table (linked to user), assessment history (query past assessments). Implement: sign up/sign in, profile CRUD, assessment submission + storage, assessment history query, progress tracking (compare assessments). This is critical infrastructure for product maturity.",
+        "owner": "Ossama",
+        "priority": "CRITICAL — Before demo or clearly position as 'demo only, no accounts'"
+      },
+      {
+        "step": 4,
+        "action": "Get OpenAI credits + integrate real AI (GPT-4o Vision + Whisper)",
+        "details": "Current OpenAI balance is $0 → 429 error. Need credits for real AI integration. Options: (1) Add payment method to OpenAI account, (2) Use OpenAI free trial credits if available, (3) For demo: use simulated APIs (current state — works for demo, but not production). Integrate: GPT-4o Vision (video frames → facial expression analysis), Whisper (audio → transcription), GPT-4o (transcription + competency model → content score). Cost: $5-13/interview. Implement cost tracking + limits.",
+        "owner": "Ossama",
+        "priority": "HIGH — Required for real AI integration (production). Can demo with simulated APIs."
+      },
+      {
+        "step": 5,
+        "action": "Implement bilingual AR/EN for all core features",
+        "details": "Translate all UI + content to Arabic. Implement RTL layout support. Add MENA benchmark data for PM role (start with PM, expand to software roles in Phase 1-2). Ensure: assessment wizard (AR/EN), results dashboard (AR/EN), roadmap (AR/EN), interview wizard (AR/EN), avatar mentor messages (AR/EN), all API responses support bilingual content.",
+        "owner": "Ossama",
+        "priority": "HIGH — Key differentiator. Implement for all core features before demo."
+      }
+    ],
+    "phase_1_mvp_scope": {
+      "must_have": [
+        "Multi-role competency models (Top 5 software roles: Software Engineer, Frontend, Backend, Full-Stack, QA)",
+        "User accounts + Supabase auth + profiles + assessment history",
+        "Bias mitigation + compliance layer (facial analysis disclaimer + optional/experimental)",
+        "Bilingual AR/EN for assessment wizard + results dashboard + roadmap + interview wizard",
+        "MENA benchmarks for PM role (expand to software roles in Phase 1-2)",
+        "Career roadmap enhancement (basic: curated content + career path visualization for PM role)",
+        "AI interview practice — real AI integration (GPT-4o Vision + Whisper) OR simulated for demo",
+        "Voice + content analysis as core (facial optional/experimental)",
+        "Analytics dashboard enhancement (progress tracking + benchmark comparison)"
+      ],
+      "nice_to_have": [
+        "Learning content library (curated for PM role + Top 5 software roles)",
+        "Career path visualization (PM role + Top 5 software roles)",
+        "Progress tracking UI (compare assessments, skill trajectory)",
+        "MENA benchmarks for Top 5 software roles"
+      ],
+      "out_of_scope_phase_1": [
+        "Mentor matching (Phase 2)",
+        "Shareable report + LinkedIn sharing (Phase 2)",
+        "Compensation + salary intelligence (Phase 2)",
+        "Two-way voice conversation (Phase 3, optional)",
+        "Learning content library for all 10+ roles (Phase 2)",
+        "MENA benchmarks for all 10+ roles (Phase 2)",
+        "Gamification (Phase 2-3, optional)"
+      ]
+    },
+    "success_metrics": {
+      "product_metrics": [
+        "User sign-ups (weekly/monthly)",
+        "Assessment completion rate (% of sign-ups who complete assessment)",
+        "Assessment re-take rate (% of users who take 2+ assessments — measures progress tracking value)",
+        "Interview practice usage (% of users who try real-time interview wizard)",
+        "Roadmap engagement (% of users who view roadmap + click learning resources)",
+        "Premium conversion rate (% of free users who upgrade to premium)",
+        "Retention (D7, D30, D90 — % of users who return)",
+        "Net Promoter Score (NPS) — user satisfaction"
+      ],
+      "market_metrics": [
+        "MENA market penetration (users from MENA region vs global)",
+        "Bilingual usage (Arabic vs English — % of users using Arabic UI)",
+        "Role distribution (% of users assessing per role — PM vs Software Engineer vs Frontend etc.)",
+        "Competitor comparison (vs Talentee, Interview Prep Guru, TestGorilla, Vervoe — user perception, feature comparison)",
+        "Pricing validation (premium tier pricing — willingness to pay)"
+      ],
+      "technical_metrics": [
+        "API response times (assessment: <5 sec, interview analysis: <30 sec)",
+        "OpenAI API costs per interview (track + optimize — target: <$10/interview)",
+        "Uptime (target: 99.9%)",
+        "Error rates (target: <1%)",
+        "Scalability (users per server, database queries per assessment)"
+      ]
+    }
+  },
+  "methodology_notes": {
+    "research_sources": [
+      "Eightfold AI website + press releases (2025-2026)",
+      "Vervoe features page (2026)",
+      "TestGorilla AI page + assessments page (2025-2026)",
+      "Criteria Corp Interview Intelligence page (2026)",
+      "Greenhouse AI recruiting page + features page (2026)",
+      "Lever website (2026)",
+      "Gloat + Fuel50 (talent marketplace market research)",
+      "Phenom, SeekOut, hireEZ websites (2026)",
+      "HireVue historical (facial analysis dropped 2021 — public announcement)",
+      "Talentee + Interview Prep Guru (B2C AI interview practice — closest competitors)",
+      "Youngju.dev AI in HR & Recruiting 2026 Deep Dive (comprehensive HR tech stack analysis)",
+      "Everything-PR.com AI Already Runs HR (full employee lifecycle stack, 2026)",
+      "Topickz.com Best AI HR Software 2026 (20 tools compared)",
+      "Ai-pedias.com AI Talent Intelligence & Workforce Planning 2026 (Eightfold vs Beamery vs hireEZ vs SeekOut vs Visier vs Workday compared)",
+      "Aiseoshift.com Best AI Tools for Recruiters 2026 (20 platforms)",
+      "Knowlee.ai AI Talent Intelligence (Eightfold, Beamery, Gloat reshaped HR in 2026)",
+      "Sapient Insights 2025-2026 HR Systems Survey (market size: $53B)",
+      "EU AI Act (in force 2024, fully applicable 2026 — high-risk classification for hiring/firing/promotion AI)",
+      "NYC Local Law 144 (Automated Employment Decision Tools — bias audits required)",
+      "Colorado AI Act (2024-2025)",
+      "EEOC guidance on AI in hiring"
+    ],
+    "research_limitations": [
+      "Pricing for enterprise platforms (Eightfold, Gloat, Greenhouse, Lever) is not publicly disclosed — estimates based on market research + analyst reports",
+      "Feature details for some platforms (Gloat, Fuel50, Phenom, SeekOut) inferred from market positioning + public descriptions — may not reflect full feature set",
+      "B2C AI interview practice platforms (Talentee, Interview Prep Guru) are smaller — limited public information on full feature set + pricing",
+      "MENA-specific market data (salary benchmarks, skill demand, talent pool size) is scarce — estimates based on global data + regional context",
+      "Regulatory landscape (EU AI Act, NYC AEDT, Colorado AI Act) is evolving — compliance requirements may change"
+    ],
+    "disclaimer": "This market research is based on publicly available information as of September 2026. Feature sets, pricing, and positioning may change. Competitive analysis is directional, not definitive. Hirena should validate assumptions with user research + market testing before making product decisions based on this analysis."
+  }
+}

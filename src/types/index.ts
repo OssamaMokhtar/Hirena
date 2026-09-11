@@ -112,6 +112,7 @@ export interface AssessmentResult {
   aiInferenceNotes: Record<string, string>; // skillId -> inference note
   createdAt: Date;
   completedAt: Date;
+  previousAssessmentId?: string; // link to previous assessment for progress tracking
 }
 
 export interface CareerLevel {
@@ -119,6 +120,51 @@ export interface CareerLevel {
   track: string;
   expectedProficiency: Partial<Record<SkillCategory, number>>;
   description: string;
+  levelTitle: string; // e.g., "Junior", "Senior", "Lead", "Principal"
+  minLevel: number;
+  maxLevel: number;
+}
+
+export interface CareerPath {
+  role: string;
+  track: string;
+  levels: CareerLevel[];
+  skillsByLevel: Record<number, string[]>; // level -> skill IDs required at that level
+  progressionPath: string[]; // ordered list of level titles (e.g., ["Junior", "Senior", "Lead", "Principal"])
+}
+
+export interface AssessmentComparison {
+  currentAssessment: AssessmentResult;
+  previousAssessment?: AssessmentResult;
+  overallScoreChange: number; // positive = improvement
+  competencyScoreChanges: Record<SkillCategory, number>; // per-pillar change
+  skillImprovements: Skill[]; // skills that improved
+  skillDeclines: Skill[]; // skills that declined
+  newStrengths: Skill[]; // newly identified strengths
+  resolvedGaps: SkillGap[]; // gaps that are now filled
+  newGaps: SkillGap[]; // newly identified gaps
+  trajectory: SkillTrajectory[];
+}
+
+export interface SkillTrajectory {
+  skillId: string;
+  skillName: string;
+  pastLevels: number[]; // chronological levels from past assessments
+  currentLevel: number;
+  trend: "improving" | "declining" | "stable";
+  projectedLevel?: number; // projected level based on trend
+}
+
+export interface ShareableReport {
+  id: string;
+  assessmentId: string;
+  userId: string;
+  publicUrl: string;
+  shortCode: string; // short shareable code (e.g., "HR-XYZ123")
+  createdAt: Date;
+  expiresAt?: Date;
+  viewCount: number;
+  isPublic: boolean;
 }
 
 export interface SkillGap {
@@ -188,4 +234,56 @@ export interface User {
   profile: Profile;
   assessments: AssessmentResult[];
   createdAt: Date;
+}
+
+export interface Mentor {
+  id: string;
+  name: string;
+  headline: string;
+  skills: string[]; // skill IDs
+  expertiseLevels: Record<string, number>; // skillId -> proficiency level
+  location: string;
+  language: string[];
+  bio: string;
+  linkedInUrl?: string;
+  availability: "available" | "limited" | "unavailable";
+  rating?: number; // 0-5
+  reviewCount?: number;
+}
+
+export interface MentorMatch {
+  mentor: Mentor;
+  matchedSkills: string[];
+  matchScore: number; // 0-100
+  reason: string;
+  suggestedTopics: string[];
+}
+
+export interface SalaryBenchmark {
+  role: string;
+  track: string;
+  region: string;
+  minLevel: number;
+  maxLevel: number;
+  minSalary: number;
+  medianSalary: number;
+  maxSalary: number;
+   currency: string;
+  source: string;
+  lastUpdated: Date;
+}
+
+export type AiFeatureToggle = {
+  voiceAnalysis: boolean;
+  facialAnalysis: boolean;
+  contentAnalysis: boolean;
+  useRealAi: boolean; // true = real GPT-4o/Whisper, false = simulated
+};
+
+export interface AiDisclaimer {
+  message: string;
+  facialAnalysisExperimental?: boolean;
+  biasRiskAcknowledged?: boolean;
+  notForHiringDecisions?: boolean;
+  lastUpdated: Date;
 }

@@ -364,6 +364,141 @@
       <p><b>Why this works without credits:</b> The OpenAI account balance is $0, which causes a 429 "You have no credits remaining" error when <code>inferAllSkills()</code> is called. The demo avoids this by using pre-computed AI inference results embedded in the page bundle. The real assessment path still works for self-assessment-only submissions (no <code>aiInferenceInputs</code>) — confirmed: <code>overallScore: 42</code> returned successfully.</p>
     </div>
 
+    <!-- Market Research & Competitive Positioning -->
+    <h2>Market Research: HR Platforms & AI Features (2026)</h2>
+    <div class="two-col">
+      <div class="box" style="border-color:#6a1b9a">
+        <div class="box-header" style="color:#6a1b9a">🌐 Market Context (2026)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Global HR Tech market:</b> ~$53B (Sapient Insights 2025-2026)</li>
+            <li><b>AI in HR:</b> Jumped from 12% (2023) to majority shipping AI as first-class feature (2026)</li>
+            <li><b>Buyer criteria (2026):</b> (1) AI capability depth, (2) integration with buyer's AI stack, (3) governance posture (bias auditing, EU AI Act, NYC AEDT, Colorado AI Act)</li>
+            <li><b>Key trend:</b> AI becomes default capability across every HR layer (not separate category)</li>
+            <li><b>Key trend:</b> Skill-based hiring replaces role-based hiring (AI evaluates against skill graphs, not job titles)</li>
+            <li><b>Key trend:</b> Agentic AI — autonomous agents for sourcing, matching, workforce planning (Eightfold 2025 framework)</li>
+            <li><b>Key trend:</b> HR tech consolidation — 200+ vendors → AI agent platforms (Workday, Rippling, Deel, ServiceNow, Microsoft Copilot for HR)</li>
+            <li><b>Key trend:</b> Regulation tightening — EU AI Act (fully applicable 2026) classifies hiring/firing/promotion as high-risk AI; NYC Local Law 144 bias audits; Colorado AI Act; EEOC guidance</li>
+            <li><b>Key trend:</b> Internal talent marketplaces replace 'tap on the shoulder' — Gloat, Fuel50, Eightfold match employees to gigs/projects/mentorships by skill</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#6a1b9a">
+        <div class="box-header" style="color:#6a1b9a">🏆 Hirena Competitive Positioning (2026)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Unique Value Proposition:</b> AI-powered skills assessment + career roadmap for MENA professionals — bilingual AR/EN, MENA-first regional benchmarks, software role competency models (10+ roles), hybrid self-assessment + AI inference, real-time interview practice with multi-modal analysis (voice + facial + content), avatar mentor, career roadmap with learning resources</li>
+            <li><b>Target user:</b> B2C individual (competitors: Eightfold, Vervoe, TestGorilla, Greenhouse, Lever = B2B employer-facing; Talentee, Interview Prep Guru = simpler B2C practice tools)</li>
+            <li><b>Key differentiator 1:</b> B2C individual-focused — competitors are B2B employer-facing</li>
+            <li><b>Key differentiator 2:</b> Hybrid assessment model — self-assessment + AI inference (subjective + objective), unique vs pure AI scoring (TestGorilla, Criteria Corp) or pure self-reporting</li>
+            <li><b>Key differentiator 3:</b> MENA-first + bilingual AR/EN — no major competitor has MENA-specific benchmarks or Arabic-first UX</li>
+            <li><b>Key differentiator 4:</b> Multi-role competency models — 10+ software roles with 250+ skills, career ladders, proficiency levels 0-7</li>
+            <li><b>Key differentiator 5:</b> Real-time interview practice + multi-modal analysis — voice + facial + content fusion (closest: Talentee, but Hirena has competency model + multi-role + fused scoring + MENA + bilingual)</li>
+            <li><b>Key differentiator 6:</b> Career roadmap + learning resources — core value prop (skills assessment + career development), competitors focus on hiring/screening, not career development for individuals</li>
+            <li><b>Key differentiator 7:</b> Avatar mentor — AI avatar that interviews candidate (CSS/SVG + TTS, upgradeable to D-ID/HeyGen)</li>
+            <li><b>Key differentiator 8:</b> Open architecture — Option 1 (OpenAI-native) → Option 2 (specialized services) → Option 3 (real-time avatar) — evolutionary path, not locked into single vendor</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">⚠️ Hirena's Vulnerabilities</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Facial analysis carries bias risk</b> — HireVue dropped it (2021), TestGorilla/Criteria Corp avoid it (transcript-only). Mitigation: disclaimer + optional/experimental toggle + bias documentation. Regulatory risk (EU AI Act, NYC AEDT, Colorado AI Act) if used for hiring decisions.</li>
+            <li><b>No user accounts + persistent profiles yet</b> — current demo uses localStorage only. Critical infrastructure missing for product maturity (progress tracking, assessment history, retention).</li>
+            <li><b>No real AI integration yet</b> — voice/facial/fusion APIs are simulated. Need OpenAI credits ($0 balance → 429) + GPT-4o Vision + Whisper integration for Option 1 to go live.</li>
+            <li><b>Multi-role competency models designed but not fully built</b> — 35 PM skills only, 10+ software roles designed but not implemented. Must build 250+ skills across 10+ roles to compete on comprehensiveness.</li>
+            <li><b>Career roadmap is basic</b> — generated actions + learning resources only. Lacks: curated content library, mentor matching, career path visualization, progress tracking (competitors: Eightfold Career Hub, Gloat, Cornerstone, 360Learning, Workera, Sana have these).</li>
+            <li><b>B2C freemium monetization unclear</b> — competitors are enterprise B2B (high-ticket: $50K-2M/yr). Individual B2C freemium model needs: (1) free tier, (2) premium tier, (3) B2B expansion. Revenue model TBD.</li>
+            <li><b>No user base + no validation</b> — product is in development, no live users, no validation of value prop, no retention data. Need to launch + measure.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="box" style="border-color:#6a1b9a">
+        <div class="box-header" style="color:#6a1b9a">📊 Competitor Comparison Matrix</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Eightfold AI</b> — $2.1B, 2000+ enterprises, $200K-2M/yr. Talent Intelligence Platform (1.6B career profiles, 1.6M skills), AI skills inference (no self-reporting), internal mobility + career hub, agentic AI, AI Interviewer + Companion, diversity analytics, FedRAMP Moderate, ISO/IEC 42001 certified. <b>Gap:</b> B2B enterprise only — no B2C individual assessment, no self-assessment wizard, no video mockup, no avatar, no bilingual AR/EN, no MENA benchmarks.</li>
+            <li><b>Vervoe</b> — Skills intelligence for hiring. AI Assessment Builder, AI Scoring (ML from top performers), personalized grading, auto-grading + ranking, AI Screening Agent, anti-cheating, 300+ assessments, video/code/spreadsheet questions, behavior monitoring, ranked shortlists, integrations (Greenhouse, Lever, SmartRecruiters, Zapier). <b>Gap:</b> B2B employer-side hiring tool — no B2C individual development, no career roadmap, no competency model, no video mockup, no avatar, no bilingual, no MENA benchmarks.</li>
+            <li><b>TestGorilla</b> — Skills-based assessments, scientific/psychometric. AI Job Builder, AI Interviews (100+ tracks, auto-scored), AI Auto-Scoring (essays + video), Resume Scoring (biodata framework), AI Talent Sourcing (2M+ pool), 350+ validated tests, Trust Layer, fairness-first (transcript-only scoring — NO facial analysis), human-in-the-loop, private by default. <b>Gap:</b> B2B employer-side — no B2C individual development, no self-assessment wizard, no career roadmap, no video mockup, no avatar, no competency model, no bilingual, no MENA benchmarks.</li>
+            <li><b>Greenhouse</b> — ATS + AI recruiting, structured hiring. Voice AI (two-way dynamic interview — NOT chatbot), Notetaker (transcribe + map to scorecard), Candidate Insights Assistant (Q3 2026), Job Setup Assistant (Q3 2026), AI Report Insights (Aug 2026), AI Insights, Offer Forecasting, automated hiring plans, resume review (patented parsing), MCP (connect Claude/Gemini/Copilot). 5 AI design pillars: structured hiring, human judgment, explainability, decision ownership, human experience. <b>Gap:</b> B2B enterprise ATS — no B2C individual assessment, no self-assessment, no career roadmap, no competency model, no video mockup (Voice AI for real hiring), no avatar, no bilingual, no MENA benchmarks.</li>
+            <li><b>Talentee</b> — <b>Closest B2C competitor.</b> AI mock interview practice (video + voice + content), AI interviewer 'Nova' (asks questions + analyzes body language, voice, content), replay + feedback (facial expressions, voice patterns, answer quality), multi-modal analysis (emotion + speech + LLM scoring). <b>Gap:</b> Smaller platform — less comprehensive competency model, no multi-role framework, no MENA benchmarks, no bilingual AR/EN, no career ladder/roadmap, no self-assessment + AI inference hybrid. <b>Hirena's advantage:</b> Multi-role competency models + self-assessment + AI inference hybrid + MENA benchmarks + bilingual + career roadmap + avatar mentor + fused multi-modal scoring.</li>
+            <li><b>HireVue</b> — Video interviewing (legacy). Structured video interviews (on-demand + live), AI scoring (speech + content only — <b>facial analysis DROPPED January 2021</b> due to bias risk), interview scheduling, candidate assessment workflows. <b>Lesson for Hirena:</b> Facial analysis for assessment/judgment is high-risk. HireVue dropped it. TestGorilla + Criteria Corp avoid it. Hirena's facial analysis is differentiator but carries same risk — must be optional/experimental with disclaimer.</li>
+            <li><b>Gloat / Fuel50</b> — Internal talent marketplace (B2B enterprise). Gloat: $1B (Spotify, HSBC, Nestle, Unilever), $200K-1M/yr. AI-driven career pathing, internal talent marketplace (gigs, projects, mentorships, roles by skill), Loomra knowledge graph, career hub, skills gap analysis, HCM integration. Fuel50: $50M, 500+ companies (Mastercard, AT&T), $50-300K/yr. Career pathing + skills intelligence, internal marketplace, AI career recommendations, learning recommendations, HCM integration. <b>Gap:</b> B2B enterprise internal mobility — requires HCM integration + employee data, not standalone for individuals. No B2C individual assessment, no self-assessment, no video mockup, no avatar, no bilingual consumer product, no MENA benchmarks.</li>
+            <li><b>Other notable players:</b> Lever (ATS+CRM, AI embedded across funnel), SeekOut (AI talent search + diversity sourcing, $30K/yr), hireEZ (agentic AI sourcing, 1.5B-profile pool), Phenom (talent experience management, $100K-1M/yr), Criteria Corp (Interview Intelligence — I-O psychology-backed, transcript-only scoring, 20+ years science), Pymetrics (game-based assessments), Harver (predictive hiring), CoderPad/CodeSignal/Codility/HackerRank (technical assessments)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#6a1b9a">
+        <div class="box-header" style="color:#6a1b9a">🎯 Feature Prioritization (Impact Analysis)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Methodology:</b> Impact = (User Value × Differentiation × Market Fit) / (Effort × Risk). Scored 1-5 each.</li>
+            <li><b>CRITICAL (Phase 1 — Before Demo):</b></li>
+            <li>1. <b>Multi-Role Competency Models</b> (10+ roles, 250+ skills) — Impact: 20/20. User Value: 5, Diff: 4, Market Fit: 5, Effort: 4, Risk: 2. Foundation for all assessment features. Without it: PM-only (narrow market). With it: all software professionals (large market). Competitors all have multi-role coverage.</li>
+            <li>2. <b>User Accounts + Persistent Profiles + Assessment History + Progress Tracking</b> — Impact: 15/20. User Value: 5, Diff: 3, Market Fit: 5, Effort: 4, Risk: 2. Without accounts: no progress tracking, no retention, no recurring value. Competitors (Eightfold, Gloat, Lattice) all have persistent profiles + history. Supabase auth placeholders exist but not wired.</li>
+            <li>3. <b>Bias Mitigation + Compliance (Facial Analysis Risk + EU AI Act + NYC AEDT)</b> — Impact: 12/20 (risk-driven). User Value: 3, Diff: 4, Market Fit: 4, Effort: 3, Risk: 5. Facial analysis is highest-risk feature. HireVue dropped it. TestGorilla + Criteria Corp avoid it. EU AI Act classifies hiring/firing/promotion as high-risk AI (fully applicable 2026). Mitigation: disclaimer + optional/experimental toggle + bias documentation + voice/content as core.</li>
+            <li><b>HIGH (Phase 1-2):</b></li>
+            <li>4. <b>Career Roadmap Enhancement</b> (curated content + career path viz + progress tracking) — Impact: 16/20. User Value: 5, Diff: 4, Market Fit: 4, Effort: 4, Risk: 2. Core value prop. Competitors (Eightfold Career Hub, Gloat, Cornerstone, 360Learning, Workera, Sana) have curated content, mentor matching, visual career paths, progress tracking.</li>
+            <li>5. <b>AI Interview Practice — Real AI Integration</b> (GPT-4o Vision + Whisper for Option 1) — Impact: 25/20 (differentiation-driven). User Value: 5, Diff: 5, Market Fit: 5, Effort: 3, Risk: 3. Strongest differentiator vs Talentee. Need OpenAI credits ($0 → 429). Cost: $5-13/interview.</li>
+            <li>6. <b>Bilingual AR/EN Full Implementation + MENA Benchmarks</b> — Impact: 20/20 (differentiation-driven). User Value: 4, Diff: 5, Market Fit: 5, Effort: 3, Risk: 2. No major competitor has MENA-specific benchmarks or Arabic-first UX. Key differentiator.</li>
+            <li>7. <b>Multi-Modal Analysis — Voice + Content as Core, Facial as Optional/Experimental</b> — Impact: 12/20 (with risk mitigation). User Value: 4, Diff: 4, Market Fit: 4, Effort: 3, Risk: 4. Voice + content = high value, lower risk. Facial = differentiator but highest risk. Strategy: voice + content core, facial optional + experimental + disclaimer.</li>
+            <li>8. <b>Analytics Dashboard Enhancement</b> (progress tracking + skill trajectory + benchmark comparison + shareable report) — Impact: 12/20. User Value: 4, Diff: 3, Market Fit: 4, Effort: 3, Risk: 2. Individual-focused (vs competitor recruiter-focused dashboards).</li>
+            <li><b>MEDIUM (Phase 2):</b></li>
+            <li>9. <b>LinkedIn Sharing + Social Proof</b> — Impact: 9/20. User Value: 3, Diff: 3, Market Fit: 3, Effort: 2, Risk: 2. Simple + high impact (viral growth).</li>
+            <li>10. <b>Mentor Matching Service</b> — Impact: TBD. Connects to career development value prop. Community-driven or AI-matched.</li>
+            <li>11. <b>Compensation + Salary Intelligence (MENA-Specific)</b> — Impact: 6/20. User Value: 3, Diff: 2, Market Fit: 3, Effort: 3, Risk: 2. Optional enhancement. MENA salary data scarce — could differentiate if done well.</li>
+            <li><b>LOW (Phase 3 / Optional / B2B Only):</b></li>
+            <li>12. <b>Two-Way Voice Conversation</b> (Option 3 advanced) — Impact: 6/20. User Value: 4, Diff: 5, Market Fit: 3, Effort: 5, Risk: 4. High effort + risk + uncertain market fit. Async avatar mentor sufficient for practice mockup.</li>
+            <li>13. <b>Gamification + Engagement</b> (badges, milestones, streaks) — Impact: 4/20. User Value: 2, Diff: 2, Market Fit: 2, Effort: 2, Risk: 1. Optional engagement.</li>
+            <li>14-18. <b>OUT OF SCOPE for B2C MVP (Future B2B Only):</b> Resume/CV scoring (Impact: 1/20), Internal Talent Marketplace (Impact: 0.2/20), Talent Sourcing + Pool (Impact: 0.2/20), Enterprise Integrations ATS/HRIS/LMS (Impact: 0.25/20), Anti-Cheating + Trust Layer (Impact: 0.33/20). All require B2B enterprise expansion — not relevant for B2C individual-focused Hirena.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="box" style="border-color:#6a1b9a">
+      <div class="box-header" style="color:#6a1b9a">🏗️ Architecture Evolution Path + New Components Required</div>
+      <div class="box-body">
+        <ul>
+          <li><b>Phase 1 (Option 1: OpenAI-Native, Weeks 1-4) — MVP</b></li>
+          <li>Stack: Next.js 15 + TypeScript + Tailwind + Shadcn/UI + OpenAI GPT-4o + Supabase (auth + database)</li>
+          <li>Features: Multi-role competency models (Top 5 software roles), user accounts + profiles + assessment history, bias mitigation + compliance (facial disclaimer + optional/experimental), bilingual AR/EN (all core features), MENA benchmarks (PM role first), career roadmap enhancement (basic: curated content + career path visualization), AI interview practice — real AI integration (GPT-4o Vision + Whisper), voice + content analysis as core (facial optional/experimental), analytics dashboard enhancement (progress tracking + benchmark comparison)</li>
+          <li>AI Services: OpenAI GPT-4o only (multi-modal: text + vision + audio). No new vendor integrations.</li>
+          <li>Cost: OpenAI: $5-13/interview (video frames + audio + LLM). Supabase: free tier → $25/month. Total: ~$10-20/interview + infrastructure.</li>
+          <li><b>Phase 1 New Components Required:</b></li>
+          <li>1. <b>User Auth + Profile Service</b> (CRITICAL) — Supabase auth + user profiles + assessment history storage. Files: src/lib/auth.ts, src/lib/profile-storage.ts, src/app/api/user/route.ts, src/app/api/assessments/route.ts. Types: User (extended with assessments[]), Profile (extended).</li>
+          <li>2. <b>Multi-Role Competency Model Service</b> (CRITICAL) — Load + serve competency models for 10+ software roles. Directory: src/lib/competency-models/ (software-engineer.ts, frontend-engineer.ts, backend-engineer.ts, full-stack-engineer.ts, devops-engineer.ts, qa-engineer.ts, data-analyst.ts, uxui-designer.ts, engineering-manager.ts, tech-lead.ts, product-manager.ts (existing), scrum-master.ts, data-engineer.ts, ml-engineer.ts, business-analyst.ts, tester.ts, software-architect.ts). Each role: 20-35 skills, 4-6 pillars, levels 0-7, career ladder.</li>
+          <li>3. <b>Bias Mitigation + Compliance Layer</b> (CRITICAL) — Documentation, disclaimers, optional/experimental toggle for facial analysis, bias risk documentation, regulatory compliance posture (EU AI Act, NYC AEDT, Colorado AI Act). Files: docs/ai-ethics-and-bias.md, src/lib/bias-mitigation.ts, src/components/facial-analysis-disclaimer.tsx. Types: AiDisclaimer, AiFeatureToggle.</li>
+          <li>4. <b>Career Path Visualization</b> (HIGH) — Visual career ladder: Junior → Senior → Lead → Principal (per role), with required skills at each step, skill gap to next level, progression path. Files: src/components/career-path-visualization.tsx, src/lib/career-path.ts. Types: CareerPath, CareerLevel (extended with levelTitle, minLevel, maxLevel).</li>
+          <li>5. <b>Learning Content Library</b> (HIGH) — Curated learning resources: articles, courses, videos, books, podcasts per skill + per role. Could be internally curated or partnered (Coursera, Udemy, edX, LinkedIn Learning, Arabic content platforms). Files: src/lib/learning-library.ts, src/app/api/learning/route.ts, data/learning-resources/ (per-skill or per-role JSON files). Types: Resource (extended).</li>
+          <li>6. <b>Progress Tracking + Skill Trajectory</b> (HIGH) — Track skill changes across assessments. Compare current vs past assessments. Show skill trajectory (improvement over time). Generate updated roadmap based on new assessment. Files: src/lib/progress-tracking.ts, src/components/skill-trajectory.tsx, src/app/api/progress/route.ts. Types: AssessmentComparison, SkillTrajectory.</li>
+          <li>7. <b>MENA Benchmark Data Service</b> (HIGH) — Regional benchmark data: skill averages, top quartile, median per role per region (MENA, APAC, NA, EMEA). Files: src/lib/benchmarks.ts, src/app/api/benchmarks/route.ts, data/benchmarks/ (per-region, per-role benchmark JSON files). Types: Benchmark (extended with per-role, per-region skill averages).</li>
+          <li><b>Phase 2 (Option 2: Specialized Services Upgrade, Weeks 5-10):</b></li>
+          <li>Stack: Next.js + OpenAI (LLM + content analysis) + Deepgram/AssemblyAI (voice) + AWS Rekognition/DeepFace (facial) + D-ID/HeyGen (avatar) + Supabase (auth + database)</li>
+          <li>Features: Learning content library (curated + partnered content), mentor matching service, skill trajectory visualization + progress tracking enhancement, shareable report generation (LinkedIn sharing), compensation + salary intelligence (MENA-specific), upgrade voice analysis to Deepgram/AssemblyAI (better quality than GPT-4o), upgrade facial analysis to AWS Rekognition or DeepFace (structured emotion scores), upgrade avatar to D-ID/HeyGen API (realistic talking head), bilingual AR/EN for all features (learning library, mentor matching, report generation), MENA benchmarks for all software roles</li>
+          <li>AI Services: Specialized services for each analysis type (modular, swap independently).</li>
+          <li>Cost: Deepgram: ~$0.50-2/interview. AWS Rekognition: ~$1-10/interview. D-ID: ~$3-5/interview. OpenAI: ~$1-3/interview. Total: ~$8-19/interview + infrastructure.</li>
+          <li><b>Phase 2 New Components Required:</b></li>
+          <li>8. <b>Mentor Matching Service</b> (MEDIUM) — Match users with mentors for specific skills. Community-driven or AI-matched. Files: src/lib/mentor-matching.ts, src/app/api/mentors/route.ts, src/components/mentor-matching.tsx. Types: Mentor, MentorMatch.</li>
+          <li>9. <b>Shareable Report Generation</b> (MEDIUM) — Generate shareable assessment report (PDF or web link) for LinkedIn sharing + social proof. Files: src/lib/report-generation.ts, src/app/api/report/route.ts, src/components/shareable-report.tsx. Types: ShareableReport.</li>
+          <li>10. <b>Compensation + Salary Intelligence</b> (LOW-MEDIUM) — Market salary ranges per role per skill level per region (MENA-specific). Files: src/lib/salary-benchmarks.ts, src/app/api/salary/route.ts, data/salary/ (per-region, per-role salary JSON files). Types: SalaryBenchmark.</li>
+          <li><b>Phase 3 (Option 3: Real-Time Avatar — Optional, Weeks 11-20):</b></li>
+          <li>Stack: Next.js + WebSocket + real-time voice streaming + 3D/2D avatar renderer + TTS streaming + continuous analysis pipeline</li>
+          <li>Features: Real-time WebSocket interview session, two-way voice conversation (avatar speaks via voice AI, candidate responds via voice, real-time analysis), 3D avatar (Three.js + ReadyPlayerMe) or 2D animated avatar with lip-sync, continuous voice + facial analysis during interview, real-time feedback overlay (confidence indicator, speaking pace, suggested follow-up), advanced conversation state management (multi-turn dialogue, context-aware follow-ups)</li>
+          <li>AI Services: Real-time voice AI + continuous facial analysis + avatar rendering SDK + TTS streaming. Most complex architecture.</li>
+          <li>Cost: Real-time voice AI: ~$1-3/interview. Continuous facial analysis: ~$5-15/interview. Avatar rendering (SDK): ~$0.50-2/session. TTS: ~$0.50-1/interview. Total: ~$9-26/interview + infrastructure.</li>
+          <li><b>Dependency Graph (Implementation Order):</b></li>
+          <li>Phase 1 (MVP) — Foundation: User Auth + Profiles (Supabase) ← CRITICAL | Multi-Role Competency Models (10+ roles) ← CRITICAL | Bias Mitigation + Compliance Layer ← CRITICAL | Bilingual AR/EN (all core features) ← HIGH | MENA Benchmarks (PM role first) ← HIGH | Career Roadmap Enhancement (basic: curated content + career path viz) ← HIGH | AI Interview Practice — Real AI (GPT-4o Vision + Whisper) ← HIGH | Voice + Content Analysis (core) + Facial (optional/experimental) ← HIGH | Analytics Dashboard (progress tracking + benchmark comparison) ← HIGH</li>
+          <li>Phase 1-2 (Enhancement): Learning Content Library (curated + partnered) ← HIGH | Career Path Visualization (visual ladder per role) ← HIGH | Progress Tracking + Skill Trajectory ← HIGH | MENA Benchmarks (expand to all software roles) ← HIGH | Mentor Matching Service ← MEDIUM | Shareable Report + LinkedIn Sharing ← MEDIUM | Compensation + Salary Intelligence (MENA-specific) ← LOW-MEDIUM | Gamification + Engagement (badges, milestones) ← LOW</li>
+          <li>Phase 2-3 (Optional / B2B Expansion): Two-Way Voice Conversation (real-time WebSocket + voice streaming) ← LOW (Option 3) | Resume/CV Scoring + Parsing ← LOW (B2B only) | Internal Talent Marketplace ← LOW (B2B only) | Talent Sourcing + Talent Pool ← LOW (B2B only) | Enterprise Integrations (ATS/HRIS/LMS) ← LOW (B2B only) | Anti-Cheating + Trust Layer (proctored assessments) ← LOW (B2B only)</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Current Status -->
     <h2>Current Status (2026-09-10)</h2>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem; margin-top:1rem">

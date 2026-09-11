@@ -103,6 +103,58 @@ export interface InterviewFinalResult {
   sessionId: string;
   candidateId: string;
   role: string;
+  duration: number;
+  questionCount: number;
+  questionsAnswered: number;
+  questionResults: QuestionAnalysisResult[];
+  aggregated: {
+    voice: {
+      confidence: number;
+      clarity: number;
+      pacing: number;
+      enthusiasm: number;
+      fillerWordRatio: number;
+      avgSpeakingRate: number;
+      trend: "improving" | "stable" | "declining";
+    };
+    facial: {
+      eyeContact: number;
+      engagement: number;
+      confidence: number;
+      expressiveness: number;
+      dominantEmotion: string;
+      emotionDistribution: Record<string, number>;
+      trend: "improving" | "stable" | "declining";
+    };
+    content: {
+      technicalAccuracy: number;
+      depthOfKnowledge: number;
+      communicationClarity: number;
+      avgAnswerLength: number;
+      trend: "improving" | "stable" | "declining";
+    };
+    overall: number;
+  };
+  inferredProficiency: Record<string, number>;
+  strengths: string[];
+  gaps: string[];
+  recommendations: string[];
+  metadata: {
+    startTime: number;
+    endTime: number;
+    language: "en" | "ar";
+    avatarStyle: AvatarStyle;
+    avgSpeakingRate: number;
+    avgEyeContact: number;
+    emotionDistribution: Record<string, number>;
+  };
+}
+
+// Final interview result (aggregated across all questions)
+export interface InterviewFinalResult {
+  sessionId: string;
+  candidateId: string;
+  role: string;
   duration: number;           // total interview duration in seconds
   questionCount: number;
   questionsAnswered: number;

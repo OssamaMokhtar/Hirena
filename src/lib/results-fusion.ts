@@ -1,7 +1,7 @@
 import type { ProficiencyLevel } from "@/types";
 import { VoiceAnalysisResult, VOICE_WEIGHTS } from "@/lib/voice-analysis";
 import { FacialAnalysisResult, FACIAL_WEIGHTS } from "@/lib/facial-analysis";
-import { VideoAnalysisResult } from "@/lib/video-interview";
+import { ContentAnalysisResult } from "@/lib/video-interview";
 
 // Results fusion — merges voice, facial, and content analysis into unified scores
 // Core of Option 2: multi-modal signal fusion with configurable weights
@@ -49,7 +49,15 @@ export interface FusionResult {
     };
     content: {
       overall: number;
-      dimensions: VideoAnalysisResult["dimensions"];
+      dimensions: {
+        technicalAccuracy: number;
+        depthOfKnowledge: number;
+        communicationClarity: number;
+        problemSolvingApproach: number;
+        confidenceSignals: number;
+        engagement: number;
+        overallImpression: string;
+      };
       weight: number;
     };
     selfAssessment: {
@@ -80,7 +88,7 @@ export interface FusionResult {
 export interface FusionInput {
   voiceAnalysis?: VoiceAnalysisResult;
   facialAnalysis?: FacialAnalysisResult;
-  contentAnalysis?: VideoAnalysisResult;
+  contentAnalysis?: ContentAnalysisResult;
   selfAssessment?: number;  // 0-5 self-assessment score (overall)
   targetRole: string;
 }
@@ -248,8 +256,6 @@ export function fuseResults(input: FusionInput): FusionResult {
   } else {
     notes.push("Content analysis not provided — skipping content signal");
   }
-
-  // --- Self-assessment signal ---
   if (typeof selfAssessment === "number") {
     signalBreakdown.selfAssessment.overall = clamp0to5(selfAssessment);
     notes.push(`Self-assessment: ${selfAssessment}/5`);

@@ -387,7 +387,7 @@ export async function GET(request: NextRequest) {
 
   // Aggregate results across all questions
   const answeredQuestions = session.answers.filter(Boolean);
-  const questionResults: QuestionAnalysisResult[] = answeredQuestions;
+  const questionResults = answeredQuestions as QuestionAnalysisResult[];
 
   // Aggregate voice scores
   const avgVoiceConfidence = questionResults.reduce((sum, r) => sum + r.voice.confidence, 0) / questionResults.length || 0;
@@ -507,7 +507,7 @@ export async function GET(request: NextRequest) {
       avgEyeContact: Math.round(avgEyeContact * 100) / 100,
       emotionDistribution: {},
     },
-  };
+  } as InterviewFinalResult;
 
   const serverMessage: WSServerMessage = {
     type: "interview-complete",

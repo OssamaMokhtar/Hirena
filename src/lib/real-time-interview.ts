@@ -42,7 +42,7 @@ export type WSServerMessage =
   | { type: "pong" };
 
 // Avatar rendering styles for real-time
-export type AvatarStyle = "css-animated" | "canvas-2d" | "webgl-3d" | "sdk-streamed";
+export type AvatarStyle = "minimal" | "avatar" | "none" | "css-animated" | "canvas-2d" | "webgl-3d" | "sdk-streamed";
 
 // Live feedback shown to candidate during/after their response
 export interface LiveFeedback {
@@ -262,7 +262,7 @@ export interface InterviewQuestion {
   difficulty: number;         // 1-5
   expectedDuration: number;   // seconds expected for answer
   followUps: string[];        // potential follow-up questions
-  rubric: rubRubricItem[];
+  rubric: RubricItem[];
 }
 
 export interface RubricItem {

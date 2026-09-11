@@ -1,16 +1,25 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import type { AvatarStyle } from "@/lib/real-time-interview";
 
 interface AvatarMentorProps {
   question: string;
   isSpeaking: boolean;
   onAudioReady?: (audioBlob: Blob) => void;
   onStop?: () => void;
-  avatarStyle?: "minimal" | "avatar" | "none";
+  avatarStyle?: AvatarStyle;
+  candidateSignals?: CandidateSignals;
+}
+
+interface CandidateSignals {
+  pace: number;
+  sentiment: number;
+  engagement: number;
+  fillerWords: number;
 }
 
 export function AvatarMentor({
@@ -19,22 +28,61 @@ export function AvatarMentor({
   onAudioReady,
   onStop,
   avatarStyle = "minimal",
+  candidateSignals,
 }: AvatarMentorProps) {
   const [displayName, setDisplayName] = useState("Sami");
-  const [avatarEmotion, setAvatarEmotion] = useState<"neutral" | "listening" | "thinking" | "speaking">("neutral");
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const oscillatorRef = useRef<OscillatorNode | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
+  const [avatarEmotion, setAvatarEmotion] = useState<
+    "neutral" | "listening" | "thinking" | "speaking" | "supportive" | "encouraging"
+  >("neutral");
 
-  // Simple TTS using Web Speech API
+  // Adaptive speech parameters based on candidate signals
+  const getAdaptiveSpeechParams = useCallback(() => {
+    const signals = candidateSignals || { pace: 0.5, sentiment: 0, engagement: 0.5, fillerWords: 0 };
+
+    let rate = 0.95;
+    if (signals.pace > 0.7) rate = 0.75;
+    else if (signals.pace < 0.25) rate = 1.1;
+
+    let pitch = 1.1;
+    let volume = 1;
+    if (signals.sentiment < -0.3) {
+      pitch = 0.95;
+      volume = 0.85;
+    } else if (signals.sentiment > 0.5) {
+      pitch = 1.25;
+    }
+
+    if (signals.engagement < 0.3) {
+      rate = Math.min(rate, 0.85);
+    }
+
+    return { rate, pitch, volume };
+  }, [candidateSignals]);
+
+  // Current emotion based on signals
+  const getAvatarEmotion = useCallback((): typeof avatarEmotion => {
+    if (isSpeaking) return "speaking";
+    if (candidateSignals) {
+      if (candidateSignals.sentiment < -0.3) return "supportive";
+      if (candidateSignals.fillerWords > 0.6) return "encouraging";
+      if (candidateSignals.engagement < 0.3) return "listening";
+    }
+    return "neutral";
+  }, [isSpeaking, candidateSignals]);
+
+  const emotionRef = useRef(getAvatarEmotion());
+  useEffect(() => { emotionRef.current = getAvatarEmotion(); }, [getAvatarEmotion]);
+  useEffect(() => { setAvatarEmotion(emotionRef.current); }, [emotionRef]);
+
+  // TTS with adaptive params
   useEffect(() => {
     if (isSpeaking && question && typeof window !== "undefined") {
+      const { rate, pitch, volume } = getAdaptiveSpeechParams();
       const utterance = new SpeechSynthesisUtterance(question);
-      utterance.rate = 0.95;
-      utterance.pitch = 1.1;
-      utterance.volume = 1;
+      utterance.rate = rate;
+      utterance.pitch = pitch;
+      utterance.volume = volume;
 
-      // Try to find a good Arabic-compatible voice
       const voices = window.speechSynthesis.getVoices();
       const preferredVoice = voices.find(
         (v) => v.lang.startsWith("en") && v.name.includes("Google") ||
@@ -58,35 +106,57 @@ export function AvatarMentor({
         window.speechSynthesis.cancel();
       };
     }
-  }, [isSpeaking, question, onStop]);
+  }, [isSpeaking, question, onStop, getAdaptiveSpeechParams]);
 
-  // Avatar visual states
-  const getAvatarClass = () => {
+  // Avatar visual class based on emotion and style
+  const getAvatarClass = useCallback(() => {
+    const emotion = avatarEmotion;
     switch (avatarStyle) {
       case "avatar":
+      case "css-animated":
+      case "canvas-2d":
+      case "webgl-3d":
+      case "sdk-streamed":
         return cn(
           "relative h-32 w-32 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg",
-          avatarEmotion === "speaking" && "animate-pulse",
-          avatarEmotion === "thinking" && "bg-gradient-to-br from-amber-400 to-amber-600",
-          avatarEmotion === "listening" && "bg-gradient-to-br from-blue-400 to-blue-600"
+          emotion === "speaking" && "animate-pulse",
+          emotion === "supportive" && "bg-gradient-to-br from-teal-300 to-teal-500",
+          emotion === "encouraging" && "bg-gradient-to-br from-amber-300 to-amber-500",
+          emotion === "thinking" && "bg-gradient-to-br from-amber-400 to-amber-600",
+          emotion === "listening" && "bg-gradient-to-br from-blue-400 to-blue-600"
         );
       case "minimal":
       default:
         return cn(
           "flex h-12 w-12 items-center justify-center rounded-full bg-teal-500 text-white text-lg font-semibold",
-          avatarEmotion === "speaking" && "animate-pulse",
-          avatarEmotion === "thinking" && "bg-amber-500",
-          avatarEmotion === "listening" && "bg-blue-500"
+          emotion === "speaking" && "animate-pulse",
+          emotion === "supportive" && "bg-teal-400",
+          emotion === "encouraging" && "bg-amber-400",
+          emotion === "thinking" && "bg-amber-500",
+          emotion === "listening" && "bg-blue-500"
         );
     }
-  };
+  }, [avatarStyle, avatarEmotion]);
 
-  const getMouthAnimation = () => {
-    if (avatarStyle === "minimal") {
+  // Mouth animation for minimal avatar
+  const getMouthAnimation = useCallback(() => {
+    if (avatarStyle === "minimal" || avatarStyle === "css-animated") {
       return isSpeaking ? "scale-y-100" : "scale-y-0";
     }
     return null;
-  };
+  }, [avatarStyle, isSpeaking]);
+
+  // Adaptive label
+  const getAvatarLabel = useCallback(() => {
+    switch (avatarEmotion) {
+      case "supportive": return "Supportive";
+      case "encouraging": return "Encouraging";
+      case "listening": return "Listening";
+      case "thinking": return "Thinking";
+      case "speaking": return "Speaking";
+      default: return "Mentor";
+    }
+  }, [avatarEmotion]);
 
   return (
     <div className={cn("flex items-center gap-4", avatarStyle === "none" && "justify-center")}>
@@ -111,7 +181,7 @@ export function AvatarMentor({
             )}
           </div>
           <span className="mt-2 text-sm font-medium text-foreground">{displayName}</span>
-          <span className="text-xs text-foreground-muted">Mentor</span>
+          <span className="text-xs text-foreground-muted">{getAvatarLabel()}</span>
         </div>
       )}
 
@@ -139,11 +209,9 @@ export function AvatarMentor({
             {isSpeaking ? (
               <div className="space-y-2">
                 <p className="text-sm font-medium text-foreground">{displayName} is speaking...</p>
-                {/* Simulated real-time text reveal */}
                 <p className="text-sm text-foreground-muted lead-relaxed">
                   {revealText(question, 0.7)}
                 </p>
-                {/* Sound wave animation */}
                 <div className="flex items-center gap-1 pt-1">
                   {[...Array(5)].map((_, i) => (
                     <span

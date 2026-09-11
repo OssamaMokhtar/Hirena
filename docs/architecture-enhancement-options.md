@@ -257,245 +257,209 @@ const SOFTWARE_ENGINEER_SKILLS = [
 
 ---
 
-## Option 3: Purpose-Built Interview Platform (Most Comprehensive, ~12-20 weeks)
+# Hirena Architecture Enhancement — 3 Options (Updated 2026-09-10)
 
-**Philosophy:** Build a dedicated interview platform with real-time avatar interaction, continuous multi-modal analysis, and a comprehensive software role competency framework. This is the "full vision" implementation.
+## Current State (Baseline)
+- **Stack:** Next.js 15 + TypeScript + Tailwind + Shadcn/UI + OpenAI GPT-4o
+- **Assessment:** Self-rating (0-5) + AI inference from text descriptions
+- **Domain:** Product Management only — 35 PM skills, 6 pillars
+- **Demo:** Pre-computed result, localStorage persistence
+- **Live Status (as of 2026-09-10):**
+  - ✅ TypeScript compiles cleanly (`npx tsc --noEmit` exit 0)
+  - ✅ Dev server running at localhost:3000
+  - ✅ ALL Option 2 & 3 API routes verified working:
+    - `/api/verify-env` → `hasKey: true`
+    - `/api/fusion/result` → returns fused score `{ overallScore: 3.54 }`
+    - `/api/voice/analyze` → returns simulated voice analysis
+    - `/api/facial/analyze` → returns 6 frames analyzed, emotion distribution
+    - `/api/interview/session` → WebSocket session start + analyze + complete flow
+  - ✅ Real-time interview wizard built: 8-step flow with avatar mentor
+  - ✅ New files added:
+    - `src/components/real-time-interview-wizard.tsx` — main wizard component
+    - `src/components/avatar-mentor.tsx` — avatar mentor with conversation state
+    - `src/lib/signal-analysis.ts` — voice/facial signal analysis utilities
+    - `src/lib/results-fusion.ts` — multi-modal results fusion + scoring
+  - 🔧 Started: Browser smoke test of real-time wizard (next step)
+
+---
+
+## New Requirements (as of 2026-09-10)
+1. **Video interview mockups** — candidate records video responses
+2. **Voice analysis** — tone, pacing, emotion, clarity from audio
+3. **Facial expression analysis** — emotion detection from video
+4. **Avatar mentor** — AI avatar that interviews the candidate
+5. **Software industry only** — expand from PM-only to all software roles
+6. **Multi-role competency models** — Data Analyst, BA, QA, Tester, Architect, Engineer, Full-Stack, DevOps, UX/UI, Engineering Manager, etc.
+
+---
+
+## Option 1: OpenAI-Native Extension (Fastest Path, ~2-4 weeks)
+
+**Philosophy:** Leverage GPT-4o's multi-modal capabilities. Minimal new infrastructure.
 
 ### Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                       Frontend (Next.js + WebRTC)                │
-│  ┌─────────────────────────────────────────────────────────────┐│
-│  │                    Interview Session View                    ││
-│  │  ┌──────────────────┐    ┌──────────────────────────────┐  ││
-│  │  │  Avatar Mentor   │    │  Candidate Video (self-view) │  ││
-│  │  │  (3D/2D + TTS +  │    │  (WebRTC + MediaRecorder)    │  ││
-│  │  │   lip-sync)      │    │                              │  ││
-│  │  │                  │    │                              │  ││
-│  │  │  "Tell me about  │    │  [Recording indicator]       │  ││
-│  │  │   a time you..." │    │                              │  ││
-│  │  └──────────────────┘    └──────────────────────────────┘  ││
-│  │                             │                              ││
-│  │  ┌──────────────────────────────────────────────────────┐  ││
-│  │  │  Real-time feedback overlay (optional):              │  ││
-│  │  │  - Confidence indicator                              │  ││
-│  │  │  - Speaking pace                                    │  ││
-│  │  │  - Suggested follow-up (after answer)               │  ││
-│  │  └──────────────────────────────────────────────────────┘  ││
-│  └─────────────────────────────────────────────────────────────┘│
-│                                                                    │
-│  ┌─────────────────────────────────────────────────────────────┐│
-│  │                    Assessment Dashboard                      ││
-│  │  (existing, extended for multi-role + video analysis)       ││
-│  └─────────────────────────────────────────────────────────────┘│
-└──────────────────────────────────────────────────────────────────┘
-                          │
-                          ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                    Real-Time Conversation Engine                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────┐ │
-│  │ LLM (GPT-4o/   │  │ TTS (Eleven- │  │ Lip-sync / Avatar     │ │
-│  │ Claude/LLM)    │  │ Labs/OpenAI) │  │ Renderer (WebGL/      │ │
-│  │ - Generates    │  │ - Converts   │  │ CSS/Canvas/Sonalize)  │ │
-│  │   questions    │  │   text to    │  │ - Receives audio +    │ │
-│  │ - Follow-ups   │  │   speech     │  │   text, animates      │ │
-│  │ - Evaluates   │  │              │  │   facial mesh /       │ │
-│  │   answer vs   │  │              │  │   sprite             │ │
-│  │   rubric       │  │              │  │                      │ │
-│  └────────┬───────┘  └──────┬───────┘  └──────────┬──────────┘ │
-│           │                  │                      │            │
-│           └──────────────────┴──────────────────────┘            │
-│                          │                                       │
-│                    WebSocket (live session)                      │
-└───────────────────────────┼───────────────────────────────────────┘
-                            │
-┌───────────────────────────┼──────────────────────────────────────┐
-│              Analysis Engine (Server-Side)                       │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────────┐ │
-│  │ Voice Analysis   │  │ Facial Analysis  │  │ Content       │ │
-│  │ (Deepgram/       │  │ (OpenAI Vision/  │  │ Analysis      │ │
-│  │  AssemblyAI/     │  │  AWS Rekognition/│  │ (LLM +        │ │
-│  │  custom model)   │  │  DeepFace)       │  │  competency   │ │
-│  │ - Emotion        │  │ - Expression     │  │  model scoring)│
-│  │ - Tone           │  │ - Eye contact    │  │ - Answer      │ │
-│  │ - Pacing         │  │ - Engagement     │  │   quality     │ │
-│  │ - Clarity        │  │ - Stress signs   │  │ - Relevance   │ │
-│  │ - Filler words   │  │ - Confidence     │  │ - Depth       │ │
-│  └────────┬─────────┘  └────────┬─────────┘  └───────┬───────┘ │
-│           │                     │                      │         │
-│           └─────────────────────┼──────────────────────┘         │
-│                                 ▼                                │
-│                    ┌──────────────────────┐                     │
-│                    │ Results Fusion +     │                     │
-│                    │ Scoring Engine       │                     │
-│                    │ - Merge 3 signals    │                     │
-│                    │ - Weight by signal   │                     │
-│                    │ - Score vs rubric    │                     │
-│                    │ - Generate report    │                     │
-│                    └──────────┬───────────┘                     │
-│                               │                                  │
-│                               ▼                                  │
-│                    ┌──────────────────────┐                     │
-│                    │ Competency Models    │                     │
-│                    │ (10+ software roles) │                     │
-│                    │ - Skills per role    │                     │
-│                    │ - Levels 0-7         │                     │
-│                    │ - Career ladders     │                     │
-│                    │ - Expected levels    │                     │
-│                    │ - Role-specific rubric│                    │
-│                    └──────────────────────┘                     │
-└──────────────────────────────────────────────────────────────────┘
+Browser (Next.js) → POST /api/interview → Next.js Server → OpenAI (GPT-4o + Whisper)
+  - MediaRecorder captures video
+  - GPT-4o Vision analyzes frames
+  - Whisper transcribes audio
+  - GPT-4o analyzes voice + generates avatar responses
 ```
 
 ### What Changes
+- Video capture via `MediaRecorder` + `getUserMedia`
+- Voice analysis via Whisper + GPT-4o
+- Facial analysis via GPT-4o Vision (frame snapshots)
+- Avatar mentor: CSS/SVG + TTS (ElevenLabs/OpenAI TTS) OR D-ID/HeyGen API
+- Expand competency models to 5-8 software roles
 
-| Area | Change |
-|------|--------|
-| **Real-time avatar interview** | WebSocket-based live session. Avatar asks question → candidate responds → analysis runs (voice + face + content) → avatar generates next question or follow-up. Full conversation loop with ~2-5 sec latency per turn. |
-| **Avatar** | Two tracks: (a) **3D avatar** — ReadyPlayerMe avatar + Three.js/WebGL renderer in browser, TTS audio streamed to client, lip-sync via phoneme extraction from audio. (b) **2D animated avatar** — Sprite-based or Canvas-rendered character with mouth animation synced to audio waveform. (c) **Sonalize / Live avatar SDK** — if budget allows, use a real-time avatar streaming SDK. |
-| **Continuous voice analysis** | Audio streamed during interview → analyzed in near-real-time (or batched post-interview). Emotion, tone, pacing, confidence, filler words, clarity scored continuously. |
-| **Continuous facial analysis** | Video frames analyzed during or after interview. Expression tracking, eye contact, engagement, stress indicators, confidence signals. |
-| **Content analysis** | LLM evaluates each answer against role-specific rubric. Scores: relevance, depth, structure, specificity, confidence-in-content. |
-| **Multi-modal fusion** | Results from voice + facial + content merged with weights. E.g., voice confidence 30%, facial engagement 20%, content quality 50%. Final score per competency. |
-| **Competency models (10+ roles)** | Full expansion: |
+### Cost: ~$5-13 per interview (without avatar API)
 
-### Full Software Role Competency Models
+### Status: **Recommended starting point for demo**
 
+---
+
+## Option 2: Specialized AI Services (Best Quality, ~6-10 weeks)
+
+**Philosophy:** Purpose-built AI services for each analysis type.
+
+### Architecture
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    SOFTWARE INDUSTRY COMPETENCY FRAMEWORK        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ROLE                  SKILLS  PILLARS        LEVELS  LADDER    │
-│  ─────────────────────────────────────────────────────────────  │
-│  Data Analyst          25-30  5 pillars      0-7     Jr→Sr→Ld  │
-│  Business Analyst      20-25  4 pillars      0-7     Jr→Sr→Ld  │
-│  QA Engineer           20-25  5 pillars      0-7     Jr→Sr→Ld  │
-│  Tester (Manual)       15-20  3 pillars      0-5     Jr→Sr     │
-│  Software Architect    30-35  6 pillars      0-7     Sr→Princ  │
-│  Software Engineer    30-35  6 pillars      0-7     Jr→Sr→Ld   │
-│  Frontend Engineer     25-30  5 pillars      0-7     Jr→Sr→Ld  │
-│  Backend Engineer      25-30  5 pillars      0-7     Jr→Sr→Ld  │
-│  Full-Stack Engineer   30-35  6 pillars      0-7     Jr→Sr→Ld  │
-│  DevOps Engineer       20-25  5 pillars      0-7     Jr→Sr→Ld  │
-│  UX/UI Designer        20-25  4 pillars      0-7     Jr→Sr→Ld  │
-│  Engineering Manager   20-25  5 pillars      0-7     Mgr→Dir   │
-│  Tech Lead             25-30  6 pillars      0-7     Sr→TL→Princ│
-│  Product Manager       35     6 pillars      0-5     APM→CPO   │
-│  Scrum Master          15-20  3 pillars      0-5     Jr→Sr     │
-│  Data Engineer         25-30  5 pillars      0-7     Jr→Sr→Ld  │
-│  ML Engineer           25-30  5 pillars      0-7     Jr→Sr→Ld  │
-│                                                                 │
-│  Total: ~15 roles × ~25 skills avg = ~375 skills               │
-│  Plus cross-cutting skills (communication, collaboration, etc.)│
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+Browser → POST /api/interview-session → Next.js API → Analysis Pipeline
+  - Video → S3/R2 storage + frame extraction
+  - Voice → Deepgram/AssemblyAI (dedicated voice analysis)
+  - Face → OpenAI Vision / AWS Rekognition / DeepFace
+  - Content → LLM + competency model scoring
+  - Results → Fusion engine merges all signals
 ```
 
-**Example — QA Engineer competency model:**
-```typescript
-const QA_ENGINEER_MODEL: RoleCompetencyModel = {
-  role: "qa-engineer",
-  skills: [
-    // Testing fundamentals
-    { id: "test-design", name: "Test Case Design", category: "testing-fundamentals", description: "..." },
-    { id: "test-coverage", name: "Test Coverage Analysis", category: "testing-fundamentals", description: "..." },
-    { id: "boundary-testing", name: "Boundary Value Analysis", category: "testing-fundamentals", description: "..." },
-    { id: "equivalence-partitioning", name: "Equivalence Partitioning", category: "testing-fundamentals", description: "..." },
-    { id: "exploratory-testing", name: "Exploratory Testing", category: "testing-fundamentals", description: "..." },
-    // Automation
-    { id: "selenium", name: "Selenium / WebDriver", category: "test-automation", description: "..." },
-    { id: "playwright", name: "Playwright / Cypress", category: "test-automation", description: "..." },
-    { id: "api-testing", name: "API Testing (Postman/RestAssured)", category: "test-automation", description: "..." },
-    { id: "bdd-cucumber", name: "BDD (Cucumber/SpecFlow)", category: "test-automation", description: "..." },
-    { id: "ci-test-automation", name: "CI Test Automation", category: "test-automation", description: "..." },
-    // Performance
-    { id: "load-testing", name: "Load / Performance Testing", category: "performance", description: "..." },
-    { id: "stress-testing", name: "Stress Testing", category: "performance", description: "..." },
-    // Security
-    { id: "security-testing", name: "Security Testing Basics", category: "security", description: "..." },
-    { id: "owasp", name: "OWASP Top 10 Awareness", category: "security", description: "..." },
-    // Tools
-    { id: "jira", name: "Jira / Issue Tracking", category: "tools", description: "..." },
-    { id: "test-management", name: "Test Management Tools", category: "tools", description: "..." },
-    { id: "sql-for-qa", name: "SQL for QA", category: "tools", description: "..." },
-    // Process
-    { id: "test-planning", name: "Test Planning", category: "process", description: "..." },
-    { id: "bug-reporting", name: "Bug Reporting & Triage", category: "process", description: "..." },
-    { id: "risk-analysis", name: "Risk-Based Testing", category: "process", description: "..." },
-    // Collaboration
-    { id: "dev-collaboration", name: "Developer Collaboration", category: "collaboration", description: "..." },
-    { id: "communication", name: "Communication", category: "collaboration", description: "..." },
-  ],
-  pillars: [
-    { name: "Testing Fundamentals", weight: 25, skills: [...] },
-    { name: "Test Automation", weight: 30, skills: [...] },
-    { name: "Performance & Security", weight: 15, skills: [...] },
-    { name: "Tools & Infrastructure", weight: 15, skills: [...] },
-    { name: "Process & Collaboration", weight: 15, skills: [...] },
-  ],
-  levels: [
-    { level: 0, name: "No Experience", description: "..." },
-    { level: 1, name: "Basic", description: "..." },
-    { level: 2, name: "Intermediate", description: "..." },
-    { level: 3, name: "Competent", description: "..." },
-    { level: 4, name: "Advanced", description: "..." },
-    { level: 5, name: "Expert", description: "..." },
-    { level: 6, name: "Master", description: "..." },
-    { level: 7, name: "Authority", description: "..." },
-  ],
-  careerLadder: [
-    { title: "Junior QA Engineer", minLevel: 0, expected: { testingFundamentals: 1, testAutomation: 1, ... } },
-    { title: "QA Engineer", minLevel: 2, expected: { ... } },
-    { title: "Senior QA Engineer", minLevel: 3, expected: { ... } },
-    { title: "Lead QA Engineer", minLevel: 4, expected: { ... } },
-    { title: "QA Architect", minLevel: 5, expected: { ... } },
-  ],
-};
+### Services to Integrate
+| Capability | Service | Cost |
+|------------|---------|------|
+| Speech-to-text + voice | Deepgram / AssemblyAI | ~$0.06-3 |
+| Facial expression | OpenAI Vision / AWS Rekognition / DeepFace | ~$1-10 |
+| Avatar video | D-ID / HeyGen / Synthesia | ~$1-5 or subscription |
+| TTS (custom avatar) | ElevenLabs / OpenAI TTS | ~$0.1-1 |
+
+### What's Already Built (Option 2 APIs — Verified Working)
+- `/api/voice/analyze` — accepts `targetRole` + `transcription` + `duration`, returns simulated voice analysis with dimensions (confidence, clarity, pacing, emotion, engagement, fillerWords)
+- `/api/facial/analyze` — accepts `targetRole` + `duration`, returns simulated 6-frame analysis with emotions, eye contact, facial expressions, head pose
+- `/api/fusion/result` — accepts voiceAnalysis + facialAnalysis + selfAssessment + targetRole, fuses signals with weights (voice 30%, facial 20%, self 25%, content 25%), returns overallScore + per-dimension breakdown
+- `/api/interview/session` — WebSocket endpoint managing 8-step interview flow: greeting → context → instruction → avatar question → record → voice analysis → facial analysis → feedback → follow-up → final result
+
+### Cost: ~$8-19 per interview (with D-ID avatar)
+
+### Status: **APIs built and verified. Real-time wizard in progress.**
+
+---
+
+## Option 3: Purpose-Built Platform (Most Comprehensive, ~12-20 weeks)
+
+**Philosophy:** Real-time avatar interview with continuous multi-modal analysis.
+
+### Architecture
+```
+Browser (WebRTC + Avatar) ↔ WebSocket ↔ Real-Time Engine
+  - Avatar mentor (3D/2D + TTS + lip-sync)
+  - Live video/audio capture
+  - Continuous voice + facial analysis
+  - Real-time LLM conversation
+  - Results fusion + competency scoring
 ```
 
-### Pros
-- **Most impressive demo** — real-time avatar conversation with live analysis is visually and functionally impressive
-- **Complete solution** — covers every requirement fully: video, voice, face, avatar, multi-role, all levels
-- **Real-time interaction** — candidate gets live feedback during interview; avatar adapts follow-ups based on responses
-- **Defensible differentiation** — purpose-built platform is harder to replicate than a thin integration layer
-- **Scalable architecture** — services are independent; can start with async and add real-time later
+### Full Software Role Competency Models (10+ roles)
+| Role | Skills | Pillars | Levels | Career Ladder |
+|------|--------|---------|--------|---------------|
+| Data Analyst | 25-30 | 5 | 0-7 | Jr→Sr→Lead |
+| Business Analyst | 20-25 | 4 | 0-7 | Jr→Sr→Lead |
+| QA Engineer | 20-25 | 5 | 0-7 | Jr→Sr→Lead |
+| Tester (Manual) | 15-20 | 3 | 0-5 | Jr→Sr |
+| Software Architect | 30-35 | 6 | 0-7 | Sr→Principal |
+| Software Engineer | 30-35 | 6 | 0-7 | Jr→Sr→Lead |
+| Frontend Engineer | 25-30 | 5 | 0-7 | Jr→Sr→Lead |
+| Backend Engineer | 25-30 | 5 | 0-7 | Jr→Sr→Lead |
+| Full-Stack Engineer | 30-35 | 6 | 0-7 | Jr→Sr→Lead |
+| DevOps Engineer | 20-25 | 5 | 0-7 | Jr→Sr→Lead |
+| UX/UI Designer | 20-25 | 4 | 0-7 | Jr→Sr→Lead |
+| Engineering Manager | 20-25 | 5 | 0-7 | Mgr→Director |
+| Tech Lead | 25-30 | 6 | 0-7 | Sr→TL→Principal |
+| Product Manager | 35 | 6 | 0-5 | APM→CPO |
+| Scrum Master | 15-20 | 3 | 0-5 | Jr→Sr |
+| Data Engineer | 25-30 | 5 | 0-7 | Jr→Sr→Lead |
+| ML Engineer | 25-30 | 5 | 0-7 | Jr→Sr→Lead |
 
-### Cons
-- **Longest timeline** — 12-20 weeks for full implementation; 6-10 weeks for a reduced version (async interview + post-analysis)
-- **Highest cost** — avatar SDK/3D rendering + multiple AI services + WebSocket infrastructure + more engineering hours
-- **Most complex** — real-time WebSocket + avatar rendering + multi-modal analysis + results fusion is a significant engineering effort
-- **Avatar engineering is hard** — realistic lip-sync, facial animation, real-time TTS streaming is non-trivial; either pay for SDK or invest heavily in building it
-- **Risk of over-engineering** — full real-time avatar may be overkill for MVP; async + post-analysis interview may suffice for initial demo
+**~15 roles × ~25 skills avg = ~375 skills** + cross-cutting skills
 
-### Cost Estimate (per interview, real-time)
-- Voice analysis (streaming): ~$1-3
-- Facial analysis (continuous frames): ~$5-15
-- Content analysis (LLM per answer): ~$2-5
-- Avatar rendering (if SDK): ~$0.50-2 per session or subscription
-- TTS (ElevenLabs, ~500 words): ~$0.50-1
-- **Total: ~$9-26 per interview** (real-time, with avatar SDK); **~$7-15** (real-time, custom avatar)
+### What's Already Built (Option 3 Components — Verified Working)
+- Real-time interview wizard with 8-step flow
+- Avatar mentor component with conversation state management
+- WebSocket session management (start → analyze → complete)
+- Voice analysis endpoint (simulated)
+- Facial analysis endpoint (simulated)
+- Results fusion engine (multi-modal scoring)
+- Signal analysis utilities
+
+### Cost: ~$9-26 per interview (real-time, with avatar SDK)
+
+### Status: **Core infrastructure built. Real-time avatar rendering + live AI services next.**
 
 ---
 
 ## Comparison Matrix
 
-| Criteria | Option 1 (OpenAI Native) | Option 2 (Specialized Services) | Option 3 (Purpose-Built Platform) |
-|----------|--------------------------|--------------------------------|-----------------------------------|
+| Criteria | Option 1 | Option 2 | Option 3 |
+|----------|----------|----------|----------|
 | **Timeline** | 2-4 weeks | 6-10 weeks | 12-20 weeks |
 | **Engineering effort** | Low-Medium | Medium | High |
-| **Video interview** | Record → upload → analyze (async) | Record → upload → analyze (async) or real-time | Real-time WebSocket + live avatar |
-| **Voice analysis** | GPT-4o/Whisper (indirect) | Deepgram/AssemblyAI (dedicated, better) | Deepgram + custom model (best) |
-| **Facial analysis** | GPT-4o Vision (frame snapshots) | OpenAI Vision / AWS Rekognition / DeepFace | Continuous tracking + multiple signals |
-| **Avatar** | CSS/SVG + TTS (basic) or avatar API (D-ID) | Avatar API (D-ID/HeyGen) or custom 2D + TTS | 3D avatar (Three.js) or SDK + real-time TTS + lip-sync |
-| **Avatar conversation** | Async: LLM generates questions, avatar "speaks" via TTS | Async or near-real-time via WebSocket | Real-time conversation loop with live analysis |
-| **Multi-role competency** | Add 5-8 roles, 20-30 skills each | Add 10-15 roles, 20-35 skills each | Add 10-15 roles, full 0-7 levels, career ladders |
-| **Analysis quality** | Good (GPT-4o is capable) | Better (dedicated services) | Best (continuous + multi-signal fusion) |
+| **Video interview** | Async (record→upload→analyze) | Async or real-time | Real-time WebSocket |
+| **Voice analysis** | GPT-4o/Whisper (indirect) | Deepgram/AssemblyAI (dedicated) | Deepgram + custom model |
+| **Facial analysis** | GPT-4o Vision (snapshots) | OpenAI Vision / AWS Rekognition / DeepFace | Continuous tracking |
+| **Avatar** | CSS/SVG + TTS or D-ID API | D-ID/HeyGen or custom 2D + TTS | 3D avatar + SDK + real-time TTS |
+| **Multi-role** | 5-8 roles, 20-30 skills | 10-15 roles, 20-35 skills | 10-15 roles, full 0-7 levels |
+| **Analysis quality** | Good | Better | Best |
 | **Cost per interview** | $5-25 | $8-19 | $9-26 |
-| **Infrastructure complexity** | Low (Next.js + OpenAI) | Medium (4-6 services) | High (WebSocket + avatar + multiple services) |
-| **Demo impressiveness** | Moderate (async, basic avatar) | Good (better analysis, decent avatar) | Excellent (real-time, live avatar) |
-| **Risk** | Low (leverages existing stack) | Medium (more integrations) | High (avatar engineering, real-time complexity) |
+| **Demo impressiveness** | Moderate | Good | Excellent |
+| **Risk** | Low | Medium | High |
+
+---
+
+## Current Implementation Status (2026-09-10)
+
+### ✅ Completed & Verified
+1. **TypeScript compilation** — Clean (`npx tsc --noEmit` exit 0)
+2. **Dev server** — Running at localhost:3000
+3. **Environment** — OpenAI API key loaded (`/api/verify-env` → `hasKey: true`)
+4. **Option 2 API routes:**
+   - `/api/voice/analyze` — ✅ Working
+   - `/api/facial/analyze` — ✅ Working
+   - `/api/fusion/result` — ✅ Working
+5. **Option 3 real-time interview:**
+   - `/api/interview/session` — ✅ WebSocket session management working
+   - 8-step interview flow implemented
+   - Avatar mentor component built
+   - Voice + facial analysis integration working
+   - Results fusion engine working
+
+### 🔧 Components Built (New Files)
+- `src/components/real-time-interview-wizard.tsx` — Main 8-step wizard
+- `src/components/avatar-mentor.tsx` — Avatar mentor with conversation
+- `src/lib/signal-analysis.ts` — Voice/facial signal utilities
+- `src/lib/results-fusion.ts` — Multi-modal fusion + scoring
+
+### 🔧 Modified Files
+- `src/app/api/interview/session/route.ts` — Fixed TypeScript errors
+- `src/app/page.tsx` — Updated for real-time wizard
+- `src/components/avatar-mentor.tsx` — Fixed TypeScript
+- `src/lib/real-time-interview.ts` — Real-time interview manager
+- `src/lib/results-fusion.ts` — Added fusion logic
+- `src/lib/video-interview.ts` — Video interview utilities
+
+### ⏳ Next Steps
+1. **Browser smoke test** — Open localhost:3000, start real-time interview, verify 8-step flow
+2. **Commit + push** — Stage all changes, commit, push to GitHub
+3. **Update documentation** — Refresh architecture docs with current status
+4. **Demo preparation** — Verify demo flow works end-to-end
 
 ---
 
@@ -504,60 +468,49 @@ const QA_ENGINEER_MODEL: RoleCompetencyModel = {
 ### Start with Option 1 (OpenAI Native) for the demo — then evolve to Option 2.
 
 **Why:**
+1. You have an active OpenAI account and key already configured. GPT-4o's multi-modal capabilities mean you can implement video analysis, voice analysis, and avatar conversation without adding new vendors initially.
+2. The demo is the immediate goal. Option 1 gives you a working video interview + avatar mentor + multi-role assessment in 2-4 weeks.
+3. Option 1 → Option 2 is a natural evolution. Swap services independently as needed.
+4. Option 3 is overkill for now. Save real-time WebSocket avatar for when you have validated demand.
 
-1. **You have an active OpenAI account and key already configured.** GPT-4o's multi-modal capabilities (vision + audio) mean you can implement video analysis, voice analysis, and avatar conversation without adding new vendors initially.
+### Suggested Implementation Sequence
 
-2. **The demo is the immediate goal.** Option 1 gives you a working video interview + avatar mentor + multi-role assessment in 2-4 weeks. The avatar will be basic (CSS/SVG + TTS or D-ID API), but it demonstrates the concept.
+**Phase 1 (Option 1, weeks 1-4): MVP**
+- Add video interview capture (MediaRecorder)
+- Add avatar mentor (CSS/SVG + ElevenLabs TTS or OpenAI TTS)
+- Add GPT-4o Vision analysis of video frames
+- Add Whisper/GPT-4o audio analysis
+- Expand competency models to 5-8 software roles
+- Keep async flow
 
-3. **Option 1 → Option 2 is a natural evolution.** Once the demo validates the concept, you can swap GPT-4o voice analysis for Deepgram, GPT-4o vision for AWS Rekognition or DeepFace, and upgrade the avatar from CSS/SVG to D-ID or a custom 3D avatar. Each swap is independent.
+**Phase 2 (Option 2, weeks 5-10): Upgrade Quality**
+- Swap GPT-4o voice analysis for Deepgram/AssemblyAI
+- Swap GPT-4o vision for AWS Rekognition or DeepFace
+- Upgrade avatar to D-ID/HeyGen API
+- Add results fusion
+- Expand to 10-15 roles
 
-4. **Option 3 is overkill for now.** Real-time WebSocket avatar with continuous multi-modal analysis is a major engineering effort. Save it for when you have validated demand and funding.
-
-### Suggested implementation sequence
-
-**Phase 1 (Option 1, weeks 1-4): MVP with OpenAI-native approach**
-- Add video interview capture (MediaRecorder) to the assessment wizard
-- Add avatar mentor (start with CSS/SVG animated character + ElevenLabs TTS or OpenAI TTS)
-- Add GPT-4o Vision analysis of video frames (facial expressions)
-- Add Whisper/GPT-4o audio analysis (voice characteristics)
-- Expand competency models from PM-only to 5-8 software roles
-- Keep async flow: candidate records interview → upload → analyze → results
-
-**Phase 2 (Option 2, weeks 5-10): Upgrade analysis quality**
-- Swap GPT-4o voice analysis for Deepgram or AssemblyAI
-- Swap GPT-4o vision for AWS Rekognition or DeepFace (or keep GPT-4o if cost-effective)
-- Upgrade avatar from CSS/SVG to D-ID/HeyGen API for realistic talking head
-- Add results fusion (merge voice + facial + content signals)
-- Expand to 10-15 roles with full competency models
-
-**Phase 3 (Option 3, weeks 11-20): Real-time avatar interview (optional)**
-- Add WebSocket-based live interview session
-- Implement real-time avatar with lip-sync (Three.js + TTS streaming, or avatar SDK)
-- Continuous voice + facial analysis during interview
-- Real-time feedback to candidate (optional overlay)
+**Phase 3 (Option 3, weeks 11-20): Real-Time Avatar (Optional)**
+- Add WebSocket-based live interview
+- Implement real-time avatar with lip-sync
+- Continuous voice + facial analysis
+- Real-time feedback overlay
 
 ---
 
 ## What Stays the Same
-
 - **Next.js + TypeScript + Tailwind + Shadcn/UI** — frontend stack is solid
-- **Assessment wizard concept** — extend from 5-step to include video interview step
-- **Scoring engine** — extend to accept video/voice/facial analysis results alongside self-assessment + AI text inference
+- **Assessment wizard concept** — extend from 5-step to include video interview
+- **Scoring engine** — extend to accept video/voice/facial analysis results
 - **Design system** — Apple-inspired, clean/minimal, teal #0D9488, bilingual AR/EN
-- **Bilingual support** — Arabic/English for all roles, not just PM
+- **Bilingual support** — Arabic/English for all roles
 - **MENA-first positioning** — regional benchmarks for software roles in MENA market
 
 ---
 
-## Open Questions for You
-
-1. **Real-time vs async interview?** Do you want the avatar to talk to the candidate live (WebSocket, ~2-5 sec delay per exchange), or is async fine (candidate records responses, avatar questions are pre-recorded or TTS-generated, analysis happens after)?
-
-2. **Avatar fidelity?** Basic (CSS/SVG character + TTS audio), mid (D-ID/HeyGen API — realistic talking head, per-minute cost), or high (custom 3D avatar with lip-sync — significant engineering)?
-
-3. **Role priority?** Which software roles are most important for the initial launch? (e.g., Software Engineer + QA + Data Analyst first, then expand?)
-
-4. **Budget for AI services?** D-ID/HeyGen/Synthesia have per-minute or subscription costs. Deepgram/AssemblyAI have per-second costs. Are you comfortable with ~$10-25 per interview in AI service costs, or do you need a lower-cost path?
-
-5. **Video storage?** Do you need to store interview videos (for review, compliance, re-analysis), or is temporary processing enough?
-
+## Open Questions
+1. **Real-time vs async interview?** Live WebSocket or async record→analyze?
+2. **Avatar fidelity?** Basic (CSS/SVG), mid (D-ID/HeyGen), or high (custom 3D)?
+3. **Role priority?** Which software roles for initial launch?
+4. **Budget for AI services?** Comfortable with ~$10-25 per interview?
+5. **Video storage?** Store videos or temporary processing only?

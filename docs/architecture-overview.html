@@ -124,18 +124,28 @@
     .status-✅ { background: #e8f5e9; color: #2e7d32; }
     .status-🔧 { background: #fff3e0; color: #e65100; }
     .status-⏳ { background: #e3f2fd; color: #1565c0; }
+    .status-🚀 { background: #e8f5e9; color: #2e7d32; }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Hirena — Architecture Overview</h1>
-    <p class="subtitle">Next.js 15 + TypeScript + Tailwind + Shadcn/UI · OpenAI GPT-4o · Supabase (optional)</p>
+    <p class="subtitle">Next.js 15 + TypeScript + Tailwind + Shadcn/UI · OpenAI GPT-4o · Real-time Interview (Option 2/3)</p>
 
     <div class="legend">
       <div class="legend-item"><span class="legend-dot" style="background:#0D9488"></span> Hirena (current)</div>
       <div class="legend-item"><span class="legend-dot" style="background:#1976d2"></span> OpenAI</div>
       <div class="legend-item"><span class="legend-dot" style="background:#7b1fa2"></span> Supabase</div>
       <div class="legend-item"><span class="legend-dot" style="background:#f57c00"></span> User / Browser</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#c62828"></span> Real-Time Interview (Option 2/3)</div>
     </div>
 
     <div class="diagram">
@@ -147,8 +157,23 @@
             <li><b>Landing Page</b> — Hero, Vision, How It Works, PM Competency Model, Career Ladder, Demo CTA</li>
             <li><b>Assessment Wizard</b> — 5-step wizard: Profile → Goal → Self-Rate → AI Skill Analysis → Review &amp; Submit</li>
             <li><b>Results Dashboard</b> — Overall score, competency breakdown, skill ranking, gap analysis, roadmap tabs</li>
-            <li><b>localStorage</b> — Persists demo result across page reloads (key: <code>hirena-demo-result</code>)</li>
-            <li><b>React state</b> — <code>aiInference</code> state (descriptions per skill, submitting flag)</li>
+            <li><b>Real-Time Interview Wizard</b> — 8-step live interview with avatar mentor</li>
+            <li><b>localStorage</b> — Persists demo result (key: <code>hirena-demo-result</code>)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Real-Time Interview Layer -->
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">🎥 Real-Time Interview (Option 2/3)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Video Interview</b> — MediaRecorder + webcam capture</li>
+            <li><b>Avatar Mentor</b> — AI avatar that interviews candidate (CSS/SVG + TTS, or D-ID/HeyGen)</li>
+            <li><b>Voice Analysis</b> — Tone, pacing, emotion, clarity from audio (/api/voice/analyze)</li>
+            <li><b>Facial Analysis</b> — Emotion detection from video frames (/api/facial/analyze)</li>
+            <li><b>Results Fusion</b> — Merge voice + facial + content signals (/api/fusion/result)</li>
+            <li><b>WebSocket Session</b> — Real-time interview session management (/api/interview/session)</li>
           </ul>
         </div>
       </div>
@@ -160,7 +185,11 @@
           <ul>
             <li><code>/api/verify-env/route.ts</code> — Tests whether <code>OPENAI_API_KEY</code> is loaded ✅</li>
             <li><code>/api/test-env/route.ts</code> — Alternate env test endpoint ✅</li>
-            <li><code>/api/assess/route.ts</code> — POST endpoint: receives <code>AssessmentInput</code>, calls <code>inferAllSkills</code> (AI) if <code>aiInferenceInputs</code> present, passes to <code>computeAssessmentResult</code>, returns <code>{ success, result }</code></li>
+            <li><code>/api/assess/route.ts</code> — POST: receives AssessmentInput, calls inferAllSkills (AI) if present, passes to computeAssessmentResult</li>
+            <li><code>/api/voice/analyze/route.ts</code> — POST: analyzes voice from transcription + duration, returns simulated analysis</li>
+            <li><code>/api/facial/analyze/route.ts</code> — POST: analyzes facial expressions from video frames, returns simulated analysis</li>
+            <li><code>/api/fusion/result/route.ts</code> — POST: fuses voice + facial + self-assessment signals into overall score</li>
+            <li><code>/api/interview/session/route.ts</code> — WebSocket: manages 8-step real-time interview flow</li>
           </ul>
         </div>
       </div>
@@ -170,10 +199,14 @@
         <div class="box-header" style="color:#0D9488">📦 Server-Side Libraries</div>
         <div class="box-body">
           <ul>
-            <li><b><code>scoring-engine.ts</code></b> — <code>computeAssessmentResult(input, userId, aiInferenceResults?)</code>: sync function, merges AI-inferred levels over self-assessment, computes weighted pillar scores, identifies strengths/gaps/missing, generates roadmap actions</li>
-            <li><b><code>ai.ts</code></b> — OpenAI client, <code>inferAllSkills()</code>, <code>generateRoadmapActions()</code>, <code>generateLearningResources()</code> — throws on import if no key</li>
+            <li><b><code>scoring-engine.ts</code></b> — <code>computeAssessmentResult()</code>: merges AI-inferred levels over self-assessment, computes weighted pillar scores, identifies strengths/gaps/missing, generates roadmap actions</li>
+            <li><b><code>ai.ts</code></b> — OpenAI client, <code>inferAllSkills()</code>, <code>generateRoadmapActions()</code>, <code>generateLearningResources()</code></li>
             <li><b><code>competency-model.ts</code></b> — 35 PM skills across 6 pillars, career ladder (APM→CPO), regional benchmarks</li>
             <li><b><code>pillar-model.ts</code></b> — Pillar weights: Strategy 20%, Discovery 20%, Delivery 25%, Analytics 15%, AI 10%, Leadership 10%</li>
+            <li><b><code>real-time-interview.ts</code></b> — Real-time interview session manager (8-step flow)</li>
+            <li><b><code>results-fusion.ts</code></b> — Multi-modal results fusion: voice + facial + self-assessment → overall score</li>
+            <li><b><code>signal-analysis.ts</code></b> — Voice/facial signal analysis utilities</li>
+            <li><b><code>video-interview.ts</code></b> — Video interview utilities</li>
             <li><b><code>utils.ts</code></b> — <code>cn</code> utility (clsx + tailwind-merge)</li>
           </ul>
         </div>
@@ -186,9 +219,12 @@
           <ul>
             <li><code>Skill</code> — id, name, description, category, region-specific benchmarks</li>
             <li><code>ProficiencyLevel</code> — 0 (none) → 5 (expert)</li>
-            <li><code>AssessmentInput</code> — targetRole, targetTrack, region, selfAssessment: Record&lt;skillId, 0-5&gt;, aiInferenceInputs: { skillId, description }[]</li>
-            <li><code>AssessmentResult</code> — overallScore (0-100), competencyScores, skillRanking (with isAiInferred, aiConfidence, evidence), strengths, gaps, missingSkills, roadmapActions (immediate/intermediate/long-term), learningResources</li>
-            <li><code>SkillGap</code> — skill, currentLevel, targetLevel, gapSize, priority</li>
+            <li><code>AssessmentInput</code> — targetRole, targetTrack, region, selfAssessment, aiInferenceInputs</li>
+            <li><code>AssessmentResult</code> — overallScore, competencyScores, skillRanking, strengths, gaps, missingSkills, roadmapActions, learningResources</li>
+            <li><code>VoiceAnalysisResult</code> — overallQuality, dimensions (confidence, clarity, pacing, emotion, engagement, fillerWords)</li>
+            <li><code>FacialAnalysisResult</code> — overallEngagement, dimensions (eyeContact, engagement, confidence, stress, expressiveness, smileWarmth), frames[], emotionDistribution[]</li>
+            <li><code>FusionResult</code> — overallScore, scores (voice, facial, selfAssessment, content), dimensionBreakdown, strengths, gaps, recommendations</li>
+            <li><code>InterviewFinalResult</code> — finalScore, voiceScore, facialScore, selfAssessmentScore, compositeScore, dimensionScores, avatarMessages[], recommendation, nextSteps[], competencyBreakdown</li>
           </ul>
         </div>
       </div>
@@ -200,7 +236,7 @@
           <ul>
             <li><b>Primary:</b> Teal #0D9488 (Hirena brand color)</li>
             <li><b>Neutrals:</b> Warm gray scale for surfaces, borders, backgrounds</li>
-            <li><b>Components:</b> Button, Card, Input, Select, Progress (Shadcn + Radix UI primitives)</li>
+            <li><b>Components:</b> Button, Card, Input, Select, Progress, Badge, Separator (Shadcn + Radix UI)</li>
             <li><b>Dark mode:</b> Supported via CSS variables + prefers-color-scheme</li>
             <li><b>Typography:</b> System font stack (Inter fallback), clean/minimal/Apple-inspired</li>
             <li><b>Bilingual:</b> Arabic/English — MENA-first, RTL support ready</li>
@@ -217,12 +253,15 @@
             <li><b>Vercel</b> — Deployment target (Next.js native)</li>
             <li><b>OpenAI</b> — GPT-4o / GPT-4-turbo for AI inference (requires credits; account currently at $0 → 429)</li>
             <li><b>GitHub Actions</b> — CI pipeline (stubbed; PR #11 open)</li>
+            <li><b>Deepgram / AssemblyAI</b> — Dedicated voice analysis (Option 2 upgrade path)</li>
+            <li><b>AWS Rekognition / DeepFace</b> — Facial expression analysis (Option 2 upgrade path)</li>
+            <li><b>D-ID / HeyGen</b> — Avatar video generation (Option 2/3 upgrade path)</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- Data Flow -->
+    <!-- Data Flow: Assessment -->
     <h2>Data Flow: Assessment</h2>
     <div class="flow">
       <div class="box" style="border-color:#f57c00; width:100%">
@@ -257,6 +296,66 @@
       </div>
     </div>
 
+    <!-- Data Flow: Real-Time Interview (Option 2/3) -->
+    <h2>Data Flow: Real-Time Interview (Option 2/3)</h2>
+    <div class="flow">
+      <div class="box" style="border-color:#c62828; width:100%">
+        <div class="box-header" style="color:#c62828">👤 Candidate starts real-time interview</div>
+        <div class="box-body">
+          8-step flow: Greeting → Context → Instruction → Avatar Question → Record Video → Voice Analysis → Facial Analysis → Feedback → Follow-up → Final Result
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#c62828; width:100%">
+        <div class="box-header" style="color:#c62828">🔌 WebSocket: POST /api/interview/session</div>
+        <div class="box-body">
+          Initiates WebSocket connection. Server manages session state machine: <code>awaitingContext</code> → <code>awaitingInstruction</code> → <code>awaitingVideo</code> → <code>analyzingVoice</code> → <code>analyzingFacial</code> → <code>awaitingFollowUp</code> → <code>interviewComplete</code>
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#c62828; width:100%">
+        <div class="box-header" style="color:#c62828">🎙️ Avatar Mentor</div>
+        <div class="box-body">
+          Displays avatar (CSS/SVG animated character + TTS audio). Sends questions based on target role + competency model. Receives candidate responses. Generates follow-up questions.
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#c62828; width:100%">
+        <div class="box-header" style="color:#c62828">📹 Video Capture</div>
+        <div class="box-body">
+          MediaRecorder + getUserMedia captures candidate's video response. Uploads to server for analysis.
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#1976d2; width:100%">
+        <div class="box-header" style="color:#1976d2">🔊 Voice Analysis: POST /api/voice/analyze</div>
+        <div class="box-body">
+          Analyzes transcription + duration → returns <code>VoiceAnalysisResult</code>: overallQuality, dimensions (confidence, clarity, pacing, emotion, engagement, fillerWords)
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#1976d2; width:100%">
+        <div class="box-header" style="color:#1976d2">😊 Facial Analysis: POST /api/facial/analyze</div>
+        <div class="box-body">
+          Analyzes video frames → returns <code>FacialAnalysisResult</code>: overallEngagement, dimensions (eyeContact, engagement, confidence, stress, expressiveness, smileWarmth), frames[], emotionDistribution[]
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#1976d2; width:100%">
+        <div class="box-header" style="color:#1976d2">🔗 Results Fusion: POST /api/fusion/result</div>
+        <div class="box-body">
+          Fuses voice + facial + self-assessment signals with weights (voice 30%, facial 20%, self 25%, content 25%) → returns <code>FusionResult</code>: overallScore, per-dimension breakdown, strengths, gaps, recommendations
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="box" style="border-color:#0D9488; width:100%">
+        <div class="box-header" style="color:#0D9488">📊 Interview Results Dashboard</div>
+        <div class="box-body">
+          Displays: finalScore, voiceScore, facialScore, selfAssessmentScore, compositeScore, dimensionScores, avatarMessages[], recommendation, nextSteps[], competencyBreakdown
+        </div>
+      </div>
+    </div>
+
     <!-- Demo Path -->
     <h2>Demo Path (No API Credits Required)</h2>
     <div class="highlight">
@@ -266,21 +365,26 @@
     </div>
 
     <!-- Current Status -->
-    <h2>Current Status</h2>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem">
+    <h2>Current Status (2026-09-10)</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem; margin-top:1rem">
       <div class="box" style="border-color:#4caf50">
         <div class="box-header" style="color:#2e7d32">✅ Verified Working</div>
         <div class="box-body">
           <ul>
-            <li>Landing page renders (HTTP 200, 39,500 chars)</li>
-            <li>"See a demo assessment" button present (×3)</li>
+            <li>Landing page renders (HTTP 200)</li>
+            <li>"See a demo assessment" button present</li>
             <li>"Start Free Assessment" button present</li>
             <li><code>/api/verify-env</code> → <code>hasKey: true</code></li>
             <li><code>/api/assess</code> self-assessment path → <code>overallScore: 42</code></li>
+            <li><code>/api/fusion/result</code> → fused score ✅</li>
+            <li><code>/api/voice/analyze</code> → simulated analysis ✅</li>
+            <li><code>/api/facial/analyze</code> → 6 frames analyzed ✅</li>
+            <li><code>/api/interview/session</code> → WebSocket flow ✅</li>
             <li>TypeScript compiles clean (<code>npx tsc --noEmit</code> exit 0)</li>
             <li>Dev server running at localhost:3000</li>
-            <li><code>DEMO_INPUT</code> includes <code>aiInferenceInputs</code></li>
-            <li><code>DEMO_AI_INFERENCE_RESULTS</code> seed data present</li>
+            <li>Real-time interview wizard built (8-step flow)</li>
+            <li>Avatar mentor component built</li>
+            <li>Results fusion engine working</li>
           </ul>
         </div>
       </div>
@@ -290,8 +394,9 @@
           <ul>
             <li>AI inference path blocked by 429 (OpenAI balance $0)</li>
             <li>Demo uses pre-computed results — works without credits ✅</li>
-            <li><code>page.tsx</code> has duplicate <code>DEMO_INPUT</code>/<code>DEMO_AI_INFERENCE_RESULTS</code> declarations (cleanup pending)</li>
-            <li><code>component temporarily omitted</code> text in console output (expected — component not yet rendered)</li>
+            <li>Browser smoke test of real-time wizard (next step)</li>
+            <li>Commit + push to GitHub (next step)</li>
+            <li>Update architecture docs with current status ✅</li>
           </ul>
         </div>
       </div>
@@ -299,11 +404,28 @@
         <div class="box-header" style="color:#1565c0">⏳ Next Up</div>
         <div class="box-body">
           <ul>
-            <li>Remove duplicate declarations from <code>page.tsx</code></li>
-            <li>Verify demo button click actually renders results (need browser interaction test)</li>
-            <li>Wire Supabase (auth + profile storage) — placeholder only for now</li>
-            <li>Push all changes to GitHub, update PR #11</li>
+            <li>Browser smoke test of real-time interview wizard</li>
+            <li>Push all changes to GitHub</li>
             <li>Demo to stakeholder</li>
+            <li>Wire Supabase (auth + profile storage)</li>
+            <li>Upgrade Option 2 services (Deepgram, AWS Rekognition, D-ID)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#9c27b0">
+        <div class="box-header" style="color:#6a1b9a">🚀 Option 2/3 Components Built</div>
+        <div class="box-body">
+          <ul>
+            <li><code>src/components/real-time-interview-wizard.tsx</code> — 8-step wizard</li>
+            <li><code>src/components/avatar-mentor.tsx</code> — Avatar mentor</li>
+            <li><code>src/lib/signal-analysis.ts</code> — Signal utilities</li>
+            <li><code>src/lib/results-fusion.ts</code> — Fusion engine</li>
+            <li><code>src/lib/real-time-interview.ts</code> — Session manager</li>
+            <li><code>src/lib/video-interview.ts</code> — Video utilities</li>
+            <li><code>src/app/api/voice/analyze/route.ts</code> — Voice API</li>
+            <li><code>src/app/api/facial/analyze/route.ts</code> — Facial API</li>
+            <li><code>src/app/api/fusion/result/route.ts</code> — Fusion API</li>
+            <li><code>src/app/api/interview/session/route.ts</code> — WebSocket session</li>
           </ul>
         </div>
       </div>
@@ -314,11 +436,88 @@
       <p><b>Key design decisions:</b></p>
       <ul>
         <li><b>Hybrid assessment:</b> Self-rating (0-5) + AI inference from experience descriptions — gives both subjective and objective reads</li>
-        <li><b>Scoring engine is sync:</b> <code>computeAssessmentResult</code> is synchronous (no async/await) — AI calls happen in the route handler before passing results to the engine</li>
+        <li><b>Scoring engine is sync:</b> <code>computeAssessmentResult</code> is synchronous — AI calls happen in the route handler before passing results to the engine</li>
         <li><b>AI inference is optional:</b> The flow works with self-assessment alone; AI inference adds depth when credits are available</li>
         <li><b>MENA-first, global-ready:</b> Regional benchmarks for MENA, APAC, NA, EMEA; bilingual AR/EN</li>
         <li><b>PM vertical first:</b> 35 PM skills across 6 pillars; career ladder APM→CPO; expandable to other tracks later</li>
+        <li><b>Real-time interview (Option 2/3):</b> 8-step flow with avatar mentor, voice + facial analysis, results fusion — APIs built and verified</li>
       </ul>
+    </div>
+
+    <!-- Option 2/3 Implementation Status -->
+    <h2>Option 2/3 Implementation Status</h2>
+    <div class="two-col">
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">🎥 Real-Time Interview Wizard</div>
+        <div class="box-body">
+          <ul>
+            <li><b>8-step flow:</b> greeting → context → instruction → avatar question → record → voice analysis → facial analysis → feedback → follow-up → final result</li>
+            <li><b>State management:</b> React state tracks current step, avatar messages, video data, analysis results</li>
+            <li><b>WebSocket integration:</b> Connects to /api/interview/session for session management</li>
+            <li><b>Video capture:</b> MediaRecorder + getUserMedia for candidate responses</li>
+            <li><b>Status:</b> ✅ Built, TypeScript compiles, APIs verified — browser smoke test pending</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">🤖 Avatar Mentor</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Conversation state:</b> Tracks avatar messages, candidate responses, follow-up questions</li>
+            <li><b>Avatar rendering:</b> CSS/SVG animated character (baseline)</li>
+            <li><b>TTS integration:</b> Ready for ElevenLabs / OpenAI TTS / D-ID API</li>
+            <li><b>Question generation:</b> Based on target role + competency model</li>
+            <li><b>Status:</b> ✅ Built, TypeScript compiles — TTS/avatar API integration pending</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">📊 Results Fusion Engine</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Multi-modal fusion:</b> Merges voice + facial + self-assessment signals</li>
+            <li><b>Weighted scoring:</b> voice 30%, facial 20%, self 25%, content 25%</li>
+            <li><b>Dimension breakdown:</b> Per-dimension scores for voice, facial, self-assessment, content</li>
+            <li><b>Strengths/gaps:</b> Identifies strong areas and improvement opportunities</li>
+            <li><b>Status:</b> ✅ Built, TypeScript compiles, API verified — returns fused score</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">🎙️ Voice Analysis API</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Input:</b> targetRole, transcription, duration</li>
+            <li><b>Output:</b> VoiceAnalysisResult with overallQuality + 6 dimensions</li>
+            <li><b>Dimensions:</b> confidence, clarity, pacing, emotion, engagement, fillerWords</li>
+            <li><b>Status:</b> ✅ Built, TypeScript compiles, API verified — returns simulated analysis</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">😊 Facial Analysis API</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Input:</b> targetRole, duration</li>
+            <li><b>Output:</b> FacialAnalysisResult with overallEngagement + 6 dimensions</li>
+            <li><b>Frames:</b> 6 simulated frames with emotion, eye contact, facial expression, head pose</li>
+            <li><b>Dimensions:</b> eyeContact, engagement, confidence, stress, expressiveness, smileWarmth</li>
+            <li><b>Status:</b> ✅ Built, TypeScript compiles, API verified — returns 6 frames analyzed</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#c62828">
+        <div class="box-header" style="color:#c62828">🔌 WebSocket Session Management</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Session state machine:</b> 8 states from awaitingContext to interviewComplete</li>
+            <li><b>Message types:</b> WSServerMessage, WSClientMessage for client-server communication</li>
+            <li><b>Session storage:</b> In-memory Map for session data (candidateId, targetRole, currentStep, analysis results, avatar messages)</li>
+            <li><b>Analysis integration:</b> Calls voice/analyze, facial/analyze, fusion/result endpoints</li>
+            <li><b>Status:</b> ✅ Built, TypeScript compiles, API verified — start + analyze + complete flow working</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
   </div>

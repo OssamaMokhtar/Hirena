@@ -152,7 +152,7 @@ export function fuseResults(input: FusionInput): FusionResult {
   const signalBreakdown: FusionResult["signalBreakdown"] = {
     voice: { overall: 0, dimensions: { confidence: 0, clarity: 0, pacing: 0, enthusiasm: 0, fillerWords: 0, emotion: 0 }, weight: FUSION_WEIGHTS.voice },
     facial: { overall: 0, dimensions: { eyeContact: 0, engagement: 0, confidence: 0, stress: 0, expressiveness: 0, smileWarmth: 0 }, weight: FUSION_WEIGHTS.facial },
-    content: { overall: 0, dimensions: { technicalAccuracy: 0, depthOfKnowledge: 0, communicationClarity: 0, problemSolvingApproach: 0, confidenceSignals: 0, engagement: 0 }, weight: FUSION_WEIGHTS.content },
+    content: { overall: 0, dimensions: { technicalAccuracy: 0, depthOfKnowledge: 0, communicationClarity: 0, problemSolvingApproach: 0, confidenceSignals: 0, engagement: 0, overallImpression: "" }, weight: FUSION_WEIGHTS.content },
     selfAssessment: { overall: 0, weight: FUSION_WEIGHTS.selfAssessment },
   };
 
@@ -171,7 +171,7 @@ export function fuseResults(input: FusionInput): FusionResult {
     // Set confidences
     dimensionConfidences.communicationClarity = Math.max(
       dimensionConfidences.communicationClarity || 0,
-      v.dimensions.clarity * 0.8
+      v.dimensions.clarity ?? 0,
     );
     dimensionConfidences.confidenceSignals = Math.max(
       dimensionConfidences.confidenceSignals || 0,

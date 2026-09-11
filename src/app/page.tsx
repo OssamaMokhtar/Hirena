@@ -7,7 +7,7 @@ import type { AssessmentInput } from "@/types";
 import { computeAssessmentResult } from "@/lib/scoring-engine";
 import { AssessmentWizard } from "@/components/assessment-wizard";
 import { ResultsDashboard } from "@/components/results-dashboard";
-import { InterviewWizard } from "@/components/interview-wizard";
+import { RealTimeInterviewWizard } from "@/components/real-time-interview-wizard";
 import { SOFTWARE_ROLES } from "@/lib/software-competency-model";
 
 // Pre-computed demo assessment — realistic self-ratings across all 6 pillars
@@ -206,7 +206,7 @@ export default function Home() {
         ) : showVideoInterview && interviewResult ? (
           <ResultsDashboard result={interviewResult} />
         ) : showVideoInterview ? (
-          <InterviewWizard
+          <RealTimeInterviewWizard
             targetRole={selectedRole}
             onComplete={setInterviewResult}
             onCancel={() => setShowVideoInterview(false)}

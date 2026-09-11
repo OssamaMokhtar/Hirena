@@ -1,12 +1,7 @@
-import type { SkillCategory } from "@/types";
-import type { ProficiencyLevel } from "@/types";
-
 // ─── Content Analysis (from video interview) ────────────────────────────────
 // This re-exports the analysis shape used by the interview wizard.
 // In Option 2, this lives alongside voice/facial analysis as one of the
 // three signals fused by results-fusion.ts.
-
-import type { ProficiencyLevel } from "@/types";
 
 export interface ContentAnalysisResult {
   // LLM-derived assessment of the answer's substance

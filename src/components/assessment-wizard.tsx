@@ -112,6 +112,8 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
       case 3:
         return "Assess Your Skills";
       case 4:
+        return "AI Skill Analysis";
+      case 5:
         return "Review & Submit";
       default:
         return "";
@@ -127,7 +129,9 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
       case 3:
         return "Rate your proficiency in key PM skills. Be honest — this is for you.";
       case 4:
-        return "Review your assessment and let AI analyze your skills.";
+        return "Describe your experience for key skills and let AI analyze your proficiency.";
+      case 5:
+        return "Review your assessment summary and submit to get your results.";
       default:
         return "";
     }

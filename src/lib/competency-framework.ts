@@ -337,3 +337,20 @@ export function getMaxLevelForRole(role: string): number {
 export function roleExists(role: string): boolean {
   return SOFTWARE_ROLE_SUMMARY.some((r) => r.role === role);
 }
+
+/** Get the skill tree for a role (imported from software-competency-model.ts) */
+export {
+  SOFTWARE_ROLES,
+  getRoleSkills,
+} from "./software-competency-model";
+
+/** Get level range for a role (junior to senior) */
+export function getRoleLevelRange(role: string): { junior: number; senior: number } {
+  return { junior: 0, senior: 5 };
+}
+
+/** Get expected proficiency levels for a role's career ladder steps */
+export function getRoleExpectedLevels(role: string): Record<string, number> {
+  // This is a simplified version — real implementation would load from role-specific model
+  return {};
+}

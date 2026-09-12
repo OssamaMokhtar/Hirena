@@ -38,6 +38,10 @@ interface StepState {
     region: string;
   };
   assessment: Record<string, ProficiencyLevel>;
+  aiInferenceInputs: Array<{
+    skillId: string;
+    description: string;
+  }>;
 }
 
 const initialState: StepState = {
@@ -57,6 +61,7 @@ const initialState: StepState = {
     region: "MENA",
   },
   assessment: {},
+  aiInferenceInputs: [],
 };
 
 interface AssessmentWizardProps {
@@ -106,9 +111,9 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
   const getStepTitle = () => {
     switch (state.step) {
       case 1:
-        return "Create Your Profile";
+        return "Tell Us About Yourself";
       case 2:
-        return "Set Your Career Goal";
+        return "Define Your Career Goal";
       case 3:
         return "Assess Your Skills";
       case 4:
@@ -116,53 +121,77 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
       case 5:
         return "Review & Submit";
       default:
-        return "";
+        return "Hirena";
     }
   };
 
   const getStepDescription = () => {
     switch (state.step) {
       case 1:
-        return "Tell us about yourself so we can personalize your assessment.";
+        return "Tell us about yourself and your role to get started.";
       case 2:
-        return "Choose your target role and region to benchmark against the right market.";
+        return "Tell us about your career aspirations so we can personalize the assessment.";
       case 3:
-        return "Rate your proficiency in key PM skills. Be honest — this is for you.";
+        return "Rate your proficiency in each skill honestly.";
       case 4:
-        return "Describe your experience for key skills and let AI analyze your proficiency.";
+        return "Describe your experience with key skills for AI-powered analysis.";
       case 5:
-        return "Review your assessment summary and submit to get your results.";
+        return "Review your assessment before submitting.";
       default:
         return "";
     }
   };
 
-  // Group skills by category
-  const skillsByCategory = React.useMemo(() => {
-    const grouped: Partial<Record<SkillCategory, Record<string, Skill>>> = {
-      strategy: {},
-      discovery: {},
-      delivery: {},
-      analytics: {},
-      ai: {},
-      leadership: {},
-    };
+  const submitAssessment = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const apiPayload = {
+        targetRole: "Product Manager",
+        targetTrack: "product-management",
+        region: state.goal.region,
+        selfAssessment: Object.fromEntries(
+          Object.entries(state.assessment).map(([skillId, level]) => [skillId, level])
+        ),
+        aiInferenceInputs: state.aiInferenceInputs.length > 0 ? state.aiInferenceInputs : undefined,
+      };
 
-    Object.entries(PM_SKILLS).forEach(([id, skill]) => {
-      const cat = skill.category as SkillCategory;
-      if (!grouped[cat]) grouped[cat] = {};
-      grouped[cat]![id] = skill;
-    });
+      const response = await fetch("/api/assess", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiPayload),
+      });
 
-    return grouped;
-  }, []);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Assessment submission failed");
+      }
+
+      const data = await response.json();
+
+      if (onComplete) {
+        onComplete({
+          ...state,
+          overallScore: data.result.overallScore,
+          competencyScores: data.result.competencyScores,
+          strengths: data.result.strengths,
+          gaps: data.result.gaps,
+          missingSkills: data.result.missingSkills,
+          roadmap: data.result.roadmap,
+        });
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Step 1: Profile
   if (state.step === 1) {
     return (
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-2xl px-4 py-12">
-          {/* Header */}
           <div className="mb-8 text-center">
             <div className="mb-4 flex items-center justify-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
@@ -174,7 +203,6 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
             <p className="mt-2 text-foreground-muted">{getStepDescription()}</p>
           </div>
 
-          {/* Progress */}
           <div className="mb-8">
             <div className="flex items-center justify-center gap-2">
               {[1, 2, 3, 4, 5].map((s) => (
@@ -195,7 +223,6 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
             </div>
           </div>
 
-          {/* Form */}
           <div className="space-y-6">
             <Input
               label="Full Name"
@@ -280,7 +307,6 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
             )}
           </div>
 
-          {/* Navigation */}
           <div className="mt-8 flex justify-end">
             <Button onClick={nextStep} disabled={!state.profile.name || !state.profile.email || !state.profile.currentRole}>
               Continue
@@ -492,7 +518,16 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
 
           {/* Skill Assessment Grid */}
           <div className="space-y-6">
-            {Object.entries(skillsByCategory).map(([category, skills]) => (
+            {Object.entries(
+              Object.entries(PM_SKILLS).reduce((acc, [skillId, skill]) => {
+                const category = skill.category;
+                if (!acc[category]) {
+                  acc[category] = [];
+                }
+                acc[category].push({ skillId, skill });
+                return acc;
+              }, {} as Record<string, Array<{ skillId: string; skill: Skill }>>)
+            ).map(([category, skills]) => (
               <div key={category} className="rounded-lg border border-border bg-surface p-5">
                 <h3 className="text-base font-semibold text-foreground capitalize">
                   {category}
@@ -501,7 +536,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
                   Rate your proficiency in each skill (0 = no exposure, 5 = expert)
                 </p>
                 <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {Object.entries(skills).map(([skillId, skill]) => {
+                  {skills.map(({ skillId, skill }) => {
                     const currentLevel = state.assessment[skillId] || 0;
 
                     return (
@@ -552,6 +587,134 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
             ))}
           </div>
 
+          {error && (
+            <div className="mt-8 rounded-lg border border-error/50 bg-error/10 p-3 text-sm text-error">
+              {error}
+            </div>
+          )}
+
+          <div className="mt-8 flex justify-between">
+            <Button variant="ghost" onClick={prevStep}>
+              Back
+            </Button>
+            <Button onClick={nextStep}>
+              Continue to AI Analysis
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 4: AI Skill Analysis
+  if (state.step === 4) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="mx-auto max-w-3xl px-4 py-12">
+          <div className="mb-8 text-center">
+            <div className="mb-4 flex items-center justify-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
+                <span className="text-xl font-bold text-primary-foreground">H</span>
+              </div>
+              <h1 className="text-2xl font-bold text-foreground">Hirena</h1>
+            </div>
+            <h2 className="text-xl font-semibold text-foreground">{getStepTitle()}</h2>
+            <p className="mt-2 text-foreground-muted">{getStepDescription()}</p>
+          </div>
+
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-2">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <React.Fragment key={s}>
+                  <div
+                    className={cn(
+                      "h-2 w-8 rounded-full transition-all duration-300",
+                      s === state.step
+                        ? "bg-primary"
+                        : s < state.step
+                        ? "bg-primary/50"
+                        : "bg-border"
+                    )}
+                  />
+                  {s < 4 && <div className="h-2 w-2" />}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-accent/50 bg-accent/10 p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <div className="mt-1 text-accent">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-foreground">AI-Powered Skill Inference</h3>
+                <p className="mt-1 text-sm text-foreground-muted">
+                  Describe your experience with these key skills. Our AI will analyze your descriptions and infer your proficiency levels, providing a more accurate assessment than self-rating alone.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {[
+              {
+                skillId: "product-strategy",
+                question: "Describe a product strategy you developed or contributed to. What was the market need, your approach, and what was the outcome?",
+                placeholder: "e.g. I led the product strategy for a B2B SaaS platform serving the healthcare industry. We identified an underserved segment...",
+              },
+              {
+                skillId: "customer-discovery",
+                question: "Tell us about a time you conducted customer research or user interviews. What did you learn and how did it influence the product?",
+                placeholder: "e.g. I conducted 15 user interviews with HR managers to understand their pain points with existing onboarding tools...",
+              },
+              {
+                skillId: "product-execution",
+                question: "Describe a complex product you delivered from conception to launch. What was your role, key decisions, and results?",
+                placeholder: "e.g. I owned the end-to-end delivery of a mobile app feature that increased user engagement by 40%...",
+              },
+              {
+                skillId: "stakeholder-management",
+                question: "Give an example of how you managed conflicting stakeholder priorities or communicated a difficult product decision.",
+                placeholder: "e.g. I had to align engineering, design, and business stakeholders on a pivot from feature X to feature Y...",
+              },
+              {
+                skillId: "data-driven-decision-making",
+                question: "Describe a time you used data or analytics to make a product decision. What metrics did you track and what was the impact?",
+                placeholder: "e.g. I analyzed user funnel data and identified a 60% drop-off at onboarding, leading to a redesign that improved conversion by 25%...",
+              },
+            ].map((item, index) => (
+              <div key={item.skillId} className="space-y-3">
+                <label className="text-sm font-medium text-foreground">
+                  {index + 1}. {item.question}
+                </label>
+                <textarea
+                  value={state.aiInferenceInputs.find(i => i.skillId === item.skillId)?.description || ""}
+                  onChange={(e) => {
+                    const existingIndex = state.aiInferenceInputs.findIndex(i => i.skillId === item.skillId);
+                    const newInputs = [...state.aiInferenceInputs];
+                    if (existingIndex >= 0) {
+                      newInputs[existingIndex] = { ...newInputs[existingIndex], description: e.target.value };
+                    } else {
+                      newInputs.push({ skillId: item.skillId, description: e.target.value });
+                    }
+                    setState((prev) => ({ ...prev, aiInferenceInputs: newInputs }));
+                  }}
+                  placeholder={item.placeholder}
+                  className="flex min-h-[120px] w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-foreground-subtle shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                />
+              </div>
+            ))}
+          </div>
+
+          {error && (
+            <div className="mt-6 rounded-lg border border-error/50 bg-error/10 p-3 text-sm text-error">
+              {error}
+            </div>
+          )}
+
           <div className="mt-8 flex justify-between">
             <Button variant="ghost" onClick={prevStep}>
               Back
@@ -565,11 +728,10 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
     );
   }
 
-  const submitAssessment = async () => {
+  const submitAssessmentReal = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Build the API request payload
       const apiPayload = {
         targetRole: "Product Manager",
         targetTrack: "product-management",
@@ -577,7 +739,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
         selfAssessment: Object.fromEntries(
           Object.entries(state.assessment).map(([skillId, level]) => [skillId, level])
         ),
-        aiInferenceInputs: [], // Will be populated when AI Skill Analysis step is added
+        aiInferenceInputs: state.aiInferenceInputs.length > 0 ? state.aiInferenceInputs : undefined,
       };
 
       const response = await fetch("/api/assess", {
@@ -611,8 +773,8 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
     }
   };
 
-  // Step 4: Review & Submit
-  if (state.step === 4) {
+  // Step 5: Review & Submit
+  if (state.step === 5) {
     const totalSkills = Object.keys(PM_SKILLS).length;
     const assessedSkills = Object.values(state.assessment).filter((l) => l > 0).length;
 
@@ -664,7 +826,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
               </div>
 
               <div className="rounded-lg border border-border bg-surface p-5">
-                <div className="text-sm text-foreground-muted">Target</div>
+                <div className="text-sm text-foreground-muted">Target Role</div>
                 <div className="mt-1 text-lg font-semibold text-foreground">
                   {state.goal.targetRole || "—"}
                 </div>
@@ -675,33 +837,24 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
             </div>
 
             <div className="rounded-lg border border-border bg-surface p-5">
-              <h3 className="text-base font-semibold text-foreground">
-                Assessment Summary
-              </h3>
-              <div className="mt-4 grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-foreground">
-                    {totalSkills}
-                  </div>
+              <div className="flex items-center justify-between">
+                <div>
                   <div className="text-sm text-foreground-muted">Skills Assessed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">
-                    {assessedSkills}
+                  <div className="mt-1 text-2xl font-bold text-foreground">
+                    {assessedSkills} / {totalSkills}
                   </div>
-                  <div className="text-sm text-foreground-muted">Rated</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-accent">
-                    {totalSkills - assessedSkills}
+                <div className="text-right">
+                  <div className="text-sm text-foreground-muted">AI Analysis</div>
+                  <div className="mt-1 text-lg font-semibold text-foreground">
+                    {state.aiInferenceInputs.length} / 5 inputs
                   </div>
-                  <div className="text-sm text-foreground-muted">Not Rated</div>
                 </div>
               </div>
             </div>
 
             {error && (
-              <div className="rounded-lg border border-error/50 bg-error/10 p-3 text-sm text-error">
+              <div className="mt-6 rounded-lg border border-error/50 bg-error/10 p-3 text-sm text-error">
                 {error}
               </div>
             )}

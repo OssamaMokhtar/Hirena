@@ -19,7 +19,7 @@ import {
   REGIONAL_BENCHMARKS,
   PM_SKILLS,
 } from "@/lib/competency-model";
-import type { ProficiencyLevel, SkillCategory } from "@/types";
+import type { ProficiencyLevel, SkillCategory, Skill } from "@/types";
 
 interface StepState {
   step: number;
@@ -135,7 +135,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
 
   // Group skills by category
   const skillsByCategory = React.useMemo(() => {
-    const grouped: Partial<Record<SkillCategory, typeof PM_SKILLS>> = {
+    const grouped: Partial<Record<SkillCategory, Record<string, Skill>>> = {
       strategy: {},
       discovery: {},
       delivery: {},
@@ -145,8 +145,9 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
     };
 
     Object.entries(PM_SKILLS).forEach(([id, skill]) => {
-      if (!grouped[skill.category]) grouped[skill.category] = {};
-      grouped[skill.category]![id] = skill;
+      const cat = skill.category as SkillCategory;
+      if (!grouped[cat]) grouped[cat] = {};
+      grouped[cat]![id] = skill;
     });
 
     return grouped;

@@ -5,140 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hirena Architecture Overview</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      color: var(--foreground, #1a1a1a);
-      background: var(--card, #fafafa);
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    h1 {
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      color: var(--muted-foreground, #666);
-      margin-bottom: 2rem;
-    }
-    .legend {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-    }
-    .legend-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .diagram {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    @media (max-width: 640px) {
-      .diagram { grid-template-columns: 1fr; }
-    }
-    .box {
-      border: 2px solid var(--border, #e0e0e0);
-      border-radius: 12px;
-      padding: 16px;
-      background: var(--card, #fff);
-      transition: box-shadow 0.2s;
-    }
-    .box:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .box-header {
-      font-weight: 600;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border, #e0e0e0);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .box-body {
-      font-size: 0.875rem;
-      color: var(--muted-foreground, #555);
-    }
-    .box-body ul {
-      list-style: none;
-      padding: 0;
-    }
-    .box-body li {
-      padding: 0.25rem 0;
-      border-bottom: 1px solid var(--border, #eee);
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; color: var(--foreground, #1a1a1a); background: var(--card, #fafafa); line-height: 1.6; }
+    .container { max-width: 960px; margin: 0 auto; padding: 24px; }
+    h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.25rem; margin: 2rem 0 1rem; color: var(--muted-foreground, #555); border-bottom: 1px solid var(--border, #e0e0e0); padding-bottom: 0.5rem; }
+    .subtitle { color: var(--muted-foreground, #666); margin-bottom: 2rem; }
+    .legend { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .diagram { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    @media (max-width: 640px) { .diagram { grid-template-columns: 1fr; } }
+    .box { border: 2px solid var(--border, #e0e0e0); border-radius: 12px; padding: 16px; background: var(--card, #fff); transition: box-shadow 0.2s; }
+    .box:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .box-header { font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border, #e0e0e0); display: flex; align-items: center; gap: 0.5rem; }
+    .box-body { font-size: 0.875rem; color: var(--muted-foreground, #555); }
+    .box-body ul { list-style: none; padding: 0; }
+    .box-body li { padding: 0.25rem 0; border-bottom: 1px solid var(--border, #eee); }
     .box-body li:last-child { border-bottom: none; }
-    .flow-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.5rem 0;
-      color: var(--muted-foreground, #888);
-      font-size: 1.25rem;
-    }
-    .flow {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-    }
-    .highlight {
-      background: var(--accent, #e8f5e9);
-      border-left: 3px solid var(--accent, #4caf50);
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 999px;
-      font-weight: 500;
-    }
-    .status-✅ { background: #e8f5e9; color: #2e7d32; }
-    .status-🔧 { background: #fff3e0; color: #e65100; }
-    .status-⏳ { background: #e3f2fd; color: #1565c0; }
-    .status-🚀 { background: #e8f5e9; color: #2e7d32; }
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    @media (max-width: 640px) {
-      .two-col { grid-template-columns: 1fr; }
-    }
+    .flow-arrow { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem 0; color: var(--muted-foreground, #888); font-size: 1.25rem; }
+    .flow { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+    .highlight { background: var(--accent, #e8f5e9); border-left: 3px solid var(--accent, #4caf50); padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+    code { background: rgba(0,0,0,0.05); padding: 0.1rem 0.3rem; border-radius: 4px; font-size: 0.8em; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Hirena — Architecture Overview</h1>
-    <p class="subtitle">Next.js 15 + TypeScript + Tailwind + Shadcn/UI · OpenAI GPT-4o · Real-time Interview (Option 2/3)</p>
+    <p class="subtitle">Next.js 15 + TypeScript + Tailwind + Shadcn/UI · OpenAI GPT-4o · Real-time Interview (Option 2/3) · Multi-Role Competency Models (5 built, 9 in roadmap)</p>
 
     <div class="legend">
       <div class="legend-item"><span class="legend-dot" style="background:#0D9488"></span> Hirena (current)</div>
@@ -146,10 +42,10 @@
       <div class="legend-item"><span class="legend-dot" style="background:#7b1fa2"></span> Supabase</div>
       <div class="legend-item"><span class="legend-dot" style="background:#f57c00"></span> User / Browser</div>
       <div class="legend-item"><span class="legend-dot" style="background:#c62828"></span> Real-Time Interview (Option 2/3)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#2e7d32"></span> Multi-Role Competency Models</div>
     </div>
 
     <div class="diagram">
-      <!-- Client Layer -->
       <div class="box" style="border-color:#0D9488">
         <div class="box-header" style="color:#0D9488">🖥️ Client (Browser)</div>
         <div class="box-body">
@@ -162,65 +58,68 @@
           </ul>
         </div>
       </div>
-
-      <!-- Real-Time Interview Layer -->
       <div class="box" style="border-color:#c62828">
         <div class="box-header" style="color:#c62828">🎥 Real-Time Interview (Option 2/3)</div>
         <div class="box-body">
           <ul>
             <li><b>Video Interview</b> — MediaRecorder + webcam capture</li>
             <li><b>Avatar Mentor</b> — AI avatar that interviews candidate (CSS/SVG + TTS, or D-ID/HeyGen)</li>
-            <li><b>Voice Analysis</b> — Tone, pacing, emotion, clarity from audio (/api/voice/analyze)</li>
-            <li><b>Facial Analysis</b> — Emotion detection from video frames (/api/facial/analyze)</li>
-            <li><b>Results Fusion</b> — Merge voice + facial + content signals (/api/fusion/result)</li>
-            <li><b>WebSocket Session</b> — Real-time interview session management (/api/interview/session)</li>
+            <li><b>Voice Analysis</b> — Tone, pacing, emotion, clarity from audio (/api/voice/analyze) ✅</li>
+            <li><b>Facial Analysis</b> — Emotion detection from video frames (/api/facial/analyze) ✅</li>
+            <li><b>Results Fusion</b> — Merge voice + facial + content signals (/api/fusion/result) ✅</li>
+            <li><b>WebSocket Session</b> — Real-time interview session management (/api/interview/session) ✅</li>
           </ul>
         </div>
       </div>
-
-      <!-- API Layer -->
+      <div class="box" style="border-color:#2e7d32">
+        <div class="box-header" style="color:#2e7d32">📐 Multi-Role Competency Models</div>
+        <div class="box-body">
+          <ul>
+            <li><b>5 Models Built:</b> Software Engineer (38 skills, 8 pillars), Frontend Engineer (36 skills, 8 pillars), Backend Engineer (31 skills, 9 pillars), Full-Stack Engineer (37 skills, 10 pillars), QA Engineer (29 skills, 7 pillars)</li>
+            <li><b>9 Models in Roadmap:</b> DevOps Engineer, Data Analyst, Data Engineer, UX/UI Designer, Engineering Manager, Tech Lead, Scrum Master, Business Analyst, Software Architect</li>
+            <li><b>Total Target:</b> 14+ roles, 250+ skills, 4-10 pillars per role, career ladders (Junior→Principal/Manager)</li>
+            <li><b>Scoring Engine:</b> <code>computeAssessmentResult()</code> merges AI-inferred levels over self-assessment</li>
+          </ul>
+        </div>
+      </div>
       <div class="box" style="border-color:#1976d2">
         <div class="box-header" style="color:#1976d2">⚡ API Routes (Next.js App Router)</div>
         <div class="box-body">
           <ul>
             <li><code>/api/verify-env/route.ts</code> — Tests whether <code>OPENAI_API_KEY</code> is loaded ✅</li>
-            <li><code>/api/test-env/route.ts</code> — Alternate env test endpoint ✅</li>
             <li><code>/api/assess/route.ts</code> — POST: receives AssessmentInput, calls inferAllSkills (AI) if present, passes to computeAssessmentResult</li>
-            <li><code>/api/voice/analyze/route.ts</code> — POST: analyzes voice from transcription + duration, returns simulated analysis</li>
-            <li><code>/api/facial/analyze/route.ts</code> — POST: analyzes facial expressions from video frames, returns simulated analysis</li>
-            <li><code>/api/fusion/result/route.ts</code> — POST: fuses voice + facial + self-assessment signals into overall score</li>
-            <li><code>/api/interview/session/route.ts</code> — WebSocket: manages 8-step real-time interview flow</li>
+            <li><code>/api/voice/analyze/route.ts</code> — POST: analyzes voice from transcription + duration, returns simulated analysis ✅</li>
+            <li><code>/api/facial/analyze/route.ts</code> — POST: analyzes facial expressions from video frames, returns simulated analysis ✅</li>
+            <li><code>/api/fusion/result/route.ts</code> — POST: fuses voice + facial + self-assessment signals into overall score ✅</li>
+            <li><code>/api/interview/session/route.ts</code> — WebSocket: manages 8-step real-time interview flow ✅</li>
           </ul>
         </div>
       </div>
-
-      <!-- Library Layer -->
       <div class="box" style="border-color:#0D9488">
         <div class="box-header" style="color:#0D9488">📦 Server-Side Libraries</div>
         <div class="box-body">
           <ul>
             <li><b><code>scoring-engine.ts</code></b> — <code>computeAssessmentResult()</code>: merges AI-inferred levels over self-assessment, computes weighted pillar scores, identifies strengths/gaps/missing, generates roadmap actions</li>
-            <li><b><code>ai.ts</code></b> — OpenAI client, <code>inferAllSkills()</code>, <code>generateRoadmapActions()</code>, <code>generateLearningResources()</code></li>
             <li><b><code>competency-model.ts</code></b> — 35 PM skills across 6 pillars, career ladder (APM→CPO), regional benchmarks</li>
-            <li><b><code>pillar-model.ts</code></b> — Pillar weights: Strategy 20%, Discovery 20%, Delivery 25%, Analytics 15%, AI 10%, Leadership 10%</li>
+            <li><b><code>competency-models/</code></b> — 5 role directories: software-engineer, frontend-engineer, backend-engineer, full-stack-engineer, qa-engineer. Each: SKILLS, COMPETENCY_AREAS, LEVELS, CAREER_LADDER, SKILL_COUNT, PILLAR_COUNT</li>
             <li><b><code>real-time-interview.ts</code></b> — Real-time interview session manager (8-step flow)</li>
             <li><b><code>results-fusion.ts</code></b> — Multi-modal results fusion: voice + facial + self-assessment → overall score</li>
             <li><b><code>signal-analysis.ts</code></b> — Voice/facial signal analysis utilities</li>
             <li><b><code>video-interview.ts</code></b> — Video interview utilities</li>
-            <li><b><code>utils.ts</code></b> — <code>cn</code> utility (clsx + tailwind-merge)</li>
           </ul>
         </div>
       </div>
-
-      <!-- Data Models -->
       <div class="box" style="border-color:#0D9488">
         <div class="box-header" style="color:#0D9488">📐 Types &amp; Data Models</div>
         <div class="box-body">
           <ul>
-            <li><code>Skill</code> — id, name, description, category, region-specific benchmarks</li>
-            <li><code>ProficiencyLevel</code> — 0 (none) → 5 (expert)</li>
+            <li><code>Skill</code> — id, name, description, category (string, 46 categories), level (0-7), evidence, aiConfidence, isAiInferred</li>
+            <li><code>CompetencyArea</code> — id, name, description, skills (string[]), weight (0-100)</li>
+            <li><code>ProficiencyLevel</code> — 0 (none) → 7 (authority)</li>
+            <li><code>CareerLadderStep</code> — title, minLevel, maxLevel (optional), expected (Record&lt;string,number&gt;), expectedProficiency (optional), description, typicalYearsOfExperience</li>
+            <li><code>RoleCompetencyModel</code> — role, roleName, track, description, skills (Record&lt;string,Skill&gt;), pillars[], competencyAreas[], levels[], careerLadder[], expectedLevels, totalSkills, region</li>
             <li><code>AssessmentInput</code> — targetRole, targetTrack, region, selfAssessment, aiInferenceInputs</li>
-            <li><code>AssessmentResult</code> — overallScore, competencyScores, skillRanking, strengths, gaps, missingSkills, roadmapActions, learningResources</li>
+            <li><code>AssessmentResult</code> — overallScore, competencyScores (Record&lt;string,{average,skills}&gt;), skillRanking, strengths, gaps, missingSkills, aiInferenceNotes, createdAt, completedAt</li>
             <li><code>VoiceAnalysisResult</code> — overallQuality, dimensions (confidence, clarity, pacing, emotion, engagement, fillerWords)</li>
             <li><code>FacialAnalysisResult</code> — overallEngagement, dimensions (eyeContact, engagement, confidence, stress, expressiveness, smileWarmth), frames[], emotionDistribution[]</li>
             <li><code>FusionResult</code> — overallScore, scores (voice, facial, selfAssessment, content), dimensionBreakdown, strengths, gaps, recommendations</li>
@@ -228,8 +127,6 @@
           </ul>
         </div>
       </div>
-
-      <!-- Design System -->
       <div class="box" style="border-color:#0D9488">
         <div class="box-header" style="color:#0D9488">🎨 Design System (Shadcn + Custom)</div>
         <div class="box-body">
@@ -243,8 +140,6 @@
           </ul>
         </div>
       </div>
-
-      <!-- Infrastructure -->
       <div class="box" style="border-color:#7b1fa2">
         <div class="box-header" style="color:#7b1fa2">☁️ Infrastructure (Optional / Future)</div>
         <div class="box-body">
@@ -261,130 +156,72 @@
       </div>
     </div>
 
-    <!-- Data Flow: Assessment -->
     <h2>Data Flow: Assessment</h2>
     <div class="flow">
       <div class="box" style="border-color:#f57c00; width:100%">
         <div class="box-header" style="color:#f57c00">👤 User completes 5-step wizard</div>
-        <div class="box-body">
-          Step 1: Profile (role, experience, region) → Step 2: Goal (target role, track) → Step 3: Self-rate 35 skills (0-5) → Step 4: AI Skill Analysis (describe experience for rated skills) → Step 5: Review &amp; Submit
-        </div>
+        <div class="box-body">Step 1: Profile (role, experience, region) → Step 2: Goal (target role, track) → Step 3: Self-rate skills (0-7) → Step 4: AI Skill Analysis (describe experience for rated skills) → Step 5: Review &amp; Submit</div>
       </div>
       <div class="flow-arrow">⬇️</div>
       <div class="box" style="border-color:#1976d2; width:100%">
         <div class="box-header" style="color:#1976d2">📤 POST /api/assess</div>
-        <div class="box-body">
-          Body: <code>{ targetRole, targetTrack, region, selfAssessment: { skillId: level, ... }, aiInferenceInputs: [{ skillId, description }, ...] }</code>
-        </div>
+        <div class="box-body">Body: <code>{ targetRole, targetTrack, region, selfAssessment: { skillId: level, ... }, aiInferenceInputs: [{ skillId, description }, ...] }</code></div>
       </div>
       <div class="flow-arrow">⬇️</div>
       <div class="box" style="border-color:#0D9488; width:100%">
         <div class="box-header" style="color:#0D9488">⚙️ Route Handler</div>
-        <div class="box-body">
-          1. Validate input<br>
-          2. If <code>aiInferenceInputs</code> present → call <code>inferAllSkills()</code> (OpenAI GPT-4o) → returns <code>{ skillId: { level, confidence, reasoning } }</code><br>
-          3. Pass <code>input</code> + <code>aiInferenceResults</code> to <code>computeAssessmentResult()</code><br>
-          4. Scoring engine merges AI levels over self-assessment, computes weighted scores, identifies gaps/strengths/missing
-        </div>
+        <div class="box-body">1. Validate input<br>2. If <code>aiInferenceInputs</code> present → call <code>inferAllSkills()</code> (OpenAI GPT-4o) → returns <code>{ skillId: { level, confidence, reasoning } }</code><br>3. Pass <code>input</code> + <code>aiInferenceResults</code> to <code>computeAssessmentResult()</code><br>4. Scoring engine merges AI levels over self-assessment, computes weighted scores, identifies gaps/strengths/missing</div>
       </div>
       <div class="flow-arrow">⬇️</div>
       <div class="box" style="border-color:#0D9488; width:100%">
         <div class="box-header" style="color:#0D9488">📊 Results Dashboard</div>
-        <div class="box-body">
-          Displays: overallScore (0-100), 6 pillar scores with bars, 35-skill ranking (self vs AI-inferred highlighted), top gaps with priority, roadmap actions (immediate / intermediate / long-term), learning resources per gap
-        </div>
+        <div class="box-body">Displays: overallScore (0-100), competency area scores with bars, skill ranking (self vs AI-inferred highlighted), top gaps with priority, roadmap actions (immediate / intermediate / long-term), learning resources per gap</div>
       </div>
     </div>
 
-    <!-- Data Flow: Real-Time Interview (Option 2/3) -->
     <h2>Data Flow: Real-Time Interview (Option 2/3)</h2>
     <div class="flow">
-      <div class="box" style="border-color:#c62828; width:100%">
-        <div class="box-header" style="color:#c62828">👤 Candidate starts real-time interview</div>
-        <div class="box-body">
-          8-step flow: Greeting → Context → Instruction → Avatar Question → Record Video → Voice Analysis → Facial Analysis → Feedback → Follow-up → Final Result
-        </div>
-      </div>
+      <div class="box" style="border-color:#c62828; width:100%"><div class="box-header" style="color:#c62828">👤 Candidate starts real-time interview</div><div class="box-body">8-step flow: Greeting → Context → Instruction → Avatar Question → Record Video → Voice Analysis → Facial Analysis → Feedback → Follow-up → Final Result</div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#c62828; width:100%">
-        <div class="box-header" style="color:#c62828">🔌 WebSocket: POST /api/interview/session</div>
-        <div class="box-body">
-          Initiates WebSocket connection. Server manages session state machine: <code>awaitingContext</code> → <code>awaitingInstruction</code> → <code>awaitingVideo</code> → <code>analyzingVoice</code> → <code>analyzingFacial</code> → <code>awaitingFollowUp</code> → <code>interviewComplete</code>
-        </div>
-      </div>
+      <div class="box" style="border-color:#c62828; width:100%"><div class="box-header" style="color:#c62828">🔌 WebSocket: POST /api/interview/session</div><div class="box-body">Initiates WebSocket connection. Server manages session state machine: <code>awaitingContext</code> → <code>awaitingInstruction</code> → <code>awaitingVideo</code> → <code>analyzingVoice</code> → <code>analyzingFacial</code> → <code>awaitingFollowUp</code> → <code>interviewComplete</code></div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#c62828; width:100%">
-        <div class="box-header" style="color:#c62828">🎙️ Avatar Mentor</div>
-        <div class="box-body">
-          Displays avatar (CSS/SVG animated character + TTS audio). Sends questions based on target role + competency model. Receives candidate responses. Generates follow-up questions.
-        </div>
-      </div>
+      <div class="box" style="border-color:#c62828; width:100%"><div class="box-header" style="color:#c62828">🎙️ Avatar Mentor</div><div class="box-body">Displays avatar (CSS/SVG animated character + TTS audio). Sends questions based on target role + competency model. Receives candidate responses. Generates follow-up questions.</div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#c62828; width:100%">
-        <div class="box-header" style="color:#c62828">📹 Video Capture</div>
-        <div class="box-body">
-          MediaRecorder + getUserMedia captures candidate's video response. Uploads to server for analysis.
-        </div>
-      </div>
+      <div class="box" style="border-color:#c62828; width:100%"><div class="box-header" style="color:#c62828">📹 Video Capture</div><div class="box-body">MediaRecorder + getUserMedia captures candidate's video response. Uploads to server for analysis.</div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#1976d2; width:100%">
-        <div class="box-header" style="color:#1976d2">🔊 Voice Analysis: POST /api/voice/analyze</div>
-        <div class="box-body">
-          Analyzes transcription + duration → returns <code>VoiceAnalysisResult</code>: overallQuality, dimensions (confidence, clarity, pacing, emotion, engagement, fillerWords)
-        </div>
-      </div>
+      <div class="box" style="border-color:#1976d2; width:100%"><div class="box-header" style="color:#1976d2">🔊 Voice Analysis: POST /api/voice/analyze</div><div class="box-body">Analyzes transcription + duration → returns <code>VoiceAnalysisResult</code>: overallQuality, dimensions (confidence, clarity, pacing, emotion, engagement, fillerWords) ✅</div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#1976d2; width:100%">
-        <div class="box-header" style="color:#1976d2">😊 Facial Analysis: POST /api/facial/analyze</div>
-        <div class="box-body">
-          Analyzes video frames → returns <code>FacialAnalysisResult</code>: overallEngagement, dimensions (eyeContact, engagement, confidence, stress, expressiveness, smileWarmth), frames[], emotionDistribution[]
-        </div>
-      </div>
+      <div class="box" style="border-color:#1976d2; width:100%"><div class="box-header" style="color:#1976d2">😊 Facial Analysis: POST /api/facial/analyze</div><div class="box-body">Analyzes video frames → returns <code>FacialAnalysisResult</code>: overallEngagement, dimensions (eyeContact, engagement, confidence, stress, expressiveness, smileWarmth), frames[], emotionDistribution[] ✅</div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#1976d2; width:100%">
-        <div class="box-header" style="color:#1976d2">🔗 Results Fusion: POST /api/fusion/result</div>
-        <div class="box-body">
-          Fuses voice + facial + self-assessment signals with weights (voice 30%, facial 20%, self 25%, content 25%) → returns <code>FusionResult</code>: overallScore, per-dimension breakdown, strengths, gaps, recommendations
-        </div>
-      </div>
+      <div class="box" style="border-color:#1976d2; width:100%"><div class="box-header" style="color:#1976d2">🔗 Results Fusion: POST /api/fusion/result</div><div class="box-body">Fuses voice + facial + self-assessment signals with weights (voice 30%, facial 20%, self 25%, content 25%) → returns <code>FusionResult</code>: overallScore, per-dimension breakdown, strengths, gaps, recommendations ✅</div></div>
       <div class="flow-arrow">⬇️</div>
-      <div class="box" style="border-color:#0D9488; width:100%">
-        <div class="box-header" style="color:#0D9488">📊 Interview Results Dashboard</div>
-        <div class="box-body">
-          Displays: finalScore, voiceScore, facialScore, selfAssessmentScore, compositeScore, dimensionScores, avatarMessages[], recommendation, nextSteps[], competencyBreakdown
-        </div>
-      </div>
+      <div class="box" style="border-color:#0D9488; width:100%"><div class="box-header" style="color:#0D9488">📊 Interview Results Dashboard</div><div class="box-body">Displays: finalScore, voiceScore, facialScore, selfAssessmentScore, compositeScore, dimensionScores, avatarMessages[], recommendation, nextSteps[], competencyBreakdown</div></div>
     </div>
 
-    <!-- Demo Path -->
     <h2>Demo Path (No API Credits Required)</h2>
     <div class="highlight">
       <p><b>The demo bypasses the OpenAI API entirely.</b></p>
       <p><code>page.tsx</code> pre-computes a demo result at module load time using <code>computeAssessmentResult(DEMO_INPUT, "demo-user", DEMO_AI_INFERENCE_RESULTS)</code> where <code>DEMO_AI_INFERENCE_RESULTS</code> is seed data (not a real API call). The "See a demo assessment" button sets React state to this pre-computed result and renders the results dashboard. The result is persisted to <code>localStorage</code> (key: <code>hirena-demo-result</code>) so it survives page refresh.</p>
-      <p><b>Why this works without credits:</b> The OpenAI account balance is $0, which causes a 429 "You have no credits remaining" error when <code>inferAllSkills()</code> is called. The demo avoids this by using pre-computed AI inference results embedded in the page bundle. The real assessment path still works for self-assessment-only submissions (no <code>aiInferenceInputs</code>) — confirmed: <code>overallScore: 42</code> returned successfully.</p>
+      <p>Bypass leverages pre-computed seed data — OpenAI account balance is $0 which triggers 429 when <code>inferAllSkills()</code> runs. Real assessment path still works for self-assessment-only submissions (no <code>aiInferenceInputs</code>) — confirmed: <code>overallScore: 42</code> returned successfully.</p>
     </div>
 
-    <!-- Market Research & Competitive Positioning -->
     <h2>Market Research: HR Platforms & AI Features (2026)</h2>
     <div class="two-col">
       <div class="box" style="border-color:#6a1b9a">
         <div class="box-header" style="color:#6a1b9a">🌐 Market Context (2026)</div>
         <div class="box-body">
           <ul>
-            <li><b>Global HR Tech market:</b> ~$53B (Sapient Insights 2025-2026)</li>
-            <li><b>AI in HR:</b> Jumped from 12% (2023) to majority shipping AI as first-class feature (2026)</li>
-            <li><b>Buyer criteria (2026):</b> (1) AI capability depth, (2) integration with buyer's AI stack, (3) governance posture (bias auditing, EU AI Act, NYC AEDT, Colorado AI Act)</li>
-            <li><b>Key trend:</b> AI becomes default capability across every HR layer (not separate category)</li>
-            <li><b>Key trend:</b> Skill-based hiring replaces role-based hiring (AI evaluates against skill graphs, not job titles)</li>
-            <li><b>Key trend:</b> Agentic AI — autonomous agents for sourcing, matching, workforce planning (Eightfold 2025 framework)</li>
-            <li><b>Key trend:</b> HR tech consolidation — 200+ vendors → AI agent platforms (Workday, Rippling, Deel, ServiceNow, Microsoft Copilot for HR)</li>
-            <li><b>Key trend:</b> Regulation tightening — EU AI Act (fully applicable 2026) classifies hiring/firing/promotion as high-risk AI; NYC Local Law 144 bias audits; Colorado AI Act; EEOC guidance</li>
-            <li><b>Key trend:</b> Internal talent marketplaces replace 'tap on the shoulder' — Gloat, Fuel50, Eightfold match employees to gigs/projects/mentorships by skill</li>
+            <li><b>HR tech consolidation:</b> 200+ vendors → AI agent platforms (Workday, Rippling, Deel, ServiceNow, Microsoft Copilot for HR)</li>
+            <li><b>Skill-based hiring dominates:</b> AI evaluates against skill graphs, not job titles</li>
+            <li><b>Regulation tightening:</b> EU AI Act (fully applicable 2026) classifies hiring/promotion as high-risk; NYC Local Law 144 bias audits; Colorado AI Act</li>
+            <li><b>Agentic AI rise:</b> Autonomous agents for sourcing, matching, workforce planning</li>
+            <li><b>B2C gap:</b> Most players are B2B employer-facing; individual career development tools are fragmented</li>
+            <li><b>Key trends:</b> AI becomes default capability across every HR layer, internal talent marketplaces replace 'tap on the shoulder', HR tech consolidation accelerates</li>
           </ul>
         </div>
       </div>
       <div class="box" style="border-color:#6a1b9a">
-        <div class="box-header" style="color:#6a1b9a">🏆 Hirena Competitive Positioning (2026)</div>
+        <div class="box-header" style="color:#6a1b9a">🏆 Hirena Competitive Positioning</div>
         <div class="box-body">
           <ul>
             <li><b>Unique Value Proposition:</b> AI-powered skills assessment + career roadmap for MENA professionals — bilingual AR/EN, MENA-first regional benchmarks, software role competency models (10+ roles), hybrid self-assessment + AI inference, real-time interview practice with multi-modal analysis (voice + facial + content), avatar mentor, career roadmap with learning resources</li>
@@ -407,7 +244,7 @@
             <li><b>Facial analysis carries bias risk</b> — HireVue dropped it (2021), TestGorilla/Criteria Corp avoid it (transcript-only). Mitigation: disclaimer + optional/experimental toggle + bias documentation. Regulatory risk (EU AI Act, NYC AEDT, Colorado AI Act) if used for hiring decisions.</li>
             <li><b>No user accounts + persistent profiles yet</b> — current demo uses localStorage only. Critical infrastructure missing for product maturity (progress tracking, assessment history, retention).</li>
             <li><b>No real AI integration yet</b> — voice/facial/fusion APIs are simulated. Need OpenAI credits ($0 balance → 429) + GPT-4o Vision + Whisper integration for Option 1 to go live.</li>
-            <li><b>Multi-role competency models designed but not fully built</b> — 35 PM skills only, 10+ software roles designed but not implemented. Must build 250+ skills across 10+ roles to compete on comprehensiveness.</li>
+            <li><b>Multi-role competency models designed but not fully built</b> — 5 of 14+ roles implemented; 9 roles in roadmap (DevOps, Data Analyst, Data Engineer, UX/UI, Eng Manager, Tech Lead, Scrum Master, BA, Architect). Must build 250+ skills across 14+ roles to compete on comprehensiveness.</li>
             <li><b>Career roadmap is basic</b> — generated actions + learning resources only. Lacks: curated content library, mentor matching, career path visualization, progress tracking (competitors: Eightfold Career Hub, Gloat, Cornerstone, 360Learning, Workera, Sana have these).</li>
             <li><b>B2C freemium monetization unclear</b> — competitors are enterprise B2B (high-ticket: $50K-2M/yr). Individual B2C freemium model needs: (1) free tier, (2) premium tier, (3) B2B expansion. Revenue model TBD.</li>
             <li><b>No user base + no validation</b> — product is in development, no live users, no validation of value prop, no retention data. Need to launch + measure.</li>
@@ -438,7 +275,7 @@
           <ul>
             <li><b>Methodology:</b> Impact = (User Value × Differentiation × Market Fit) / (Effort × Risk). Scored 1-5 each.</li>
             <li><b>CRITICAL (Phase 1 — Before Demo):</b></li>
-            <li>1. <b>Multi-Role Competency Models</b> (10+ roles, 250+ skills) — Impact: 20/20. User Value: 5, Diff: 4, Market Fit: 5, Effort: 4, Risk: 2. Foundation for all assessment features. Without it: PM-only (narrow market). With it: all software professionals (large market). Competitors all have multi-role coverage.</li>
+            <li>1. <b>Multi-Role Competency Models</b> (10+ roles, 250+ skills) — Impact: 20/20. User Value: 5, Diff: 4, Market Fit: 5, Effort: 4, Risk: 2. Foundation for all assessment features. Without it: PM-only (narrow market). With it: all software professionals (large market). Competitors all have multi-role coverage. <b>STATUS: 5/14 built ✅, 9 in roadmap.</b></li>
             <li>2. <b>User Accounts + Persistent Profiles + Assessment History + Progress Tracking</b> — Impact: 15/20. User Value: 5, Diff: 3, Market Fit: 5, Effort: 4, Risk: 2. Without accounts: no progress tracking, no retention, no recurring value. Competitors (Eightfold, Gloat, Lattice) all have persistent profiles + history. Supabase auth placeholders exist but not wired.</li>
             <li>3. <b>Bias Mitigation + Compliance (Facial Analysis Risk + EU AI Act + NYC AEDT)</b> — Impact: 12/20 (risk-driven). User Value: 3, Diff: 4, Market Fit: 4, Effort: 3, Risk: 5. Facial analysis is highest-risk feature. HireVue dropped it. TestGorilla + Criteria Corp avoid it. EU AI Act classifies hiring/firing/promotion as high-risk AI (fully applicable 2026). Mitigation: disclaimer + optional/experimental toggle + bias documentation + voice/content as core.</li>
             <li><b>HIGH (Phase 1-2):</b></li>
@@ -499,8 +336,7 @@
       </div>
     </div>
 
-    <!-- Current Status -->
-    <h2>Current Status (2026-09-10)</h2>
+    <h2>Current Status (2026-09-11)</h2>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:1rem; margin-top:1rem">
       <div class="box" style="border-color:#4caf50">
         <div class="box-header" style="color:#2e7d32">✅ Verified Working</div>
@@ -516,10 +352,10 @@
             <li><code>/api/facial/analyze</code> → 6 frames analyzed ✅</li>
             <li><code>/api/interview/session</code> → WebSocket flow ✅</li>
             <li>TypeScript compiles clean (<code>npx tsc --noEmit</code> exit 0)</li>
-            <li>Dev server running at localhost:3000</li>
-            <li>Real-time interview wizard built (8-step flow)</li>
-            <li>Avatar mentor component built</li>
-            <li>Results fusion engine working</li>
+            <li>npm run build passes (production bundle)</li>
+            <li>Multi-role competency models: 5/14 built (Software Engineer, Frontend, Backend, Full-Stack, QA Engineer) with 78 pillars across 171 skills</li>
+            <li>Types fully aligned: SkillCategory (46 categories), CareerLadderStep, RoleCompetencyModel, CompetencyPillar all defined</li>
+            <li>competency-models/index.ts aggregates all 5 role models with expectedLevels per role</li>
           </ul>
         </div>
       </div>
@@ -529,9 +365,11 @@
           <ul>
             <li>AI inference path blocked by 429 (OpenAI balance $0)</li>
             <li>Demo uses pre-computed results — works without credits ✅</li>
-            <li>Browser smoke test of real-time wizard (next step)</li>
-            <li>Commit + push to GitHub (next step)</li>
-            <li>Update architecture docs with current status ✅</li>
+            <li>9 remaining role models in roadmap (DevOps, Data Analyst, Data Engineer, UX/UI, Eng Manager, Tech Lead, Scrum Master, BA, Architect)</li>
+            <li>User accounts + Supabase auth not wired yet</li>
+            <li>Career path visualization component not built</li>
+            <li>Progress tracking + skill trajectory not built</li>
+            <li>Learning content library + mentor matching not built</li>
           </ul>
         </div>
       </div>
@@ -543,6 +381,7 @@
             <li>Push all changes to GitHub</li>
             <li>Demo to stakeholder</li>
             <li>Wire Supabase (auth + profile storage)</li>
+            <li>Build remaining 9 role competency models</li>
             <li>Upgrade Option 2 services (Deepgram, AWS Rekognition, D-ID)</li>
           </ul>
         </div>
@@ -557,29 +396,29 @@
             <li><code>src/lib/results-fusion.ts</code> — Fusion engine</li>
             <li><code>src/lib/real-time-interview.ts</code> — Session manager</li>
             <li><code>src/lib/video-interview.ts</code> — Video utilities</li>
-            <li><code>src/app/api/voice/analyze/route.ts</code> — Voice API</li>
-            <li><code>src/app/api/facial/analyze/route.ts</code> — Facial API</li>
-            <li><code>src/app/api/fusion/result/route.ts</code> — Fusion API</li>
-            <li><code>src/app/api/interview/session/route.ts</code> — WebSocket session</li>
+            <li><code>src/app/api/voice/analyze/route.ts</code> — Voice API ✅</li>
+            <li><code>src/app/api/facial/analyze/route.ts</code> — Facial API ✅</li>
+            <li><code>src/app/api/fusion/result/route.ts</code> — Fusion API ✅</li>
+            <li><code>src/app/api/interview/session/route.ts</code> — WebSocket session ✅</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- Architecture note -->
     <div class="highlight" style="margin-top:1.5rem">
       <p><b>Key design decisions:</b></p>
       <ul>
-        <li><b>Hybrid assessment:</b> Self-rating (0-5) + AI inference from experience descriptions — gives both subjective and objective reads</li>
+        <li><b>Hybrid assessment:</b> Self-rating (0-7) + AI inference from experience descriptions — gives both subjective and objective reads</li>
         <li><b>Scoring engine is sync:</b> <code>computeAssessmentResult</code> is synchronous — AI calls happen in the route handler before passing results to the engine</li>
         <li><b>AI inference is optional:</b> The flow works with self-assessment alone; AI inference adds depth when credits are available</li>
         <li><b>MENA-first, global-ready:</b> Regional benchmarks for MENA, APAC, NA, EMEA; bilingual AR/EN</li>
         <li><b>PM vertical first:</b> 35 PM skills across 6 pillars; career ladder APM→CPO; expandable to other tracks later</li>
         <li><b>Real-time interview (Option 2/3):</b> 8-step flow with avatar mentor, voice + facial analysis, results fusion — APIs built and verified</li>
+        <li><b>Multi-role competency models:</b> 5 of 14+ roles built (171 skills, 78 pillars), 9 roles in active roadmap. Each role has SKILLS, COMPETENCY_AREAS, LEVELS (0-7), CAREER_LADDER (Junior→Principal/Manager), SKILL_COUNT, PILLAR_COUNT</li>
+        <li><b>Type system:</b> SkillCategory expanded to 46 categories; Skill.category is string (flexible); CompetencyArea.id is string; CareerLadderStep uses Record&lt;string,number&gt; for expected (flexible internal naming across roles)</li>
       </ul>
     </div>
 
-    <!-- Option 2/3 Implementation Status -->
     <h2>Option 2/3 Implementation Status</h2>
     <div class="two-col">
       <div class="box" style="border-color:#c62828">
@@ -653,8 +492,55 @@
           </ul>
         </div>
       </div>
+      <div class="box" style="border-color:#2e7d32">
+        <div class="box-header" style="color:#2e7d32">📐 Multi-Role Competency Models (Built)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>Software Engineer:</b> 38 skills, 8 pillars (Tech Foundation, Languages, DevOps Tools, Testing, Engineering Practices, Collaboration, Architecture, Data). Career ladder: Junior→Software Engineer→Senior→Lead→Principal→Engineering Manager→Director→VP→CTO. Levels: 0-7.</li>
+            <li><b>Frontend Engineer:</b> 36 skills, 8 pillars (Frontend Fundamentals, Frameworks/Libraries, CSS Styling, Web Essentials, Testing, Performance Optimization, Accessibility, Collaboration). Career ladder: Junior→Frontend Engineer→Senior→Lead→Principal→Architect→Engineering Manager→Director. Levels: 0-7.</li>
+            <li><b>Backend Engineer:</b> 31 skills, 9 pillars (Programming Languages, Databases, APIs, Testing, Infrastructure/DevOps, Security, System Design, Performance, Collaboration). Career ladder: Junior→Backend Engineer→Senior→Lead→Principal→Architect→Engineering Manager→Director. Levels: 0-7.</li>
+            <li><b>Full-Stack Engineer:</b> 37 skills, 10 pillars (Frontend Development, Backend Development, Databases/Data, Infrastructure/Deployment, Testing, Architecture/System Design, DevOps/CD, Security, Performance, Collaboration/Communication). Career ladder: Junior→Full-Stack→Senior→Lead→Principal→Architect→Engineering Manager→Director. Levels: 0-7.</li>
+            <li><b>QA Engineer:</b> 29 skills, 7 pillars (Testing Foundations, Test Automation, API Testing, Performance Testing, Security Testing, Test Management Tools, Process/Collaboration). Career ladder: Junior→QA Engineer→Senior→Lead→Principal→Architect→Engineering Manager→Director of Quality. Levels: 0-7.</li>
+            <li><b>commons:</b> All roles use compet-entryy structure: SKILLS (Record&lt;string,Skill&gt;), COMPETENCY_AREAS (CompetencyArea[]), LEVELS (ProficiencyLevel[]), CAREER_LADDER (CareerLadderStep[]), SKILL_COUNT, PILLAR_COUNT. Aggregated by src/lib/competency-models/index.ts.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box" style="border-color:#2e7d32">
+        <div class="box-header" style="color:#2e7d32">📐 Multi-Role Roadmap (9 Remaining)</div>
+        <div class="box-body">
+          <ul>
+            <li><b>DevOps Engineer:</b> Cloud platforms, CI/CD, containerization, infrastructure as code, monitoring, security. ~25-30 skills.</li>
+            <li><b>Data Analyst:</b> Statistics, SQL, data visualization, business intelligence, A/B testing. ~25-30 skills.</li>
+            <li><b>Data Engineer:</b> ETL/ELT, data pipelines, data warehousing, Spark, data modeling. ~25-30 skills.</li>
+            <li><b>UX/UI Designer:</b> User research, interaction design, visual design, prototyping, usability testing. ~20-25 skills.</li>
+            <li><b>Engineering Manager:</b> People management, technical leadership, project management, stakeholder management, hiring. ~20-25 skills.</li>
+            <li><b>Tech Lead:</b> Technical leadership, architecture decisions, code review, mentoring, cross-team coordination. ~20-25 skills.</li>
+            <li><b>Scrum Master:</b> Agile practices, facilitation, coaching, impediment removal, metrics. ~15-20 skills.</li>
+            <li><b>Business Analyst:</b> Requirements gathering, process modeling, stakeholder analysis, documentation, data analysis. ~20-25 skills.</li>
+            <li><b>Software Architect:</b> System design, architecture patterns, technology selection, scalability, security architecture. ~20-25 skills.</li>
+            <li><b>Total remaining:</b> ~200 skills across 9 roles. Combined with 5 built roles: ~370 skills across 14+ roles.</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
+    <h2>File Structure Summary</h2>
+    <div class="box" style="border-color:#0D9488">
+      <div class="box-header" style="color:#0D9488">📁 Key Files — Hirena Architecture</div>
+      <div class="box-body">
+        <ul>
+          <li><b>Types:</b> <code>src/types/index.ts</code> — SkillCategory (46 cats), Skill, CompetencyArea, ProficiencyLevel, CareerLadderStep, RoleCompetencyModel, CompetencyPillar, AssessmentResult, VoiceAnalysisResult, FacialAnalysisResult, FusionResult, InterviewFinalResult, AssessmentInput, ShareableReport, SkillGap, Roadmap, Resource, Profile, User, Mentor, MentorMatch, SalaryBenchmark, AiFeatureToggle, AiDisclaimer</li>
+          <li><b>Competency Models (Built):</b> <code>src/lib/competency-models/software-engineer.ts</code>, <code>frontend-engineer.ts</code>, <code>backend-engineer.ts</code>, <code>full-stack-engineer.ts</code>, <code>qa-engineer.ts</code> — Each exports SKILLS, COMPETENCY_AREAS, LEVELS, CAREER_LADDER, SKILL_COUNT, PILLAR_COUNT</li>
+          <li><b>Competency Models (Aggregator):</b> <code>src/lib/competency-models/index.ts</code> — ROLE_COMPETENCY_MODELS (Record&lt;string,RoleCompetencyModel&gt;), ROLE_SUMMARIES, getRoleModel(), getAllRoleIds(), getRoleSummary(), getAllRoles()</li>
+          <li><b>PM Model:</b> <code>src/lib/competency-model.ts</code> — PM_SKILLS (35 skills), COMPETENCY_AREAS (6 pillars), PM_CAREER_LADDER (APM→CPO), REGIONAL_BENCHMARKS, INDUSTRIES, REGIONS</li>
+          <li><b>Scoring:</b> <code>src/lib/scoring-engine.ts</code> — computeAssessmentResult(), getSkillsByCategory()</li>
+          <li><b>Real-time Interview:</b> <code>src/lib/real-time-interview.ts</code>, <code>src/lib/results-fusion.ts</code>, <code>src/lib/signal-analysis.ts</code>, <code>src/lib/video-interview.ts</code></li>
+          <li><b>API Routes:</b> <code>src/app/api/assess/route.ts</code>, <code>src/app/api/verify-env/route.ts</code>, <code>src/app/api/voice/analyze/route.ts</code>, <code>src/app/api/facial/analyze/route.ts</code>, <code>src/app/api/fusion/result/route.ts</code>, <code>src/app/api/interview/session/route.ts</code></li>
+          <li><b>Components:</b> <code>src/components/assessment-wizard.tsx</code>, <code>src/components/real-time-interview-wizard.tsx</code>, <code>src/components/avatar-mentor.tsx</code>, <code>src/components/results-dashboard.tsx</code></li>
+          <li><b>Docs:</b> <code>docs/architecture-overview.html</code> (this file), <code>docs/architecture-enhancement-options.md</code>, <code>README.md</code></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </body>
 </html>

@@ -78,8 +78,8 @@ export function computeAssessmentResult(
   const missingSkills: Skill[] = [];
 
   skills.forEach((skill) => {
-    const targetLevel = (expected[skill.category] || 2) as ProficiencyLevel;
-    const benchmark = benchmarks?.[skill.category]?.average || 2.5;
+    const targetLevel = (expected[skill.category as SkillCategory] || 2) as ProficiencyLevel;
+    const benchmark = benchmarks?.[skill.category as SkillCategory]?.average || 2.5;
     const gapSize = targetLevel - skill.level;
     if (gapSize <= -1) strengths.push(skill);
     else if (gapSize >= 3) missingSkills.push(skill);

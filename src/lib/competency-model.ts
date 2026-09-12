@@ -302,14 +302,15 @@ export const PM_SKILLS: Record<string, Skill> = {
 /**
  * Get all skills organized by category
  */
-export function getSkillsByCategory(): Record<SkillCategory, Skill[]> {
-  const result: Partial<Record<SkillCategory, Skill[]>> = {};
+export function getSkillsByCategory(): Record<string, Skill[]> {
+  const result: Partial<Record<string, Skill[]>> = {};
 
   Object.values(PM_SKILLS).forEach((skill) => {
-    if (!result[skill.category]) {
-      result[skill.category] = [];
+    const cat = skill.category;
+    if (!result[cat]) {
+      result[cat] = [];
     }
-    result[skill.category]!.push(skill);
+    result[cat]!.push(skill);
   });
 
   return result as Record<SkillCategory, Skill[]>;

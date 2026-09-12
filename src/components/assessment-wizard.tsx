@@ -68,7 +68,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const totalSteps = 4;
+  const totalSteps = 5;
 
   const updateProfile = (field: keyof StepState["profile"], value: string) => {
     setState((prev) => ({
@@ -173,7 +173,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
           {/* Progress */}
           <div className="mb-8">
             <div className="flex items-center justify-center gap-2">
-              {[1, 2, 3, 4].map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <React.Fragment key={s}>
                   <div
                     className={cn(
@@ -308,7 +308,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
 
           <div className="mb-8">
             <div className="flex items-center justify-center gap-2">
-              {[1, 2, 3, 4].map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <React.Fragment key={s}>
                   <div
                     className={cn(
@@ -468,7 +468,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
 
           <div className="mb-8">
             <div className="flex items-center justify-center gap-2">
-              {[1, 2, 3, 4].map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <React.Fragment key={s}>
                   <div
                     className={cn(
@@ -561,6 +561,52 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
     );
   }
 
+  const submitAssessment = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Build the API request payload
+      const apiPayload = {
+        targetRole: "Product Manager",
+        targetTrack: "product-management",
+        region: state.goal.region,
+        selfAssessment: Object.fromEntries(
+          Object.entries(state.assessment).map(([skillId, level]) => [skillId, level])
+        ),
+        aiInferenceInputs: [], // Will be populated when AI Skill Analysis step is added
+      };
+
+      const response = await fetch("/api/assess", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiPayload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Assessment submission failed");
+      }
+
+      const data = await response.json();
+
+      if (onComplete) {
+        onComplete({
+          ...state,
+          overallScore: data.result.overallScore,
+          competencyScores: data.result.competencyScores,
+          strengths: data.result.strengths,
+          gaps: data.result.gaps,
+          missingSkills: data.result.missingSkills,
+          roadmap: data.result.roadmap,
+        });
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Step 4: Review & Submit
   if (state.step === 4) {
     const totalSkills = Object.keys(PM_SKILLS).length;
@@ -582,7 +628,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
 
           <div className="mb-8">
             <div className="flex items-center justify-center gap-2">
-              {[1, 2, 3, 4].map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <React.Fragment key={s}>
                   <div
                     className={cn(
@@ -662,25 +708,7 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
               Back
             </Button>
             <Button
-              onClick={async () => {
-                setIsLoading(true);
-                setError(null);
-                try {
-                  // In production, call the API here
-                  await new Promise((r) => setTimeout(r, 1500));
-
-                  if (onComplete) {
-                    onComplete({
-                      ...state,
-                      overallScore: Math.round(Math.random() * 40 + 60),
-                    });
-                  }
-                } catch (err) {
-                  setError("Something went wrong. Please try again.");
-                } finally {
-                  setIsLoading(false);
-                }
-              }}
+              onClick={submitAssessment}
               isLoading={isLoading}
               disabled={assessedSkills === 0}
             >

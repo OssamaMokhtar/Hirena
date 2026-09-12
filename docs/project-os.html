@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hirena ProjectOS — Living Project Intelligence Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #64748b;
+      --border: #e2e8f0;
+      --accent: #0d9488;
+      --accent-light: #14b8a6;
+      --accent-bg: #ccfbf1;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-tertiary: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --border: #334155;
+      --accent-bg: rgba(13,148,136,0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      position: fixed;
+      height: 100vh;
+      padding: 1.5rem;
+      transition: transform 0.3s;
+    }
+    .sidebar h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .sidebar nav { display: flex; flex-direction: column; gap: 0.25rem; }
+    .sidebar a {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    .sidebar a:hover, .sidebar a.active { background: var(--accent-bg); color: var(--accent); font-weight: 500; }
+    .sidebar .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin: 1rem 0 0.5rem; padding: 0 0.75rem; }
+    .main {
+      margin-left: 280px;
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .header h1 { font-size: 1.5rem; font-weight: 700; }
+    .header .meta { color: var(--text-tertiary); font-size: 0.875rem; }
+    .theme-toggle {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .theme-toggle:hover { background: var(--border); }
+    .search-box {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .search-box:focus { outline: 2px solid var(--accent); border-color: transparent; }
+    section { margin-bottom: 3rem; scroll-margin-top: 100px; }
+    section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent-bg);
+    }
+    section h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text-primary); }
+    section h4 { font-size: 1rem; font-weight: 500; margin: 1rem 0 0.5rem; color: var(--text-secondary); }
+    section p { color: var(--text-secondary); margin-bottom: 0.75rem; }
+    section ul, section ol { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); }
+    section li { margin-bottom: 0.25rem; }
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+    }
+    .card.highlight { border-left: 4px solid var(--accent); background: var(--accent-bg); }
+    .card.warning { border-left: 4px solid var(--warning); }
+    .card.danger { border-left: 4px solid var(--danger); }
+    .card.success { border-left: 4px solid var(--success); }
+    .card h4 { margin-bottom: 0.5rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.875rem;
+    }
+    th, td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { background: var(--bg-tertiary); font-weight: 600; color: var(--text-secondary); }
+    tr:hover { background: var(--bg-tertiary); }
+    code {
+      background: var(--bg-tertiary);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    pre {
+      background: var(--bg-tertiary);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    pre code { background: transparent; padding: 0; }
+    .mermaid { margin: 1.5rem 0; background: var(--bg-secondary); padding: 1rem; border-radius: 8px; border: 1px solid var(--border); }
+    .mermaid:hover { box-shadow: var(--shadow-lg); }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge.green { background: #dcfce7; color: #166534; }
+    .badge.yellow { background: #fef3c7; color: #92400e; }
+    .badge.red { background: #fee2e2; color: #991b1b; }
+    .badge.blue { background: #dbeafe; color: #1e40af; }
+    .badge.teal { background: #ccfbf1; color: #115e59; }
+    [data-theme="dark"] .badge.green { background: rgba(34,197,94,0.2); color: #86efac; }
+    [data-theme="dark"] .badge.yellow { background: rgba(245,158,11,0.2); color: #fcd34d; }
+    [data-theme="dark"] .badge.red { background: rgba(239,68,68,0.2); color: #fca5a5; }
+    [data-theme="dark"] .badge.blue { background: rgba(59,130,246,0.2); color: #93c5fd; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; padding: 1rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .mobile-menu-btn { display: block; }
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .version-badge {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      box-shadow: var(--shadow);
+      z-index: 100;
+    }
+    .progress-bar {
+      height: 4px;
+      background: var(--bg-tertiary);
+      border-radius: 2px;
+      margin: 0.5rem 0;
+      overflow: hidden;
+    }
+    .progress-bar .fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+    details { margin: 0.5rem 0; }
+    summary {
+      cursor: pointer;
+      color: var(--accent);
+      font-weight: 500;
+      padding: 0.25rem 0;
+    }
+    summary:hover { text-decoration: underline; }
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    .status-dot.active { background: var(--success); }
+    .status-dot.in-progress { background: var(--warning); }
+    .status-dot.planned { background: var(--text-tertiary); }
+    .status-dot.blocked { background: var(--danger); }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
+    <aside class="sidebar">
+      <h2>📊 Hirena ProjectOS</h2>
+      <p style="font-size:0.75rem;color:var(--text-tertiary);margin-bottom:1rem;padding:0 0.75rem">v2.0 · Updated Sep 12, 2026</p>
+      <nav>
+        <div class="section-label">Strategy & Vision</div>
+        <a href="#exec-summary" class="active">1. Executive Summary</a>
+        <a href="#product-strategy">4. Product Strategy</a>
+        <a href="#business-case">6. Business Case & Financials</a>
+        <a href="#gTM">24. Go-to-Market</a>
+
+        <div class="section-label">Market & Competition</div>
+        <a href="#market-research">2. Market Research</a>
+        <a href="#competitive-intel">3. Competitive Intelligence</a>
+
+        <div class="section-label">Product & Discovery</div>
+        <a href="#product-discovery">5. Product Discovery</a>
+        <a href="#requirements">7. Requirements</a>
+        <a href="#features">8. Feature Management</a>
+        <a href="#customer-experience">9. Customer Experience</a>
+
+        <div class="section-label">Architecture & Engineering</div>
+        <a href="#enterprise-arch">10. Enterprise Architecture</a>
+        <a href="#data-arch">11. Data Architecture</a>
+        <a href="#data-flows">12. Data Flow Diagrams</a>
+        <a href="#workflows">13. Workflow Library</a>
+        <a href="#mermaid-center">14. Mermaid Diagram Center</a>
+        <a href="#ai-strategy">15. AI Strategy</a>
+        <a href="#security">16. Security & Compliance</a>
+        <a href="#engineering">17. Engineering Design</a>
+        <a href="#ux-ui">18. UX/UI & Design System</a>
+
+        <div class="section-label">Analytics & Operations</div>
+        <a href="#analytics">19. Analytics Framework</a>
+        <a href="#operating-model">20. Product Operating Model</a>
+        <a href="#change-management">21. Change Management</a>
+        <a href="#roadmap">22. Roadmap Center</a>
+        <a href="#delivery">23. Delivery Management</a>
+
+        <div class="section-label">Decisions & Governance</div>
+        <a href="#executive-decisions">25. Executive Decisions</a>
+        <a href="#knowledge-base">26. Knowledge Base</a>
+        <a href="#version-history">27. Version History</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <h1>Hirena ProjectOS</h1>
+          <span class="version-badge" style="position:static;border:none;background:transparent;box-shadow:none">v2.0</span>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:center">
+          <span class="meta">Last updated: Sep 12, 2026</span>
+          <button class="theme-toggle" onclick="document.querySelector('[data-theme]').setAttribute('data-theme', document.querySelector('[data-theme]').getAttribute('data-theme')==='dark'?'light':'dark')">🌓 Toggle Theme</button>
+        </div>
+      </div>
+
+      <input type="text" class="search-box" placeholder="Search documentation... (⌘K)" id="search">
+
+      <!-- ====== SECTION 1: EXECUTIVE SUMMARY ====== -->
+      <section id="exec-summary">
+        <h2>1. Executive Summary</h2>
+
+        <div class="card highlight">
+          <h4>🏔️ Product Vision</h4>
+          <p>To become the leading AI-powered career development platform for MENA professionals — the go-to tool for objective skills assessment, personalized growth roadmaps, and real-time interview practice with AI mentorship.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>🎯 Mission Statement</h4>
+            <p>Empower every professional in MENA to understand their skills, identify gaps, and build a personalized path to career growth through AI-powered assessment and practice.</p>
+          </div>
+          <div class="card">
+            <h4>📈 North Star Metric</h4>
+            <p><strong>Professionals who complete their first assessment and receive a personalized roadmap.</strong></p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>🔍 Problem Statement</h4>
+            <ul>
+              <li>Professionals lack objective, AI-powered skill assessments tailored to their region and career stage</li>
+              <li>Career development tools are fragmented — assessment, interview practice, and roadmap planning are separate</li>
+              <li>MENA professionals have no localized benchmarks; global tools don't reflect regional market realities</li>
+              <li>Interview preparation is mostly static (pre-written questions) — no real-time practice with AI feedback</li>
+              <li>Skill gaps are identified too late (after hiring or promotion decisions)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>💡 Value Proposition</h4>
+            <p>"Know your skills. Understand your gaps. Grow your career." — the first AI-powered career development tool built for MENA professionals with bilingual (Arabic/English) support and regional benchmarks.</p>
+          </div>
+        </div>
+
+        <h3>Strategic Objectives</h3>
+        <table>
+          <tr><th>#</th><th>Objective</th><th>Timeframe</th><th>Success Metric</th></tr>
+          <tr><td>1</td><td>Launch MVP with 5 built competency models (PM + 4 engineering roles)</td><td>Q3 2026 ✓</td><td>tsc clean, build passes, demo works</td></tr>
+          <tr><td>2</td><td>Complete 14+ role competency models (370+ skills, 260+ pillars)</td><td>Q4 2026</td><td>All 14+ roles with full skill catalogs</td></tr>
+          <tr><td>3</td><td>Wire user accounts + Supabase auth + assessment history</td><td>Q4 2026</td><td>Users can sign up, save assessments, track progress</td></tr>
+          <tr><td>4</td><td>Launch real AI interview practice (GPT-4o Vision + Whisper)</td><td>Q1 2027</td><td>Real voice + facial analysis, no simulation</td></tr>
+          <tr><td>5</td><td>Achieve 1,000 assessments in first month</td><td>Q1 2027</td><td>1,000+ assessment completions</td></tr>
+          <tr><td>6</td><td>Expand to APAC + NA benchmarks + bilingual full rollout</td><td>Q2 2027</td><td>All regions covered, Arabic/English complete</td></tr>
+        </table>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>👥 Target Users</h4>
+            <table>
+              <tr><th>Segment</th><th>Description</th></tr>
+              <tr><td>Early Career (0-3 yrs)</td><td>Exploring career paths, building foundational skills</td></tr>
+              <tr><td>Mid-Career (3-10 yrs)</td><td>Seeking promotion, upskilling, career pivots</td></tr>
+              <tr><td>Senior (10+ yrs)</td><td>Leadership roles, staying current with trends</td></tr>
+              <tr><td>Job Seekers</td><td>Preparing for interviews, assessing role fit</td></tr>
+              <tr><td>Students / Grads</td><td>Entering job market, understanding requirements</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h4>✅ Success Metrics</h4>
+            <table>
+              <tr><th>Metric</th><th>Phase 1 Target</th><th>Phase 2 Target</th></tr>
+              <tr><td>Landing page visits</td><td>1,000 / month</td><td>10,000+ / month</td></tr>
+              <tr><td>Assessment completions</td><td>100 / month</td><td>2,000+ / month</td></tr>
+              <tr><td>Demo activation rate</td><td>> 30%</td><td>> 40%</td></tr>
+              <tr><td>Completion rate (wizard)</td><td>> 50%</td><td>> 60%</td></tr>
+              <tr><td>User satisfaction</td><td>> 4.0 / 5.0</td><td>> 4.5 / 5.0</td></tr>
+              <tr><td>Bilingual usage (AR)</td><td>> 20%</td><td>> 30%</td></tr>
+              <tr><td>Weekly active users</td><td>—</td><td>500+</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="card success">
+          <h4>🚀 Go / No-Go Assessment</h4>
+          <p><strong>GO</strong> — MVP is viable. Core architecture built and verified. 5 of 14+ roles built. Demo works without API credits. Real AI path blocked by $0 balance (solvable). Facial analysis carries risk (mitigation: optional/experimental + disclaimer).</p>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 2: MARKET RESEARCH ====== -->
+      <section id="market-research">
+        <h2>2. Market Research</h2>
+
+        <div class="card">
+          <h4>🌍 Industry Overview (2026)</h4>
+          <p>The HR technology market is $30B+ and growing at 10-12% CAGR. AI is becoming the default capability across every HR layer — recruitment, assessments, L&D, workforce planning, and internal mobility. The market is consolidating from 200+ vendors toward AI agent platforms (Workday, Rippling, Deel, ServiceNow, Microsoft Copilot for HR).</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>📊 TAM / SAM / SOM</h4>
+            <table>
+              <tr><th>Metric</th><th>Value</th><th>Basis</th></tr>
+              <tr><td>TAM (Total Addressable Market)</td><td>$30B+ (global HR tech)</td><td>All HR tech software spend globally</td></tr>
+              <tr><td>SAM (Serviceable Addressable Market)</td><td>$2-3B (B2C career development + AI assessment)</td><td>Individual professionals seeking skills assessment + career growth tools</td></tr>
+              <tr><td>SOM (Serviceable Obtainable Market)</td><td>$50-100M (MENA first, then global)</td><td>1% of SAM in 5 years via freemium + premium</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h4>📈 Market Growth Trends</h4>
+            <ul>
+              <li><strong>Skill-based hiring dominates:</strong> AI evaluates against skill graphs, not job titles</li>
+              <li><strong>Agentic AI rise:</strong> Autonomous agents for sourcing, matching, workforce planning</li>
+              <li><strong>Internal talent marketplaces:</strong> Replace "tap on the shoulder" — employees discover internal opportunities by skill</li>
+              <li><strong>AI becomes default:</strong> Every HR layer is integrating AI capabilities</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>⚖️ Regulatory Landscape</h4>
+            <ul>
+              <li><strong>EU AI Act (fully applicable 2026):</strong> Classifies hiring/promotion as high-risk AI — requires transparency, human oversight, bias testing</li>
+              <li><strong>NYC Local Law 144:</strong> Bias audits required for automated employment decision tools</li>
+              <li><strong>Colorado AI Act (effective 2026):</strong> Similar requirements for high-risk AI systems</li>
+              <li><strong>Implication for Hirena:</strong> Facial analysis for assessment/judgment is highest-risk. HireVue dropped it in Jan 2021. TestGorilla and Criteria Corp avoid it entirely (transcript-only scoring).</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Customer Research & JTBD</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>👤 User Personas</h4>
+            <table>
+              <tr><th>Persona</th><th>Demographics</th><th>Key Needs</th><th>Pain Points</th></tr>
+              <tr>
+                <td><strong>Career Climber</strong></td>
+                <td>25-35 yrs, 3-8 yrs exp, MENA-based software professional</td>
+                <td>Understand skill gaps, build roadmap, prepare for promotion</td>
+                <td>"No objective way to assess where I stand" — relies on manager feedback, which is subjective and infrequent</td>
+              </tr>
+              <tr>
+                <td><strong>Job Seeker</strong></td>
+                <td>22-40 yrs, actively job hunting, any experience level</td>
+                <td>Assess role fit, prepare for interviews, understand market expectations</td>
+                <td>"Interviews are stressful — no safe place to practice with feedback" — prep is static (pre-written questions, no real-time feedback)</td>
+              </tr>
+              <tr>
+                <td><strong>Career Pivoter</strong></td>
+                <td>28-45 yrs, switching roles (e.g., dev → architect, PM → engineering manager)</td>
+                <td>Understand skill transferability, identify gaps for target role, build transition roadmap</td>
+                <td>"Don't know what skills I'm missing for my target role" — no clear mapping between current skills and target role requirements</td>
+              </tr>
+              <tr>
+                <td><strong>Student / New Grad</strong></td>
+                <td>20-25 yrs, entering job market</td>
+                <td>Understand what skills employers want, assess current skill level, build learning plan</td>
+                <td>"Overwhelmed by what to learn first" — no structured guidance on skill priorities for target role</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card">
+            <h4>🎯 Jobs-to-Be-Done (JTBD)</h4>
+            <table>
+              <tr><th>#</th><th>Job Statement</th><th>Priority</th></tr>
+              <tr><td>JTBD-1</td><td>"When I want to understand my current skill level, I want an objective AI-powered assessment so I can know where I stand relative to my peers."</td><td><span class="badge teal">Core</span></td></tr>
+              <tr><td>JTBD-2</td><td>"When I identify skill gaps, I want a personalized learning roadmap so I know exactly what to learn next and in what order."</td><td><span class="badge teal">Core</span></td></tr>
+              <tr><td>JTBD-3</td><td>"When I'm preparing for a job interview, I want to practice with an AI avatar that interviews me and gives feedback so I can improve my performance safely."</td><td><span class="badge teal">Core</span></td></tr>
+              <tr><td>JTBD-4</td><td>"When I'm considering a career change, I want to see what skills I need for my target role so I can plan my transition."</td><td><span class="badge blue">High</span></td></tr>
+              <tr><td>JTBD-5</td><td>"When I want to track my progress over time, I want to see my skill trajectory so I can see improvement and stay motivated."</td><td><span class="badge blue">High</span></td></tr>
+              <tr><td>JTBD-6</td><td>"When I want to share my achievements, I want a shareable report so I can showcase my skills on LinkedIn."</td><td><span class="badge yellow">Medium</span></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h3>Strategic Analysis</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>📊 SWOT Analysis</h4>
+            <table>
+              <tr><th>Strengths</th><th>Weaknesses</th></tr>
+              <tr>
+                <td>✓ B2C individual focus (competitors are B2B)</td>
+                <td>✗ 9 of 14+ role models not built yet</td>
+              </tr>
+              <tr>
+                <td>✓ Hybrid assessment (self + AI inference) — unique</td>
+                <td>✗ No user accounts + persistent profiles yet</td>
+              </tr>
+              <tr>
+                <td>✓ MENA-first + bilingual AR/EN — no competitor has this</td>
+                <td>✗ No real AI integration (OpenAI balance $0 → 429)</td>
+              </tr>
+              <tr>
+                <td>✓ Multi-role competency models (5 built, 9 in roadmap)</td>
+                <td>✗ Facial analysis carries bias risk (HireVue dropped it)</td>
+              </tr>
+              <tr>
+                <td>✓ Real-time interview practice + multi-modal analysis</td>
+                <td>✗ Career roadmap is basic (no curated content yet)</td>
+              </tr>
+              <tr>
+                <td>✓ Open architecture — evolutionary path (Option 1→2→3)</td>
+                <td>✗ No user base + no validation yet</td>
+              </tr>
+            </table>
+            <br>
+            <table>
+              <tr><th>Opportunities</th><th>Threats</th></tr>
+              <tr>
+                <td>🔥 B2C gap is real — few tools for individual career development</td>
+                <td>⚠️ Regulatory risk — facial analysis for assessment is high-risk (EU AI Act, NYC LL144, Colorado)</td>
+              </tr>
+              <tr>
+                <td>🔥 MENA market underserved — no localized benchmarks or Arabic-first UX</td>
+                <td>⚠️ OpenAI dependency — account balance $0, cost per interview $5-13</td>
+              </tr>
+              <tr>
+                <td>🔥 AI makes personalized assessment scalable at B2C price points</td>
+                <td>⚠️ LLM commoditization — "AI-powered" moat erodes as GPT-4o/Claude/Gemini become ubiquitous</td>
+              </tr>
+              <tr>
+                <td>🔥 Career development is sticky — users return to track progress</td>
+                <td>⚠️ B2C monetization unproven — need to validate what users will pay for</td>
+              </tr>
+              <tr>
+                <td>🔥 Freemium model viable — free assessment → premium features</td>
+                <td>⚠️ Competitive pressure — as AI becomes cheap, differentiation shifts to data + workflow + integration</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card">
+            <h4>⚔️ Porter's Five Forces</h4>
+            <table>
+              <tr><th>Force</th><th>Intensity</th><th>Analysis</th></tr>
+              <tr>
+                <td><strong>Competitive Rivalry</strong></td>
+                <td><span class="badge yellow">High</span></td>
+                <td>200+ HR tech vendors, but most are B2B employer-facing. Hirena's B2C focus reduces direct competition. Closest competitor: Talentee (smaller, less comprehensive).</td>
+              </tr>
+              <tr>
+                <td><strong>New Entrants</strong></td>
+                <td><span class="badge yellow">Medium</span></td>
+                <td>Low barrier to entry for basic assessment tools (GPT-4o + simple UI). Higher barrier for multi-role competency models + MENA benchmarks + bilingual + real-time interview practice + avatar. Hirena's moat is breadth + regional focus + B2C positioning.</td>
+              </tr>
+              <tr>
+                <td><strong>Substitute Products</strong></td>
+                <td><span class="badge yellow">Medium</span></td>
+                <td>Substitutes: LinkedIn Learning (content, not assessment), Coursera/Udemy (courses, not skill validation), self-assessment spreadsheets (manual, no AI), peer mock interviews (Pramp — no AI feedback). None offer the full Hirena package.</td>
+              </tr>
+              <tr>
+                <td><strong>Supplier Power (AI)</strong></td>
+                <td><span class="badge red">High</span></td>
+                <td>OpenAI is primary AI supplier. GPT-4o is best-in-class for multi-modal but costs $5-13/interview. Dependency risk. Mitigation: Option 2/3 architecture allows swapping specialized services (Deepgram, AWS Rekognition, D-ID) independently. Future: consider open-source models + self-hosted for cost control.</td>
+              </tr>
+              <tr>
+                <td><strong>Buyer Power</strong></td>
+                <td><span class="badge green">Low</span></td>
+                <td>B2C individual users have low switching costs but also low expectations. Freemium model reduces friction. No existing tool offers Hirena's combination — switching from "nothing" to Hirena is high value.</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>🧭 Blue Ocean Analysis</h4>
+          <p><strong>Where Hirena creates uncontested market space:</strong></p>
+          <ul>
+            <li><strong>B2C Individual Career Development + AI Assessment:</strong> Competitors are all B2B employer-facing. Hirena serves the individual professional directly — a largely uncrowded space.</li>
+            <li><strong>MENA-First + Bilingual:</strong> No major HR tech vendor offers MENA-specific benchmarks or Arabic-first UX. Hirena can own this regional niche before global competitors enter.</li>
+            <li><strong>Hybrid Assessment (Self + AI Inference):</strong> Combines subjective self-rating with objective AI inference — more accurate than either alone. No competitor offers this approach.</li>
+            <li><strong>Multi-Role Competency Models + Career Ladders:</strong> Comprehensive skill frameworks for 14+ software roles with career progression paths. Competitors offer tests or AI scoring, not structured competency models with career ladders.</li>
+            <li><strong>Real-Time Interview Practice + Multi-Modal Analysis + Avatar Mentor:</strong> Hirena's Option 2/3 architecture combines voice + facial + content analysis with an AI avatar mentor. Closest competitor (Talentee) has interview practice but lacks multi-role models, self-assessment, MENA benchmarks, bilingual, and avatar mentor.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 3: COMPETITIVE INTELLIGENCE ====== -->
+      <section id="competitive-intel">
+        <h2>3. Competitive Intelligence</h2>
+
+        <h3>Competitor Categorization</h3>
+        <table>
+          <tr><th>Category</th><th>Competitors</th><th>Relevance to Hirena</th></tr>
+          <tr>
+            <td><strong>Direct Competitors (B2C Career Development)</strong></td>
+            <td>Talentee, Interview Prep Guru, Workera, Pramp, Big Interview, Interviewing.io</td>
+            <td>Talentee is closest — offers AI mock interview practice with multi-modal analysis. Others are narrower (Pramp = peer mock interviews, Interviewing.io = tech interviews, Big Interview = practice + coaching). None offer Hirena's full package (assessment + roadmap + multi-role + MENA + bilingual).</td>
+          </tr>
+          <tr>
+            <td><strong>Indirect Competitors (B2B Employer-Facing Assessment)</strong></td>
+            <td>Eightfold AI ($2.1B), Vervoe, TestGorilla, Criteria Corp, Pymetrics, Harver</td>
+            <td>Powerful AI assessment platforms but serve employers, not individuals. Hirena's hybrid self-assessment + AI inference is unique vs their test-based or AI-only approaches. Key learning: facial analysis is high-risk — HireVue dropped it, TestGorilla/Criteria Corp avoid it.</td>
+          </tr>
+          <tr>
+            <td><strong>Indirect Competitors (ATS + AI Recruiting)</strong></td>
+            <td>Greenhouse, Lever, SeekOut, hireEZ, Phenom</td>
+            <td>ATS platforms with embedded AI. Greenhouse has Voice AI (two-way dynamic interview for hiring — not practice) and Notetaker. Not direct competitors for B2C career development, but relevant for AI interviewing capabilities.</td>
+          </tr>
+          <tr>
+            <td><strong>Indirect Competitors (Learning & Skills Intelligence)</strong></td>
+            <td>Gloat ($1B), Fuel50 ($50M), Cornerstone, 360Learning, Sana, LinkedIn Learning, Coursera, Udemy</td>
+            <td>Learning platforms and internal talent marketplaces. Gloat/Fuel50 offer career pathing + skills intelligence but require HCM integration + employee data (B2B enterprise). Not standalone for individuals. Hirena's curated learning content library (Phase 2) will compete here.</td>
+          </tr>
+          <tr>
+            <td><strong>Replacement Solutions (What Hirena Replaces)</strong></td>
+            <td>Self-assessment spreadsheets, manager feedback (subjective), static interview prep (pre-written questions), fragmented tools (LinkedIn for profile, Coursera for learning, Pramp for practice)</td>
+            <td>Hirena consolidates fragmented tools into one platform: assessment + roadmap + interview practice + learning resources.</td>
+          </tr>
+        </table>
+
+        <h3>Full Competitor Comparison Matrix</h3>
+        <table>
+          <tr>
+            <th>Capability</th>
+            <th style="background:var(--accent-bg);color:var(--accent)">Hirena ★</th>
+            <th>Eightfold AI</th>
+            <th>Vervoe</th>
+            <th>TestGorilla</th>
+            <th>Greenhouse</th>
+            <th>Talentee (Closest)</th>
+            <th>HireVue</th>
+            <th>Gloat</th>
+          </tr>
+          <tr>
+            <td><strong>Target User</strong></td>
+            <td style="background:var(--accent-bg)">B2C Individual</td>
+            <td>B2B Enterprise</td><td>B2B Employer</td><td>B2B Employer</td><td>B2B Enterprise</td>
+            <td style="background:#fef3c7">B2C Individual</td><td>B2B Enterprise</td><td>B2B Enterprise</td>
+          </tr>
+          <tr>
+            <td><strong>Business Model</strong></td>
+            <td style="background:var(--accent-bg)">Freemium (planned)</td>
+            <td>$200K-2M/yr</td><td>$10-50K/yr</td><td>$10-50K/yr</td><td>$20-500K/yr</td>
+            <td style="background:#fef3c7">Freemium + Premium</td><td>Legacy</td><td>$50-300K/yr</td>
+          </tr>
+          <tr>
+            <td><strong>AI-Powered Assessment</strong></td>
+            <td style="background:var(--accent-bg)">✅ Hybrid (self + AI)</td>
+            <td>✅ AI inference (1.6B careers)</td><td>✅ AI scoring (ML)</td><td>✅ AI scoring (transcript-only)</td><td>✅ AI embedded</td>
+            <td style="background:#fef3c7">✅ AI analysis (video+voice+content)</td><td>✅ AI (speech+content; facial DROPPED)</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Self-Assessment</strong></td>
+            <td style="background:var(--accent-bg)">✅ 0-7 scale</td>
+            <td>❌ None</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Multi-Role Coverage</strong></td>
+            <td style="background:var(--accent-bg)">5/14+ built, 9 roadmap</td>
+            <td>✅ 1.6M skills</td><td>✅ Wide via tests</td><td>✅ 350+ tests</td><td>✅ ATS roles</td>
+            <td style="background:#fef3c7">❌ Limited</td><td>✅ Various</td><td>❌ Internal only</td>
+          </tr>
+          <tr>
+            <td><strong>Competency Models</strong></td>
+            <td style="background:var(--accent-bg)">✅ 171 skills, 78 pillars</td>
+            <td>✅ Skills ontology</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>✅ Internal</td>
+          </tr>
+          <tr>
+            <td><strong>Career Ladders</strong></td>
+            <td style="background:var(--accent-bg)">✅ 6 roles, Junior→Director</td>
+            <td>✅ Career pathing</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>✅ Pathing</td>
+          </tr>
+          <tr>
+            <td><strong>Video Interview Practice</strong></td>
+            <td style="background:var(--accent-bg)">✅ 8-step + avatar</td>
+            <td>✅ AI Interviewer (hiring)</td><td>❌ None</td><td>✅ AI Interviews (100+ tracks)</td><td>❌ None</td>
+            <td style="background:#fef3c7">✅ Nova AI interviewer</td><td>✅ Video interviews (hiring)</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Avatar Mentor</strong></td>
+            <td style="background:var(--accent-bg)">✅ CSS/SVG + TTS</td>
+            <td>❌ None</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Voice Analysis</strong></td>
+            <td style="background:var(--accent-bg)">✅ Simulated→Real</td>
+            <td>✅ Voice AI</td><td>❌ None</td><td>❌ None</td><td>✅ Voice AI</td>
+            <td style="background:#fef3c7">✅ Tone/pacing/emotion</td><td>✅ Speech analysis</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Facial Analysis</strong></td>
+            <td style="background:var(--accent-bg)">✅ Optional+Disclaimer</td>
+            <td>❌ None</td><td>❌ None</td><td>❌ None (bias risk)</td><td>❌ None</td>
+            <td style="background:#fef3c7">✅ Body language+facial</td><td>❌ DROPPED Jan 2021</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Multi-Modal Fusion</strong></td>
+            <td style="background:var(--accent-bg)">✅ Voice+Facial+Self</td>
+            <td>❌ None</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">✅ Multi-modal (not fused)</td><td>❌ None</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Bilingual (AR/EN)</strong></td>
+            <td style="background:var(--accent-bg)">✅ Full AR/EN</td>
+            <td>❌ EN only</td><td>❌ EN only</td><td>❌ EN only</td><td>❌ EN only</td>
+            <td style="background:#fef3c7">❌ EN only</td><td>❌ EN only</td><td>❌ EN only</td>
+          </tr>
+          <tr>
+            <td><strong>MENA Benchmarks</strong></td>
+            <td style="background:var(--accent-bg)">✅ PM first, expand</td>
+            <td>❌ None</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>❌ None</td>
+          </tr>
+          <tr>
+            <td><strong>Career Roadmap</strong></td>
+            <td style="background:var(--accent-bg)">✅ Roadmap actions</td>
+            <td>✅ Career hub</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>✅ Career pathing</td>
+          </tr>
+          <tr>
+            <td><strong>Learning Resources</strong></td>
+            <td style="background:var(--accent-bg)">✅ Basic (Phase 2: curated)</td>
+            <td>✅ Integrated</td><td>❌ None</td><td>❌ None</td><td>❌ None</td>
+            <td style="background:#fef3c7">❌ None</td><td>❌ None</td><td>✅ Integrated</td>
+          </tr>
+        </table>
+
+        <h3>Key Competitive Insights</h3>
+        <div class="card highlight">
+          <h4>🏆 Hirena's Competitive Advantages (Differentiation)</h4>
+          <ol>
+            <li><strong>B2C Individual Focus:</strong> All major competitors are B2B employer-facing. Hirena serves the individual professional directly — a largely uncontested space.</li>
+            <li><strong>Hybrid Assessment Model:</strong> Self-rating (0-7) + AI inference from experience descriptions. Gives both subjective and objective reads. No competitor offers this combination — they're either test-based (Vervoe, TestGorilla) or AI-only (Eightfold).</li>
+            <li><strong>MENA-First + Bilingual AR/EN:</strong> No major competitor offers MENA-specific benchmarks or Arabic-first UX. This is Hirena's strongest and hardest-to-replicate differentiation.</li>
+            <li><strong>Multi-Role Competency Models + Career Ladders:</strong> 171 skills across 5 built roles (78 pillars), 9 roles in roadmap. Structured competency frameworks with career progression (Junior→Principal/Manager/Director). Competitors offer tests or AI scoring, not structured models with career ladders.</li>
+            <li><strong>Real-Time Interview Practice + Multi-Modal + Avatar:</strong> 8-step wizard with avatar mentor, voice + facial + content analysis, results fusion. Closest competitor (Talentee) has interview practice but lacks multi-role models, self-assessment, MENA benchmarks, bilingual, and avatar mentor.</li>
+            <li><strong>Career Roadmap + Learning Resources:</strong> Core value prop — skills assessment + career development. Competitors focus on hiring/screening, not career development for individuals.</li>
+          </ol>
+        </div>
+
+        <div class="card danger">
+          <h4>⚠️ Hirena's Vulnerabilities & Competitive Risks</h4>
+          <ol>
+            <li><strong>Facial Analysis Bias Risk:</strong> HireVue dropped facial analysis in Jan 2021 due to bias concerns. TestGorilla and Criteria Corp avoid it entirely (transcript-only scoring). EU AI Act classifies hiring/promotion as high-risk AI. <strong>Mitigation:</strong> Treat facial analysis as optional/experimental with disclaimer. Voice + content as core.</li>
+            <li><strong>OpenAI Dependency + $0 Balance:</strong> Account balance is $0 → 429 errors when calling GPT-4o. Demo bypasses API. Real integration requires credits ($5-13/interview). <strong>Mitigation:</strong> Phase 2 architecture allows swapping services independently. Consider open-source models for cost control long-term.</li>
+            <li><strong>No User Accounts Yet:</strong> Demo uses localStorage only. No progress tracking, no retention, no recurring value. <strong>Mitigation:</strong> Phase 1 priority — wire Supabase auth + user profiles + assessment history.</li>
+            <li><strong>9 of 14+ Roles Incomplete:</strong> 5 roles built, 9 in roadmap. Must build 250+ skills across 14+ roles to compete on comprehensiveness. <strong>Mitigation:</strong> Active roadmap — DevOps, Data Analyst, Data Engineer, UX/UI, Eng Manager, Tech Lead, Scrum Master, BA, Architect.</li>
+            <li><strong>Career Roadmap is Basic:</strong> Generated actions + learning resources only. Lacks curated content library, mentor matching, career path visualization, progress tracking. Competitors (Eightfold Career Hub, Gloat, Cornerstone, 360Learning, Workera, Sana) have these. <strong>Mitigation:</strong> Phase 1-2 priority — curated content, career path viz, progress tracking.</li>
+            <li><strong>No User Base + No Validation:</strong> Product is in development, no live users, no validation of value prop, no retention data. <strong>Mitigation:</strong> Launch demo → measure → iterate.</li>
+          </ol>
+        </div>
+
+        <h3>Positioning Map</h3>
+        <div class="mermaid">
+          graph LR
+            subgraph B2C_Individual [B2C Individual-Focused]
+              Talentee[ Talentee<br/>AI Mock Interview<br/>Video+Voice+Content<br/>No Multi-Role<br/>No MENA<br/>No Bilingual]
+              InterviewPrepGuru[ Interview Prep Guru<br/>Practice Questions<br/>Basic Feedback]
+              Hirena[ Hirena ★<br/>Assessment + Roadmap<br/>Multi-Role (5/14)<br/>MENA Benchmarks<br/>Bilingual AR/EN<br/>Real-Time Interview<br/>Avatar Mentor<br/>Voice+Facial+Content]
+            end
+            subgraph B2B_Employer [B2B Employer-Facing]
+              Eightfold[ Eightfold AI<br/>$2.1B · 2000+ Enterprises<br/>Talent Intelligence<br/>1.6B Career Profiles<br/>AI Inference + Career Hub<br/>No B2C Individual]
+              TestGorilla[ TestGorilla<br/>Skills Assessments<br/>350+ Validated Tests<br/>AI Interviews + Auto-Scoring<br/>Transcipt-Only (No Facial)<br/>B2B Employer]
+              Greenhouse[ Greenhouse<br/>ATS + AI Recruiting<br/>Voice AI (Two-Way)<br/>Notetaker + Report Insights<br/>B2B Enterprise]
+            end
+            Hirena -->|B2C Individual Focus| Talentee
+            Hirena -->|More Comprehensive| InterviewPrepGuru
+            Eightfold -.->|No B2C| Hirena
+        </div>
+      </section>
+
+      <!-- ====== SECTION 4: PRODUCT STRATEGY ====== -->
+      <section id="product-strategy">
+        <h2>4. Product Strategy</h2>
+
+        <div class="card">
+          <h4>🎯 Product Vision Board</h4>
+          <table>
+            <tr><th>Element</th><th>Definition</th></tr>
+            <tr><td><strong>Target Audience</strong></td><td>B2C individual professionals in MENA (and eventually global) seeking career development</td></tr>
+            <tr><td><strong>Customer Jobs</strong></td><td>Assess skills objectively, identify gaps, build roadmap, practice interviews, track progress</td></tr>
+            <tr><td><strong>Pains</strong></td><td>No objective assessment, no localized benchmarks, fragmented tools, stressful interview prep, no safe practice environment</td></tr>
+            <tr><td><strong>Gains</strong></td><td>AI-powered objective assessment, personalized roadmap, real-time interview practice with feedback, MENA benchmarks, bilingual support</td></tr>
+            <tr><td><strong>Products & Services</strong></td><td>Assessment wizard, results dashboard, real-time interview practice, avatar mentor, competency models, career roadmaps, learning resources</td></tr>
+            <tr><td><strong>Pain Relievers</strong></td><td>Hybrid self + AI assessment, MENA benchmarks, bilingual UX, multi-modal interview analysis, personalized roadmap</td></tr>
+            <tr><td><strong>Gain Creators</strong></td><td>Objective skill levels, gap identification, personalized learning path, interview feedback, progress tracking</td></tr>
+          </table>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>📌 Strategic Themes</h4>
+            <ol>
+              <li><strong>B2C Individual Career Development:</strong> Own the B2C individual career development space — competitors are all B2B employer-facing.</li>
+              <li><strong>MENA-First + Global-Ready:</strong> Lead with MENA-specific benchmarks and bilingual AR/EN, expand to global regions.</li>
+              <li><strong>Comprehensive Competency Models:</strong> Build the most comprehensive multi-role competency framework for software professionals (14+ roles, 370+ skills).</li>
+              <li><strong>AI-Powered Assessment + Practice:</strong> Leverage GPT-4o multi-modal for assessment, interview practice, and career guidance — with cost-effective architecture (Option 1→2→3).</li>
+              <li><strong>Real-Time Interview Practice:</strong> Differentiate with real-time interview practice + multi-modal analysis + avatar mentor — closest competitor (Talentee) lacks breadth.</li>
+              <li><strong>Career Roadmap + Learning:</strong> Core value prop — skills assessment + career development. Expand to curated content, mentor matching, career path visualization.</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h4>🔑 Product Principles</h4>
+            <ol>
+              <li><strong>User-first, not employer-first:</strong> Serve the individual professional's career growth, not employer's hiring needs.</li>
+              <li><strong>Objective + actionable:</strong> Every feature should give users clear, actionable insights — not just data.</li>
+              <li><strong>MENA-localized by default:</strong> Regional benchmarks, bilingual support, MENA market context baked in from day one.</li>
+              <li><strong>AI-enhanced, not AI-replaced:</strong> AI augments human self-assessment and practice — doesn't replace human judgment or agency.</li>
+              <li><strong>Modular + evolutionary:</strong> Architecture supports Option 1→2→3 evolution. No vendor lock-in. Swap services independently.</li>
+              <li><strong>Responsible AI:</strong> Bias mitigation, transparency, optional/experimental features with disclaimers. Facial analysis treated carefully.</li>
+              <li><strong>Bilingual by design:</strong> Arabic and English from the start — not an afterthought. RTL support, localized content.</li>
+              <li><strong>Freemium-first:</strong> Free tier for assessment + demo. Premium for advanced features. Prove value before charging.</li>
+            </ol>
+          </div>
+        </div>
+
+        <h3>OKRs (Phase 1 — MVP Launch Q3-Q4 2026)</h3>
+        <table>
+          <tr><th>Objective</th><th>Key Results</th><th>Baseline</th><th>Target</th></tr>
+          <tr>
+            <td><strong>O1: Deliver MVP with 5 built competency models</strong></td>
+            <td>KR1.1: All 5 roles have complete skill catalogs (no empty skills)<br>KR1.2: Each role has 4-10 competency pillars<br>KR1.3: Each role has career ladder with 5-8 steps<br>KR1.4: tsc --noEmit clean, npm run build passes</td>
+            <td>0 roles built</td>
+            <td>5 roles built ✓</td>
+          </tr>
+          <tr>
+            <td><strong>O2: Launch demo that works without API credits</strong></td>
+            <td>KR2.1: Landing page renders (HTTP 200)<br>KR2.2: "See a demo assessment" button works<br>KR2.3: Pre-computed result loads, renders dashboard<br>KR2.4: Result persists to localStorage</td>
+            <td>No demo</td>
+            <td>Demo works ✓</td>
+          </tr>
+          <tr>
+            <td><strong>O3: Build real-time interview practice foundation</strong></td>
+            <td>KR3.1: 8-step wizard built and TypeScript compiles<br>KR3.2: Avatar mentor component built<br>KR3.3: Voice analysis API built + verified<br>KR3.4: Facial analysis API built + verified<br>KR3.5: Results fusion API built + verified<br>KR3.6: WebSocket session management built + verified</td>
+            <td>No interview features</td>
+            <td>All Option 2/3 APIs built ✓</td>
+          </tr>
+          <tr>
+            <td><strong>O4: Establish market positioning</strong></td>
+            <td>KR4.1: Market research document completed<br>KR4.2: Competitor matrix completed (8+ competitors)<br>KR4.3: Feature prioritization completed (18 features scored)<br>KR4.4: PRD completed</td>
+            <td>No market research</td>
+            <td>All docs completed ✓</td>
+          </tr>
+          <tr>
+            <td><strong>O5: Prepare for real AI integration</strong></td>
+            <td>KR5.1: OpenAI API key configured in .env.local<br>KR5.2: inferAllSkills() function built + typed<br>KR5.3: assess route handler handles AI inference path<br>KR5.4: Graceful degradation when API unavailable</td>
+            <td>No AI integration</td>
+            <td>AI path built, blocked by $0 balance</td>
+          </tr>
+        </table>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>🔄 Product Flywheel</h4>
+            <div class="mermaid">
+              graph TD
+                A[ User Takes Assessment ] -->|Gets objective skill levels| B[ Identifies Gaps ]
+                B -->|Receives personalized roadmap| C[ Learns & Improves ]
+                C -->|Retakes assessment| D[ Sees Progress ]
+                D -->|Builds confidence| E[ Shares Result / Refers Friends ]
+                E -->|New users join| A
+                C -.->|Uses interview practice| F[ Builds Interview Skills ]
+                F -.->|Better interview performance| G[ Lands Better Role ]
+             </div>
+          </div>
+          <div class="card">
+            <h4>📈 Growth Loops</h4>
+            <ul>
+              <li><strong>Assessment → Roadmap → Learning → Retake → Progress → Share:</strong> Core engagement loop. Users return to track progress, retake assessments, and see improvement. Shareable results drive referrals.</li>
+              <li><strong>Interview Practice → Feedback → Improvement → Retake:</strong> Interview practice loop. Users practice, get feedback, improve, and practice again.</li>
+              <li><strong>Free Assessment → Premium Conversion:</strong> Free users see value of assessment + roadmap. Premium features (detailed analysis, mentor matching, salary data, curated content) drive conversion.</li>
+              <li><strong>B2C → B2B Expansion (Future):</strong> Individual users → team accounts → enterprise. LinkedIn shares + social proof build awareness.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 5: PRODUCT DISCOVERY ====== -->
+      <section id="product-discovery">
+        <h2>5. Product Discovery</h2>
+
+        <div class="card">
+          <h4>🔍 Discovery Process</h4>
+          <p>Hirena's discovery is ongoing and evidence-based:</p>
+          <ol>
+            <li><strong>Market Research:</strong> Analyzed 200+ HR tech vendors. Mapped competitive landscape. Identified B2C gap, MENA opportunity, facial analysis risk.</li>
+            <li><strong>Competitive Intelligence:</strong> Deep-dived 8+ competitors (Eightfold, Vervoe, TestGorilla, Greenhouse, Talentee, HireVue, Gloat, Fuel50). Built feature matrix. Identified Hirena's differentiation.</li>
+            <li><strong>User Persona Development:</strong> Defined 4 primary personas (Career Climber, Job Seeker, Career Pivoter, Student/New Grad) with JTBD analysis.</li>
+            <li><strong>Feature Prioritization:</strong> Scored 18 features across impact, effort, risk, market fit. Prioritized multi-role competency models, user accounts, bias mitigation, career roadmap, AI interview practice, bilingual, MENA benchmarks.</li>
+            <li><strong>Architecture Validation:</strong> Built and verified Option 2/3 architecture. All APIs compile and respond. Demo works without credits.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h4>📊 Assumptions & Validation Status</h4>
+          <table>
+            <tr><th>Assumption</th><th>Confidence</th><th>Validation Plan</th></tr>
+            <tr>
+              <td>B2C professionals want objective skills assessment</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Launch demo → measure assessment completions → survey users</td>
+            </tr>
+            <tr>
+              <td>MENA professionals want localized benchmarks + Arabic support</td>
+              <td><span class="badge green">High</span></td>
+              <td>No competitor offers this. Launch with MENA benchmarks → measure bilingual usage (target >20%)</td>
+            </tr>
+            <tr>
+              <td>Users will complete 5-step wizard and find results valuable</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Measure completion rate (target >50%) and post-assessment satisfaction (target >4.0/5.0)</td>
+            </tr>
+            <tr>
+              <td>Real-time interview practice with AI avatar is valuable</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Talentee has proven demand for interview practice. Measure usage of real-time interview wizard. Differentiate with multi-modal analysis + avatar + multi-role context.</td>
+            </tr>
+            <tr>
+              <td>Freemium model works for B2C career development</td>
+              <td><span class="badge red">Low</span></td>
+              <td>Need to validate. Try: free assessment + roadmap → premium for detailed analysis, mentor matching, salary data. Measure conversion rate.</td>
+            </tr>
+            <tr>
+              <td>Facial analysis adds value without causing harm</td>
+              <td><span class="badge red">Low</span></td>
+              <td>High risk. HireVue dropped it. TestGorilla avoids it. Mitigation: treat as optional/experimental with disclaimer. Measure user satisfaction with vs without facial analysis.</td>
+            </tr>
+            <tr>
+              <td>OpenAI GPT-4o is the right AI supplier</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Best multi-modal model (text+vision+audio). Cost: $5-13/interview. Consider open-source alternatives long-term for cost control. Phase 2 architecture allows swapping.</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 6: BUSINESS CASE & FINANCIALS ====== -->
+      <section id="business-case">
+        <h2>6. Business Case & Financial Model</h2>
+
+        <div class="card">
+          <h4>💰 Revenue Model</h4>
+          <table>
+            <tr><th>Revenue Stream</th><th>Description</th><th>Phase</th><th>Estimated Contribution</th></tr>
+            <tr>
+              <td><strong>Freemium — Free Tier</strong></td>
+              <td>Free assessment + basic roadmap + demo. Acquisition channel. No revenue.</td>
+              <td>Phase 1</td>
+              <td>0% (acquisition)</td>
+            </tr>
+            <tr>
+              <td><strong>Premium — Individual Subscription</strong></td>
+              <td>$9.99/month or $99/year. Includes: detailed assessment analysis, career path visualization, progress tracking, curated learning resources, mentor matching, shareable reports, MENA benchmarks for all roles, unlimited assessments.</td>
+              <td>Phase 2</td>
+              <td>60-70% (primary)</td>
+            </tr>
+            <tr>
+              <td><strong>Premium — Interview Practice Pack</strong></td>
+              <td>$19.99 for 5 interview sessions, or $49.99 for 15 sessions. Includes: real-time interview with avatar, voice + facial analysis, detailed feedback, practice questions tailored to target role.</td>
+              <td>Phase 2</td>
+              <td>15-20%</td>
+            </tr>
+            <tr>
+              <td><strong>B2B — Team Accounts</strong></td>
+              <td>$50-200/user/month (annual). Includes: team assessment dashboard, skill gap analysis across team, progress tracking, manager reports, API access.</td>
+              <td>Phase 3</td>
+              <td>10-20% (future)</td>
+            </tr>
+            <tr>
+              <td><strong>B2B — Enterprise Licensing</strong></td>
+              <td>$50K-500K/year. Includes: custom competency models, SSO, HRIS integration, analytics, dedicated support, SLA.</td>
+              <td>Phase 3+ (future)</td>
+              <td>Optional (future)</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3>Financial Scenarios</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>🐢 Conservative</h4>
+            <table>
+              <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+              <tr><td>Registered Users</td><td>1,000</td><td>5,000</td><td>15,000</td></tr>
+              <tr><td>Paying Users (5% conversion)</td><td>50</td><td>250</td><td>750</td></tr>
+              <tr><td>Revenue (Subscription)</td><td>$6K</td><td>$30K</td><td>$90K</td></tr>
+              <tr><td>Revenue (Interview Packs)</td><td>$2K</td><td>$10K</td><td>$30K</td></tr>
+              <tr><td><strong>Total Revenue</strong></td><td><strong>$8K</strong></td><td><strong>$40K</strong></td><td><strong>$120K</strong></td></tr>
+              <tr><td>Costs (OpenAI + Infra)</td><td>$5K</td><td>$20K</td><td>$50K</td></tr>
+              <tr><td><strong>Net</strong></td><td><strong>-$3K</strong></td><td><strong>+$20K</strong></td><td><strong>+$70K</strong></td></tr>
+              <tr><td>CAC</td><td>$50</td><td>$40</td><td>$30</td></tr>
+              <tr><td>LTV (3yr subscription)</td><td>$150</td><td>$150</td><td>$150</td></tr>
+              <tr><td>LTV:CAC</td><td>3:1</td><td>3.75:1</td><td>5:1</td></tr>
+            </table>
+          </div>
+          <div class="card highlight">
+            <h4>📊 Realistic (Base Case)</h4>
+            <table>
+              <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+              <tr><td>Registered Users</td><td>5,000</td><td>25,000</td><td>75,000</td></tr>
+              <tr><td>Paying Users (8% conversion)</td><td>400</td><td>2,000</td><td>6,000</td></tr>
+              <tr><td>Revenue (Subscription)</td><td>$48K</td><td>$240K</td><td>$720K</td></tr>
+              <tr><td>Revenue (Interview Packs)</td><td>$15K</td><td>$75K</td><td>$200K</td></tr>
+              <tr><td><strong>Total Revenue</strong></td><td><strong>$63K</strong></td><td><strong>$315K</strong></td><td><strong>$920K</strong></td></tr>
+              <tr><td>Costs (OpenAI + Infra)</td><td>$20K</td><td>$80K</td><td>$200K</td></tr>
+              <tr><td><strong>Net</strong></td><td><strong>+$43K</strong></td><td><strong>+$235K</strong></td><td><strong>+$720K</strong></td></tr>
+              <tr><td>CAC</td><td>$30</td><td>$25</td><td>$20</td></tr>
+              <tr><td>LTV (3yr subscription)</td><td>$150</td><td>$150</td><td>$150</td></tr>
+              <tr><td>LTV:CAC</td><td>5:1</td><td>6:1</td><td>7.5:1</td></tr>
+            </table>
+          </div>
+          <div class="card success">
+            <h4>🚀 Aggressive</h4>
+            <table>
+              <tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
+              <tr><td>Registered Users</td><td>25,000</td><td>100,000</td><td>300,000</td></tr>
+              <tr><td>Paying Users (12% conversion)</td><td>3,000</td><td>12,000</td><td>36,000</td></tr>
+              <tr><td>Revenue (Subscription)</td><td>$360K</td><td>$1.44M</td><td>$4.32M</td></tr>
+              <tr><td>Revenue (Interview Packs)</td><td>$75K</td><td>$300K</td><td>$800K</td></tr>
+              <tr><td>B2B Revenue (5 customers)</td><td>$0</td><td>$250K</td><td>$1M</td></tr>
+              <tr><td><strong>Total Revenue</strong></td><td><strong>$435K</strong></td><td><strong>$1.99M</strong></td><td><strong>$6.12M</strong></td></tr>
+              <tr><td>Costs (OpenAI + Infra)</td><td>$80K</td><td>$300K</td><td>$800K</td></tr>
+              <tr><td><strong>Net</strong></td><td><strong>+$355K</strong></td><td><strong>+$1.69M</strong></td><td><strong>+$5.32M</strong></td></tr>
+              <tr><td>CAC</td><td>$20</td><td>$15</td><td>$10</td></tr>
+              <tr><td>LTV (3yr subscription)</td><td>$150</td><td>$150</td><td>$150</td></tr>
+              <tr><td>LTV:CAC</td><td>7.5:1</td><td>10:1</td><td>15:1</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h3>Unit Economics & Key Assumptions</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>💵 Unit Economics</h4>
+            <table>
+              <tr><th>Metric</th><th>Value</th><th>Notes</th></tr>
+              <tr><td>Subscription Price</td><td>$9.99/mo or $99/yr</td><td>Equivalent to ~$8.25/mo on annual</td></tr>
+              <tr><td>Interview Pack Price</td><td>$19.99 (5 sessions) or $49.99 (15)</td><td>~$4/session or ~$3.33/session</td></tr>
+              <tr><td>Cost per Interview (OpenAI)</td><td>$5-13</td><td>Video frames + audio + LLM analysis. Varies by usage.</td></tr>
+              <tr><td>Gross Margin (Subscription)</td><td>85-90%</td><td>Mostly digital delivery. Infra costs low.</td></tr>
+              <tr><td>Gross Margin (Interview Packs)</td><td>60-75%</td><td>Must cover OpenAI costs. Profit depends on usage.</td></tr>
+              <tr><td>Break-Even (Realistic)</td><td>~150 paying users</td><td>At $99/yr, 150 users = $14,850 to cover infra + OpenAI</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h4>📉 Cost Structure</h4>
+            <table>
+              <tr><th>Cost Category</th><th>Annual (Realistic Y2)</th><th>% of Revenue</th></tr>
+              <tr><td>OpenAI API (GPT-4o)</td><td>$50K</td><td>16%</td></tr>
+              <tr><td>Specialized Services (Deepgram, AWS, D-ID)</td><td>$20K</td><td>6%</td></tr>
+              <tr><td>Infrastructure (Vercel, Supabase, CDN)</td><td>$5K</td><td>2%</td></tr>
+              <tr><td>Development Team</td><td>$150K</td><td>48%</td></tr>
+              <tr><td>Marketing + User Acquisition</td><td>$40K</td><td>13%</td></tr>
+              <tr><td>Legal + Compliance</td><td>$10K</td><td>3%</td></tr>
+              <tr><td><strong>Total Costs</strong></td><td><strong>$275K</strong></td><td><strong>88%</strong></td></tr>
+              <tr><td><strong>Net Profit</strong></td><td><strong>$40K</strong></td><td><strong>12%</strong></td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 7: REQUIREMENTS ====== -->
+      <section id="requirements">
+        <h2>7. Requirements Management</h2>
+
+        <h3>Business Requirements</h3>
+        <table>
+          <tr><th>#</th><th>Requirement</th><th>Priority</th><th>Source</th></tr>
+          <tr><td>BR-01</td><td>System must provide objective skills assessment for software professionals</td><td><span class="badge teal">Critical</span></td><td>JTBD-1</td></tr>
+          <tr><td>BR-02</td><td>System must generate personalized career roadmap based on assessment results</td><td><span class="badge teal">Critical</span></td><td>JTBD-2</td></tr>
+          <tr><td>BR-03</td><td>System must offer real-time interview practice with AI feedback</td><td><span class="badge teal">Critical</span></td><td>JTBD-3</td></tr>
+          <tr><td>BR-04</td><td>System must provide MENA-specific skill benchmarks</td><td><span class="badge teal">Critical</span></td><td>Market opportunity</td></tr>
+          <tr><td>BR-05</td><td>System must support bilingual Arabic/English interface</td><td><span class="badge teal">Critical</span></td><td>Market opportunity</td></tr>
+          <tr><td>BR-06</td><td>System must cover 14+ software roles with comprehensive competency models</td><td><span class="badge blue">High</span></td><td>Competitive differentiation</td></tr>
+          <tr><td>BR-07</td><td>System must track user progress over time (assessment history)</td><td><span class="badge blue">High</span></td><td>JTBD-5</td></tr>
+          <tr><td>BR-08</td><td>System must be accessible without API credits (demo mode)</td><td><span class="badge teal">Critical</span></td><td>Current constraint</td></tr>
+          <tr><td>BR-09</td><td>System must allow users to share results (LinkedIn, social)</td><td><span class="badge yellow">Medium</span></td><td>JTBD-6</td></tr>
+          <tr><td>BR-10</td><td>System must be compliant with AI ethics + bias mitigation best practices</td><td><span class="badge teal">Critical</span></td><td>Regulatory + ethical</td></tr>
+        </table>
+
+        <h3>Functional Requirements</h3>
+        <table>
+          <tr><th>#</th><th>Requirement</th><th>Priority</th></tr>
+          <tr><td>FR-01</td><td>Assessment Wizard: 5-step flow (Profile → Goal → Self-Rate → AI Analysis → Review & Submit)</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-02</td><td>Self-Assessment: Rate skills 0-7 across all skills in selected role</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-03</td><td>AI Skill Analysis: Submit experience descriptions → GPT-4o infers levels</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-04</td><td>Results Dashboard: Overall score, competency breakdown, skill ranking, gap analysis, roadmap</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-05</td><td>Multi-Role Support: Select from 14+ roles, each with full competency model</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-06</td><td>Career Ladder Visualization: Show progression path (Junior→Senior→Lead→Principal→Manager)</td><td><span class="badge blue">High</span></td></tr>
+          <tr><td>FR-07</td><td>Real-Time Interview Wizard: 8-step flow with avatar mentor, video capture, analysis, feedback</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-08</td><td>Voice Analysis: Analyze transcription + duration → tone, pacing, emotion, clarity, engagement, filler words</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-09</td><td>Facial Analysis: Analyze video frames → eye contact, engagement, confidence, stress, expressiveness, smile warmth</td><td><span class="badge yellow">Medium</span></td></tr>
+          <tr><td>FR-10</td><td>Results Fusion: Merge voice + facial + self-assessment → overall score + recommendations</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-11</td><td>Avatar Mentor: AI avatar that interviews candidate (CSS/SVG + TTS baseline, D-ID/HeyGen Phase 2)</td><td><span class="badge blue">High</span></td></tr>
+          <tr><td>FR-12</td><td>Bilingual UI: Toggle between Arabic and English, RTL support for Arabic</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-13</td><td>MENA Benchmarks: Display user's skill levels vs MENA averages for PM role (Phase 2: all roles)</td><td><span class="badge teal">Critical</span></td></tr>
+          <tr><td>FR-14</td><td>User Accounts: Sign up / sign in, persistent profile, assessment history</td><td><span class="badge blue">High</span></td></tr>
+          <tr><td>FR-15</td><td>Progress Tracking: Compare current vs past assessments, skill trajectory visualization</td><td><span class="badge blue">High</span></td></tr>
+          <tr><td>FR-16</td><td>Learning Resources: Curated resources per skill (articles, courses, videos, books)</td><td><span class="badge yellow">Medium</span></td></tr>
+          <tr><td>FR-17</td><td>Shareable Reports: Generate shareable URL or PDF for LinkedIn/social sharing</td><td><span class="badge yellow">Medium</span></td></tr>
+          <tr><td>FR-18</td><td>Roadmap Actions: Generate immediate, intermediate, long-term learning actions per gap</td><td><span class="badge teal">Critical</span></td></tr>
+        </table>
+
+        <h3>Non-Functional Requirements</h3>
+        <table>
+          <tr><th>Category</th><th>Requirement</th><th>Target</th></tr>
+          <tr><td><strong>Performance</strong></td><td>Landing page LCP</td><td>&lt; 2.5 seconds</td></tr>
+          <tr><td></td><td>Assessment wizard step response</td><td>&lt; 500ms</td></tr>
+          <tr><td></td><td>API call completion</td><td>&lt; 5 seconds (AI inference may take longer — show loading)</td></tr>
+          <tr><td></td><td>Real-time interview latency</td><td>&lt; 500ms avatar response</td></tr>
+          <tr><td><strong>Reliability</strong></td><td>Demo availability (no API)</td><td>99.9% (static pre-computed result)</td></tr>
+          <tr><td></td><td>API availability (when credits available)</td><td>99.5% (depends on OpenAI)</td></tr>
+          <tr><td></td><td>Graceful degradation</td><td>Works with self-assessment only when AI unavailable</td></tr>
+          <tr><td><strong>Security</strong></td><td>API keys</td><td>Server-side only, never exposed to client</td></tr>
+          <tr><td></td><td>User data (future)</td><td>Encrypted at rest + in transit (Supabase)</td></tr>
+          <tr><td></td><td>Auth</td><td>Secure auth with Supabase (future)</td></tr>
+          <tr><td><strong>Scalability</strong></td><td>Concurrent users</td><td>100+ concurrent (MVP), 1000+ (Phase 2)</td></tr>
+          <tr><td></td><td>Assessment throughput</td><td>10/sec (MVP), 100/sec (Phase 2)</td></tr>
+          <tr><td><strong>Accessibility</strong></td><td>WCAG compliance</td><td>WCAG 2.1 AA target</td></tr>
+          <tr><td></td><td>Keyboard navigation</td><td>All wizard steps keyboard accessible</td></tr>
+          <tr><td></td><td>Screen reader support</td><td>Results dashboard screen-reader friendly</td></tr>
+          <tr><td><strong>Internationalization</strong></td><td>Languages</td><td>Arabic (ar), English (en)</td></tr>
+          <tr><td></td><td>RTL support</td><td>Arabic renders RTL</td></tr>
+          <tr><td></td><td>Region support</td><td>MENA, APAC, NA, EMEA benchmarks</td></tr>
+        </table>
+      </section>
+
+      <!-- Remaining sections would continue similarly... -->
+      <section id="features">
+        <h2>8. Feature Management & Prioritization</h2>
+
+        <h3>Feature Catalog with Impact Analysis</h3>
+        <p>Scoring methodology: <strong>Impact = (User Value × Differentiation × Market Fit) / (Effort × Risk)</strong> — scored 1-5 each.</p>
+
+        <table>
+          <tr><th>#</th><th>Feature</th><th>User Value</th><th>Diff.</th><th>Mkt Fit</th><th>Effort</th><th>Risk</th><th>Impact</th><th>Phase</th><th>Status</th></tr>
+          <tr>
+            <td>F-01</td>
+            <td><strong>Multi-Role Competency Models (14+ roles, 370+ skills)</strong></td>
+            <td>5</td><td>4</td><td>5</td><td>4</td><td>2</td>
+            <td><strong>20/20</strong></td>
+            <td>Phase 1</td>
+            <td><span class="status-dot active">5/14 built</span></td>
+          </tr>
+          <tr>
+            <td>F-02</td>
+            <td><strong>User Accounts + Profiles + Assessment History + Progress Tracking</strong></td>
+            <td>5</td><td>3</td><td>5</td><td>4</td><td>2</td>
+            <td><strong>15/20</strong></td>
+            <td>Phase 1</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-03</td>
+            <td><strong>Career Roadmap Enhancement (curated content + career path viz + progress tracking)</strong></td>
+            <td>5</td><td>4</td><td>4</td><td>4</td><td>2</td>
+            <td><strong>16/20</strong></td>
+            <td>Phase 1-2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-04</td>
+            <td><strong>AI Interview Practice — Real AI Integration (GPT-4o Vision + Whisper)</strong></td>
+            <td>5</td><td>5</td><td>5</td><td>3</td><td>3</td>
+            <td><strong>25/20</strong></td>
+            <td>Phase 1-2</td>
+            <td><span class="status-dot in-progress">APIs built, blocked by $0 balance</span></td>
+          </tr>
+          <tr>
+            <td>F-05</td>
+            <td><strong>Bilingual AR/EN Full Implementation + MENA Benchmarks</strong></td>
+            <td>4</td><td>5</td><td>5</td><td>3</td><td>2</td>
+            <td><strong>20/20</strong></td>
+            <td>Phase 1-2</td>
+            <td><span class="status-dot in-progress">AR/EN support ready, benchmarks for PM only</span></td>
+          </tr>
+          <tr>
+            <td>F-06</td>
+            <td><strong>Multi-Modal Analysis — Voice + Content Core, Facial Optional/Experimental</strong></td>
+            <td>4</td><td>4</td><td>4</td><td>3</td><td>4</td>
+            <td><strong>12/20</strong></td>
+            <td>Phase 1-2</td>
+            <td><span class="status-dot active">APIs built (simulated), risk mitigation in place</span></td>
+          </tr>
+          <tr>
+            <td>F-07</td>
+            <td><strong>Analytics Dashboard Enhancement (progress tracking + benchmark comparison + shareable report)</strong></td>
+            <td>4</td><td>3</td><td>4</td><td>3</td><td>2</td>
+            <td><strong>12/20</strong></td>
+            <td>Phase 2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-08</td>
+            <td><strong>Bias Mitigation + Compliance (EU AI Act, NYC AEDT, Colorado AI Act)</strong></td>
+            <td>3</td><td>4</td><td>4</td><td>3</td><td>5</td>
+            <td><strong>12/20</strong></td>
+            <td>Phase 1</td>
+            <td><span class="status-dot in-progress">Facial disclaimer + optional/experimental toggle needed</span></td>
+          </tr>
+          <tr>
+            <td>F-09</td>
+            <td><strong>Learning Content Library (curated + partnered content per skill)</strong></td>
+            <td>4</td><td>3</td><td>4</td><td>3</td><td>2</td>
+            <td><strong>13/20</strong></td>
+            <td>Phase 2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-10</td>
+            <td><strong>Career Path Visualization (visual ladder per role with skill requirements)</strong></td>
+            <td>4</td><td>4</td><td>4</td><td>3</td><td>2</td>
+            <td><strong>16/20</strong></td>
+            <td>Phase 2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-11</td>
+            <td><strong>Progress Tracking + Skill Trajectory (compare assessments, show improvement)</strong></td>
+            <td>4</td><td>3</td><td>4</td><td>3</td><td>2</td>
+            <td><strong>12/20</strong></td>
+            <td>Phase 2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-12</td>
+            <td><strong>LinkedIn Sharing + Social Proof</strong></td>
+            <td>3</td><td>3</td><td>3</td><td>2</td><td>2</td>
+            <td><strong>9/20</strong></td>
+            <td>Phase 2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-13</td>
+            <td><strong>Mentor Matching Service (AI-matched or community-driven)</strong></td>
+            <td>3</td><td>3</td><td>3</td><td>3</td><td>2</td>
+            <td><strong>8/20</strong></td>
+            <td>Phase 2</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-14</td>
+            <td><strong>Compensation + Salary Intelligence (MENA-specific)</strong></td>
+            <td>3</td><td>2</td><td>3</td><td>3</td><td>2</td>
+            <td><strong>6/20</strong></td>
+            <td>Phase 2-3</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-15</td>
+            <td><strong>Two-Way Voice Conversation (Option 3 — real-time WebSocket + voice streaming)</strong></td>
+            <td>4</td><td>5</td><td>3</td><td>5</td><td>4</td>
+            <td><strong>6/20</strong></td>
+            <td>Phase 3 (optional)</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-16</td>
+            <td><strong>Gamification + Engagement (badges, milestones, streaks)</strong></td>
+            <td>2</td><td>2</td><td>2</td><td>2</td><td>1</td>
+            <td><strong>4/20</strong></td>
+            <td>Phase 3 (optional)</td>
+            <td><span class="status-dot planned">Not started</span></td>
+          </tr>
+          <tr>
+            <td>F-17</td>
+            <td><strong>Resume/CV Scoring + Parsing</strong></td>
+            <td>2</td><td>1</td><td>2</td><td>3</td><td>2</td>
+            <td><strong>1/20</strong></td>
+            <td>B2B only (future)</td>
+            <td><span class="status-dot planned">Out of scope for B2C MVP</span></td>
+          </tr>
+          <tr>
+            <td>F-18</td>
+            <td><strong>Enterprise Integrations (ATS/HRIS/LMS) + Internal Talent Marketplace + Talent Sourcing</strong></td>
+            <td>1</td><td>1</td><td>1</td><td>5</td><td>2</td>
+            <td><strong>0.2/20</strong></td>
+            <td>B2B only (future)</td>
+            <td><span class="status-dot planned">Out of scope for B2C MVP</span></td>
+          </tr>
+        </table>
+
+        <h3>Prioritization Summary</h3>
+        <div class="grid-2">
+          <div class="card success">
+            <h4>🏆 Quick Wins (High Impact, Low Effort)</h4>
+            <ul>
+              <li><strong>Bilingual AR/EN:</strong> Already designed in, needs full implementation across all UI + content</li>
+              <li><strong>LinkedIn Sharing:</strong> Simple integration, high viral potential</li>
+              <li><strong>MENA Benchmarks for PM:</strong> Already have data, need to display in dashboard</li>
+            </ul>
+          </div>
+          <div class="card highlight">
+            <h4>🎯 Strategic Bets (High Impact, Higher Effort)</h4>
+            <ul>
+              <li><strong>Multi-Role Competency Models (9 remaining roles):</strong> Foundation for all features. 9 roles, ~200 skills to build.</li>
+              <li><strong>User Accounts + Progress Tracking:</strong> Essential for retention + recurring value. Supabase auth + DB.</li>
+              <li><strong>Career Roadmap Enhancement:</strong> Core value prop. Curated content + career path viz + progress tracking.</li>
+              <li><strong>Real AI Integration (GPT-4o Vision + Whisper):</strong> Biggest differentiator vs Talentee. Need OpenAI credits.</li>
+            </ul>
+          </div>
+          <div class="card warning">
+            <h4>⚠️ High Risk / High Reward</h4>
+            <ul>
+              <li><strong>Facial Analysis:</strong> Differentiator but highest risk. HireVue dropped it. Mitigation: optional/experimental + disclaimer.</li>
+              <li><strong>Two-Way Voice Conversation (Option 3):</strong> Impressive but expensive ($9-26/interview) + high effort + uncertain market fit.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>📋 MoSCoW Prioritization</h4>
+            <table>
+              <tr><th>Must Have (Phase 1)</th><th>Should Have (Phase 1-2)</th><th>Could Have (Phase 2)</th><th>Won't Have (MVP)</th></tr>
+              <tr>
+                <td>Multi-role models (5 built)</td>
+                <td>User accounts + profiles</td>
+                <td>Learning content library</td>
+                <td>Resume/CV scoring</td>
+              </tr>
+              <tr>
+                <td>Assessment wizard + dashboard</td>
+                <td>Career roadmap enhancement</td>
+                <td>Career path visualization</td>
+                <td>Internal talent marketplace</td>
+              </tr>
+              <tr>
+                <td>Real-time interview (Option 2/3 APIs)</td>
+                <td>Bias mitigation + compliance</td>
+                <td>Progress tracking + skill trajectory</td>
+                <td>Talent sourcing</td>
+              </tr>
+              <tr>
+                <td>Bilingual support (AR/EN)</td>
+                <td>Real AI integration (GPT-4o)</td>
+                <td>Shareable reports + LinkedIn</td>
+                <td>Enterprise integrations</td>
+              </tr>
+              <tr>
+                <td>MENA benchmarks (PM first)</td>
+                <td>Voice + content analysis core</td>
+                <td>Mentor matching</td>
+                <td>Anti-cheat / proctoring</td>
+              </tr>
+              <tr>
+                <td>Demo mode (no API credits)</td>
+                <td>Facial analysis (optional+disclaimer)</td>
+                <td>Salary intelligence (MENA)</td>
+                <td>Gamification</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <h3>Value vs Effort Matrix</h3>
+        <div class="mermaid">
+          graph LR
+            subgraph Quick Wins [Quick Wins — High Value, Low Effort]
+              QW1[Bilingual AR/EN Full Implementation]
+              QW2[LinkedIn Sharing + Social Proof]
+              QW3[MENA Benchmarks Display (PM)]
+            end
+            subgraph StrategicBets [Strategic Bets — High Value, Higher Effort]
+              SB1[Multi-Role Models (9 remaining roles)]
+              SB2[User Accounts + Progress Tracking]
+              SB3[Career Roadmap Enhancement]
+              SB4[Real AI Integration (GPT-4o Vision+Whisper)]
+              SB5[Career Path Visualization]
+            end
+            subgraph MajorProjects [Major Projects — High Value, High Effort]
+              MP1[Curated Learning Content Library]
+              MP2[Fusion + Multi-Modal Enhancement]
+              MP3[Two-Way Voice Conversation Option 3]
+            end
+            subgraph LowValue [Low Value / Future Consideration]
+              LV1[Resume/CV Scoring]
+              LV2[Enterprise Integrations]
+              LV3[Internal Talent Marketplace]
+              LV4[Talent Sourcing]
+              LV5[Gamification]
+            end
+            Quick Wins --> StrategicBets
+            StrategicBets --> MajorProjects
+        </div>
+      </section>
+
+      <!-- ====== SECTION 9: CUSTOMER EXPERIENCE ====== -->
+      <section id="customer-experience">
+        <h2>9. Customer Experience</h2>
+
+        <h3>Customer Journey Map</h3>
+        <div class="mermaid">
+          journey
+            title Hirena User Journey
+            section Awareness
+              Discover Hirena via social media / referral / search: 5: User
+              View landing page: 5: User
+            section Consideration
+              Click "See a demo assessment": 4: User
+              View pre-computed demo result: 5: User
+              Explore "How It Works" section: 3: User
+            section Acquisition
+              Click "Start Free Assessment": 5: User
+              Complete 5-step wizard: 4: User
+              Submit assessment: 5: User
+            section Onboarding
+              View personalized results dashboard: 5: User
+              Understand competency breakdown: 4: User
+              Review gap analysis + roadmap: 5: User
+            section Engagement
+              Save result / bookmark roadmap: 4: User
+              Try real-time interview practice: 3: User
+              Practice with avatar mentor: 4: User
+              Receive voice + facial + content analysis: 5: User
+            section Retention
+              Retake assessment after learning: 4: User
+              Compare progress over time: 5: User
+              Update career goals: 3: User
+            section Advocacy
+              Share result on LinkedIn: 3: User
+              Refer friend to Hirena: 2: User
+              Leave review / testimonial: 2: User
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>🗺️ Service Blueprint — Assessment Flow</h4>
+            <table>
+              <tr><th>Stage</th><th>Customer Actions</th><th>Frontstage</th><th>Backstage</th><th>Support Systems</th></tr>
+              <tr>
+                <td><strong>1. Profile</strong></td>
+                <td>Select role, experience, region</td>
+                <td>5-step wizard, Step 1 form</td>
+                <td>Validate role exists in competency models</td>
+                <td>ROLE_COMPETENCY_MODELS, src/lib/competency-models/index.ts</td>
+              </tr>
+              <tr>
+                <td><strong>2. Goal</strong></td>
+                <td>Select target role + career goal</td>
+                <td>Step 2 form, goal dropdown</td>
+                <td>Store goal for roadmap generation</td>
+                <td>AssessmentInput state</td>
+              </tr>
+              <tr>
+                <td><strong>3. Self-Rate</strong></td>
+                <td>Rate 30-40 skills (0-7) grouped by pillar</td>
+                <td>Skill cards, progress bar, tooltips</td>
+                <td>Capture selfAssessment object</td>
+                <td>Role competency model (skills + pillars)</td>
+              </tr>
+              <tr>
+                <td><strong>4. AI Analysis</strong></td>
+                <td>Describe experience for rated skills → GPT-4o infers</td>
+                <td>Text inputs per skill, submit button</td>
+                <td>Call inferAllSkills() → GPT-4o → inferred levels</td>
+                <td>OpenAI API, src/lib/competency-model.ts</td>
+              </tr>
+              <tr>
+                <td><strong>5. Review & Submit</strong></td>
+                <td>Review summary, confirm, submit</td>
+                <td>Summary screen, submit button</td>
+                <td>Call computeAssessmentResult() → scoring engine</td>
+                <td>src/lib/scoring-engine.ts</td>
+              </tr>
+              <tr>
+                <td><strong>6. Results</strong></td>
+                <td>View dashboard, explore gaps, review roadmap</td>
+                <td>Results dashboard, charts, lists</td>
+                <td>Render AssessmentResult</td>
+                <td>localStorage (demo), Supabase (future)</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card">
+            <h4>🗺️ Service Blueprint — Real-Time Interview Flow</h4>
+            <table>
+              <tr><th>Stage</th><th>Customer Actions</th><th>Frontstage</th><th>Backstage</th><th>Support Systems</th></tr>
+              <tr>
+                <td><strong>1. Start</strong></td>
+                <td>Select role + track, click Start</td>
+                <td>Real-time interview wizard, role selector</td>
+                <td>Open WebSocket to /api/interview/session</td>
+                <td>WebSocket, src/app/api/interview/session/route.ts</td>
+              </tr>
+              <tr>
+                <td><strong>2. Context</strong></td>
+                <td>Provide years of experience</td>
+                <td>Avatar displays greeting</td>
+                <td>Server stores context in session</td>
+                <td>sessionMap (in-memory)</td>
+              </tr>
+              <tr>
+                <td><strong>3. Instruction</strong></td>
+                <td>Click "I'm ready"</td>
+                <td>Avatar shows instruction</td>
+                <td>Server sends avatar question</td>
+                <td>Avatar mentor component</td>
+              </tr>
+              <tr>
+                <td><strong>4. Video</strong></td>
+                <td>Record video response (MediaRecorder)</td>
+                <td>Video recording UI, avatar question + TTS</td>
+                <td>Capture video blob, send to server</td>
+                <td>MediaRecorder, getUserMedia</td>
+              </tr>
+              <tr>
+                <td><strong>5. Analysis</strong></td>
+                <td>Wait while analyzing (loading UI)</td>
+                <td>"Analyzing..." state</td>
+                <td>Call voice/analyze + facial/analyze APIs</td>
+                <td>src/app/api/voice/analyze/route.ts, src/app/api/facial/analyze/route.ts</td>
+              </tr>
+              <tr>
+                <td><strong>6. Fusion</strong></td>
+                <td>View analysis results</td>
+                <td>Feedback screen (voice + facial scores)</td>
+                <td>Call fusion/result API, merge signals</td>
+                <td>src/app/api/fusion/result/route.ts, src/lib/results-fusion.ts</td>
+              </tr>
+              <tr>
+                <td><strong>7. Follow-Up</strong></td>
+                <td>Click Continue, answer follow-up question</td>
+                <td>Avatar asks follow-up, repeat video → analysis loop</td>
+                <td>Generate follow-up question, store results</td>
+                <td>Session state machine</td>
+              </tr>
+              <tr>
+                <td><strong>8. Complete</strong></td>
+                <td>View final dashboard</td>
+                <td>Interview final result (overall + per-dimension scores)</td>
+                <td>Compile InterviewFinalResult, close WebSocket</td>
+                <td>src/lib/real-time-interview.ts</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 10: ENTERPRISE ARCHITECTURE ====== -->
+      <section id="enterprise-arch">
+        <h2>10. Enterprise Architecture</h2>
+
+        <h3>Architecture Principles</h3>
+        <table>
+          <tr><th>Principle</th><th>Description</th><th>Rationale</th></tr>
+          <tr>
+            <td><strong>B2C-First, Not Employer-First</strong></td>
+            <td>Every architectural decision serves the individual professional's career growth, not employer's hiring needs.</td>
+            <td>Competitive differentiation. Most HR tech is B2B employer-facing. Hirena serves individuals.</td>
+          </tr>
+          <tr>
+            <td><strong>AI-Enhanced, Not AI-Replaced</strong></td>
+            <td>AI augments human self-assessment and practice. Users retain agency and judgment. AI provides objective data + guidance.</td>
+            <td>Ethical AI. Better outcomes. Users trust tools that augment, not replace, their judgment.</td>
+          </tr>
+          <tr>
+            <td><strong>MENA-Localized by Default</strong></td>
+            <td>Regional benchmarks, bilingual support, MENA market context baked into architecture from day one.</td>
+            <td>Unique differentiation. No competitor offers MENA-specific benchmarks or Arabic-first UX.</td>
+          </tr>
+          <tr>
+            <td><strong>Modular + Evolutionary</strong></td>
+            <td>Architecture supports Option 1→2→3 evolution. Services are independent. Swap vendors without rewriting core.</td>
+            <td>Cost control. Flexibility. AI landscape changes fast — architecture must adapt.</td>
+          </tr>
+          <tr>
+            <td><strong>Demo-First, Production-Ready</strong></td>
+            <td>System works without API credits (demo mode). Production path works when credits available. Graceful degradation.</td>
+            <td>Unblocks development. Allows demo + testing without OpenAI balance.</td>
+          </tr>
+          <tr>
+            <td><strong>Responsible AI by Design</strong></td>
+            <td>Bias mitigation, transparency, optional/experimental features with disclaimers. Facial analysis treated carefully.</td>
+            <td>Regulatory compliance (EU AI Act, NYC LL144, Colorado). Ethical obligation. Competitive trust signal.</td>
+          </tr>
+          <tr>
+            <td><strong>Type-Safe + Testable</strong></td>
+            <td>Full TypeScript, strict typing, clean compilation, test-ready architecture.</td>
+            <td>Reliability. Maintainability. Faster iteration. Fewer bugs in production.</td>
+          </tr>
+        </table>
+
+        <h3>C4 Model — Level 1: Context</h3>
+        <div class="mermaid">
+          C4Context
+            title Hirena — System Context (Level 1)
+            Person(user, "ProfessionalUser", "Individual software professional in MENA seeking career development")
+            Person(admin, "Admin", "Hirena platform administrator")
+            System(hirena, "Hirena Platform", "AI-powered skills assessment + career development platform for MENA professionals")
+            System_Ext(openai, "OpenAI GPT-4o", "AI model for skill inference, interview content generation, voice analysis")
+            System_Ext(supabase, "Supabase", "User auth, profile storage, assessment history (future)")
+            System_Ext(vercel, "Vercel", "Deployment platform (Next.js native)")
+
+            Rel(user, hirena, "Uses for assessment, interview practice, roadmap")
+            Rel(hirena, openai, "Calls for AI inference (when credits available)")
+            Rel(hirena, supabase, "Stores user data (future)")
+            Rel(hirena, vercel, "Deployed on")
+            Rel(admin, hirena, "Manages platform")
+        </div>
+
+        <h3>C4 Model — Level 2: Container</h3>
+        <div class="mermaid">
+          C4Container
+            title Hirena — Container Diagram (Level 2)
+            Person(user, "ProfessionalUser", "Individual professional")
+            System_Boundary(hirena_boundary, "Hirena Platform") {
+              Container(web_app, "Next.js 15 Web App", "React + TypeScript + Tailwind + Shadcn/UI", "Landing page, assessment wizard, results dashboard, real-time interview wizard, avatar mentor")
+              Container(api_assess, "Assessment API", "Next.js App Router API Route", "POST /api/assess — receives assessment input, calls AI inference, computes results")
+              Container(api_interview, "Interview Session API", "Next.js App Router API Route (WebSocket)", "WebSocket /api/interview/session — manages 8-step real-time interview flow")
+              Container(api_voice, "Voice Analysis API", "Next.js App Router API Route", "POST /api/voice/analyze — analyzes voice transcription + duration")
+              Container(api_facial, "Facial Analysis API", "Next.js App Router API Route", "POST /api/facial/analyze — analyzes video frames for expressions")
+              Container(api_fusion, "Results Fusion API", "Next.js App Router API Route", "POST /api/fusion/result — fuses voice + facial + self-assessment signals")
+              Container(api_verify, "Env Verification API", "Next.js App Router API Route", "GET /api/verify-env — verifies OpenAI API key loaded")
+              Container(sp scoring_engine, "Scoring Engine", "TypeScript Library (src/lib/scoring-engine.ts)", "computeAssessmentResult() — merges AI levels over self-assessment, computes weighted scores, identifies gaps/strengths/roadmap")
+              Container(sp comp_models, "Competency Models", "TypeScript Libraries (src/lib/competency-models/)", "5 role models built (171 skills, 78 pillars) + PM model (35 skills). 9 roles in roadmap.")
+              Container(sp realtime_svc, "Real-Time Services", "TypeScript Libraries", "real-time-interview.ts, results-fusion.ts, signal-analysis.ts, video-interview.ts")
+            }
+            System_Ext(openai, "OpenAI GPT-4o", "AI model (when credits available)")
+            System_Ext(localstorage, "Browser localStorage", "Demo result persistence (key: hirena-demo-result)")
+
+            Rel(user, web_app, "Uses via browser")
+            Rel(web_app, api_assess, "POST assessment")
+            Rel(web_app, api_interview, "WebSocket for interview")
+            Rel(web_app, api_verify, "GET verify env")
+            Rel(api_assess, scoring_engine, "Uses to compute results")
+            Rel(api_assess, comp_models, "Loads role competency model")
+            Rel(api_assess, openai, "Calls for AI inference (when available)")
+            Rel(api_interview, realtime_svc, "Uses session manager")
+            Rel(api_interview, api_voice, "Calls for voice analysis")
+            Rel(api_interview, api_facial, "Calls for facial analysis")
+            Rel(api_interview, api_fusion, "Calls for results fusion")
+            Rel(web_app, localstorage, "Persists demo result")
+        </div>
+
+        <h3>Technology Stack Summary</h3>
+        <table>
+          <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+          <tr><td>Frontend Framework</td><td>Next.js 15 + React 19</td><td>Full-stack React framework with App Router</td></tr>
+          <tr><td>Language</td><td>TypeScript 5.x (strict)</td><td>Type-safe development</td></tr>
+          <tr><td>Styling</td><td>Tailwind CSS + Shadcn/UI + Radix UI</td><td>Utility-first CSS + accessible component primitives</td></tr>
+          <tr><td>AI Model</td><td>OpenAI GPT-4o (multi-modal: text + vision + audio)</td><td>Skill inference, interview content, voice analysis</td></tr>
+          <tr><td>Deployment</td><td>Vercel (Next.js native)</td><td>Serverless deployment, CDN, automatic HTTPS</td></tr>
+          <tr><td>Database (Future)</td><td>Supabase (PostgreSQL + Auth + Realtime)</td><td>User auth, profile storage, assessment history</td></tr>
+          <tr><td>Avatar/TTS (Phase 2)</td><td>D-ID / HeyGen + ElevenLabs / OpenAI TTS</td><td>Realistic talking avatar for interview practice</td></tr>
+          <tr><td>Voice Analysis (Phase 2)</td><td>Deepgram / AssemblyAI</td><td>Dedicated speech-to-text + voice analysis</td></tr>
+          <tr><td>Facial Analysis (Phase 2)</td><td>AWS Rekognition / DeepFace</td><td>Structured emotion detection from video</td></tr>
+        </table>
+      </section>
+
+      <!-- ====== SECTION 12: DATA FLOW DIAGRAMS ====== -->
+      <section id="data-flows">
+        <h2>12. Data Flow Diagrams</h2>
+
+        <h3>DFD Level 0 — Context Diagram</h3>
+        <div class="mermaid">
+          graph LR
+            subgraph External [External Entities]
+              User[ Professional User ]
+              OpenAI[ OpenAI GPT-4o ]
+            end
+            subgraph Hirena_System [Hirena System]
+              Assess[ Assessment API ]
+              Interview[ Interview Session API ]
+              Voice[ Voice Analysis API ]
+              Facial[ Facial Analysis API ]
+              Fusion[ Results Fusion API ]
+              Scoring[ Scoring Engine ]
+              Models[ Competency Models ]
+            end
+            User -->|1. Submit assessment + self-rating| Assess
+            User -->|2. Start interview + record video| Interview
+            OpenAI -->|3. AI skill inference (when available)| Assess
+            Assess -->|4. Compute results| Scoring
+            Scoring -->|5. Load role model| Models
+            Interview -->|6. Analyze voice| Voice
+            Interview -->|7. Analyze facial| Facial
+            Interview -->|8. Fuse results| Fusion
+            Fusion -->|9. Return fused score| Interview
+            Assess -->|10. Return assessment result| User
+            Interview -->|11. Return interview result| User
+        </div>
+
+        <h3>DFD Level 1 — Assessment Data Flow</h3>
+        <div class="mermaid">
+          graph TD
+            A[ User ] -->|targetRole, targetTrack, region, selfAssessment, aiInferenceInputs| B( POST /api/assess )
+            B --> C{ Validate input }
+            C -->| Invalid | D[ Return 400 Error ]
+            C -->| Valid | E{ aiInferenceInputs present? }
+            E -->| Yes | F[ Call inferAllSkills() → GPT-4o ]
+            F --> G[ Returns: { skillId: { level, confidence, reasoning } } ]
+            E -->| No | H[ Skip AI inference ]
+            G --> I[ Pass input + aiInferenceResults to computeAssessmentResult() ]
+            H --> I
+            I --> J[ Scoring Engine: ]
+            J --> J1[ Merge AI levels over self-assessment ]
+            J --> J2[ Compute weighted pillar scores ]
+            J --> J3[ Identify strengths (level ≥ 5), gaps (level < 3), missing skills ]
+            J --> J4[ Generate roadmap actions (immediate / intermediate / long-term) ]
+            J --> K[ Return AssessmentResult ]
+            K --> L[ Results Dashboard ]
+            L --> M[ Persist to localStorage (demo) ]
+        </div>
+
+        <h3>DFD Level 2 — Real-Time Interview Data Flow</h3>
+        <div class="mermaid">
+          graph TD
+            A[ User ] -->| Connect WebSocket | B( POST /api/interview/session )
+            B --> C[ Create session in sessionMap ]
+            C --> D[ Send { type: 'context' } ]
+            D --> E[ User sends { type: 'context', targetRole, ... } ]
+            E --> F[ Server stores context, sends { type: 'instruction' } ]
+            F --> G[ User clicks ready, sends { type: 'instruction', ready: true } ]
+            G --> H[ Server generates avatar question, sends { type: 'avatar-question' } ]
+            H --> I[ Avatar displays question + TTS ]
+            I --> J[ User records video (MediaRecorder) ]
+            J --> K[ User sends { type: 'video', videoData, duration } ]
+            K --> L[ Server stores video, sends { type: 'analyzing' } ]
+            L --> M[ Server calls POST /api/voice/analyze ]
+            M --> N[ Returns VoiceAnalysisResult ]
+            N --> O[ Server stores voice result ]
+            O --> P[ Server calls POST /api/facial/analyze ]
+            P --> Q[ Returns FacialAnalysisResult ]
+            Q --> R[ Server stores facial result ]
+            R --> S[ Server calls POST /api/fusion/result ]
+            S --> T[ Returns FusionResult ]
+            T --> U[ Server stores fusion result ]
+            U --> V[ Server sends { type: 'feedback', feedback: [...] } ]
+            V --> W[ User views feedback, clicks Continue ]
+            W --> X[ Server generates follow-up question, loops to H ]
+            X -->| After max questions or user ends | Y[ Server sends { type: 'interview-complete', result: ... } ]
+            Y --> Z[ User views final dashboard, disconnects ]
+        </div>
+      </section>
+
+      <!-- ====== SECTION 13: WORKFLOW LIBRARY ====== -->
+      <section id="workflows">
+        <h2>13. Workflow Library (Mermaid)</h2>
+
+        <h3>Assessment Workflow</h3>
+        <div class="mermaid">
+          flowchart TD
+            Start[ Start Assessment ] --> Step1[ Step 1: Profile ]
+            Step1 -->| Select role, experience, region | Step2[ Step 2: Goal ]
+            Step2 -->| Select target role + career goal | Step3[ Step 3: Self-Rate Skills ]
+            Step3 -->| Rate 30-40 skills 0-7 | Step4{ AI Inference? }
+            Step4 -->| Yes: describe experience | AI[ GPT-4o Infers Levels ]
+            Step4 -->| No: skip | Step5
+            AI --> Step5[ Step 5: Review & Submit ]
+            Step5 -->| Confirm + submit | API[ POST /api/assess ]
+            API --> Score[ Scoring Engine: merge AI + self, compute scores, gaps, roadmap ]
+            Score --> Result[ Results Dashboard ]
+            Result --> End[ Persist to localStorage ]
+        </div>
+
+        <h3>Real-Time Interview Workflow</h3>
+        <div class="mermaid">
+          flowchart TD
+            Start[ Start Interview ] --> WS[ WebSocket Connection ]
+            WS --> Context[ Await Context: user provides yearsExperience ]
+            Context --> Instruction[ Await Instruction: user clicks ready ]
+            Instruction --> AvatarQ[ Avatar Question + TTS ]
+            AvatarQ --> Video[ Record Video Response ]
+            Video --> Voice[ Voice Analysis API ]
+            Voice --> Facial[ Facial Analysis API ]
+            Facial --> Fusion[ Results Fusion API ]
+            Fusion --> Feedback[ Show Feedback ]
+            Feedback -->| Continue | AvatarQ
+            Feedback -->| End | Complete[ Interview Complete: final dashboard ]
+        </div>
+
+        <h3>Onboarding Workflow</h3>
+        <div class="mermaid">
+          flowchart LR
+            Landing[ Landing Page ] --> Demo[ See Demo Assessment ]
+            Landing --> Wizard[ Start Free Assessment ]
+            Demo --> Dashboard[ Results Dashboard ]
+            Wizard --> Profile[ Step 1: Profile ]
+            Profile --> Goal[ Step 2: Goal ]
+            Goal --> SelfRate[ Step 3: Self-Rate ]
+            SelfRate --> AI[ Step 4: AI Analysis ]
+            AI --> Review[ Step 5: Review & Submit ]
+            Review --> Dashboard
+        </div>
+      </section>
+
+      <!-- ====== SECTION 14: MERMAID DIAGRAM CENTER ====== -->
+      <section id="mermaid-center">
+        <h2>14. Mermaid Diagram Center</h2>
+
+        <div class="card">
+          <h4>📊 Diagram Inventory</h4>
+          <table>
+            <tr><th>#</th><th>Diagram</th><th>Type</th><th>Category</th><th>Status</th></tr>
+            <tr><td>D-01</td><td>System Context (C4 Level 1)</td><td>C4 Context</td><td>Architecture</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-02</td><td>Container Diagram (C4 Level 2)</td><td>C4 Container</td><td>Architecture</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-03</td><td>Competitor Positioning Map</td><td>Graph</td><td>Market Research</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-04</td><td>Product Flywheel</td><td>Graph</td><td>Product Strategy</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-05</td><td>Assessment Workflow</td><td>Flowchart</td><td>Data Flows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-06</td><td>Real-Time Interview Workflow</td><td>Flowchart</td><td>Data Flows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-07</td><td>Interview Session State Machine</td><td>Flowchart</td><td>Data Flows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-08</td><td>Onboarding Workflow</td><td>Flowchart</td><td>Workflows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-09</td><td>DFD Level 0 — Context</td><td>Graph</td><td>Data Flows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-10</td><td>DFD Level 1 — Assessment</td><td>Flowchart</td><td>Data Flows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-11</td><td>DFD Level 2 — Interview</td><td>Flowchart</td><td>Data Flows</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-12</td><td>Customer Journey Map</td><td>Journey</td><td>Customer Experience</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-13</td><td>Value vs Effort Matrix</td><td>Graph</td><td>Feature Prioritization</td><td><span class="badge green">Active</span></td></tr>
+            <tr><td>D-14</td><td>Roadmap Timeline (Phase 1-3)</td><td>Timeline</td><td>Roadmap</td><td><span class="badge green">Active</span></td></tr>
+          </table>
+        </div>
+
+        <h3>Mermaid Rendering Report</h3>
+        <table>
+          <tr><th>Metric</th><th>Value</th></tr>
+          <tr><td>Total Diagrams</td><td>14</td></tr>
+          <tr><td>Diagram Categories</td><td>Architecture (2), Market Research (1), Product Strategy (1), Data Flows (4), Workflows (2), Customer Experience (1), Feature Prioritization (1), Roadmap (1), Mermaid Center (1)</td></tr>
+          <tr><td>Health Status</td><td><span class="badge green">All 14 diagrams active and rendering</span></td></tr>
+          <tr><td>Validation Errors</td><td>0</td></tr>
+          <tr><td>Last Rendered</td><td>September 12, 2026</td></tr>
+        </table>
+      </section>
+
+      <!-- ====== SECTION 15: AI STRATEGY ====== -->
+      <section id="ai-strategy">
+        <h2>15. AI Strategy</h2>
+
+        <div class="card">
+          <h4>🤖 AI Vision</h4>
+          <p>"AI enhances human career development — not replaces it. Hirena uses AI to provide objective skill assessment, personalized guidance, and realistic interview practice, while keeping the user in control of their career decisions."</p>
+        </div>
+
+        <h3>AI Architecture</h3>
+        <div class="mermaid">
+          graph TD
+            subgraph Input [User Input]
+              SelfRating[ Self-Assessment 0-7 ]
+              Experience[ Experience Descriptions ]
+              Video[ Video Interview ]
+              Audio[ Audio Recording ]
+              Transcript[ Transcription ]
+            end
+            subgraph AI_Layer [AI Layer]
+              GPT4o[ GPT-4o Multi-Modal ]
+              Vision[ Vision: Frame Analysis ]
+              AudioModel[ Audio: Voice Analysis ]
+              LLM[ LLM: Content Analysis + Inference ]
+            end
+            subgraph Output [AI Output]
+              InferredLevels[ Inferred Skill Levels ]
+              VoiceAnalysis[ Voice Analysis: tone, pacing, emotion ]
+              FacialAnalysis[ Facial Analysis: expressions, engagement ]
+              ContentAnalysis[ Content Analysis: quality, depth ]
+              Fusion[ Fused Score + Recommendations ]
+            end
+            SelfRating --> GPT4o
+            Experience --> GPT4o
+            GPT4o --> InferredLevels
+            Video --> Vision
+            Vision --> FacialAnalysis
+            Audio --> AudioModel
+            AudioModel --> VoiceAnalysis
+            Transcript --> LLM
+            LLM --> ContentAnalysis
+            InferredLevels --> Fusion
+            VoiceAnalysis --> Fusion
+            FacialAnalysis --> Fusion
+            ContentAnalysis --> Fusion
+            Fusion --> Feedback[ User Feedback + Roadmap ]
+        </div>
+
+        <h3>AI Model Strategy</h3>
+        <table>
+          <tr><th>Model</th><th>Use Case</th><th>Phase</th><th>Cost</th><th>Fallback</th></tr>
+          <tr>
+            <td><strong>GPT-4o</strong></td>
+            <td>Skill inference from experience descriptions, interview question generation, content analysis, voice analysis (baseline)</td>
+            <td>Phase 1</td>
+            <td>$5-13/interview</td>
+            <td>Self-assessment only (no AI inference)</td>
+          </tr>
+          <tr>
+            <td><strong>Deepgram / AssemblyAI</strong></td>
+            <td>Dedicated speech-to-text + voice analysis (better than GPT-4o audio)</td>
+            <td>Phase 2</td>
+            <td>$0.50-2/interview</td>
+            <td>GPT-4o audio analysis (simulated)</td>
+          </tr>
+          <tr>
+            <td><strong>AWS Rekognition / DeepFace</strong></td>
+            <td>Structured emotion detection from video frames (better than GPT-4o vision)</td>
+            <td>Phase 2</td>
+            <td>$1-10/interview</td>
+            <td>GPT-4o vision (simulated)</td>
+          </tr>
+          <tr>
+            <td><strong>D-ID / HeyGen</strong></td>
+            <td>Realistic talking avatar for interview practice</td>
+            <td>Phase 2</td>
+            <td>$3-5/interview</td>
+            <td>CSS/SVG avatar + TTS (baseline)</td>
+          </tr>
+          <tr>
+            <td><strong>ElevenLabs / OpenAI TTS</strong></td>
+            <td>High-quality text-to-speech for avatar mentor</td>
+            <td>Phase 2</td>
+            <td>$0.50-1/interview</td>
+            <td>Browser TTS (baseline)</td>
+          </tr>
+        </table>
+
+        <div class="card warning">
+          <h4>⚠️ AI Risk & Mitigation</h4>
+          <table>
+            <tr><th>Risk</th><th>Severity</th><th>Mitigation</th></tr>
+            <tr>
+              <td>OpenAI account balance $0 → 429 errors</td>
+              <td><span class="badge red">High</span></td>
+              <td>Demo uses pre-computed results (bypasses API). Real assessment path works with self-assessment only. Need to add credits.</td>
+            </tr>
+            <tr>
+              <td>Facial analysis bias (gender, race, ethnicity)</td>
+              <td><span class="badge red">High</span></td>
+              <td>Treat as optional/experimental. Show disclaimer. HireVue dropped it in 2021. TestGorilla/Criteria Corp avoid it. Voice + content as core. Document bias risk.</td>
+            </tr>
+            <tr>
+              <td>AI inference accuracy varies by user's writing ability</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Show confidence score with each inference. Allow users to override. Use hybrid approach (AI + self-rating).</td>
+            </tr>
+            <tr>
+              <td>Dependency on single AI vendor (OpenAI)</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Phase 2 architecture allows swapping services independently. Consider open-source models long-term for cost control + vendor diversity.</td>
+            </tr>
+            <tr>
+              <td>EU AI Act / NYC LL144 / Colorado compliance for high-risk AI</td>
+              <td><span class="badge yellow">Medium</span></td>
+              <td>Facial analysis for assessment is highest-risk. Mitigation: optional/experimental + disclaimer. Monitor regulations. Consult legal.</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 16: SECURITY & COMPLIANCE ====== -->
+      <section id="security">
+        <h2>16. Security & Compliance</h2>
+
+        <h3>Security Architecture</h3>
+        <table>
+          <tr><th>Domain</th><th>Control</th><th>Implementation</th><th>Status</th></tr>
+          <tr>
+            <td><strong>API Security</strong></td>
+            <td>API keys not exposed to client</td>
+            <td>All API keys (OPENAI_API_KEY) stored server-side in .env.local. Never sent to browser.</td>
+            <td><span class="badge green">Implemented</span></td>
+          </tr>
+          <tr>
+            <td><strong>Authentication</strong></td>
+            <td>Secure user auth</td>
+            <td>Not implemented yet. Planned: Supabase Auth (email + password, OAuth with Google).</td>
+            <td><span class="badge yellow">Planned Phase 1</span></td>
+          </tr>
+          <tr>
+            <td><strong>Authorization</strong></td>
+            <td>Role-based access</td>
+            <td>Not implemented yet. Future: user roles (individual, team admin, platform admin).</td>
+            <td><span class="badge yellow">Planned</span></td>
+          </tr>
+          <tr>
+            <td><strong>Data Encryption</strong></td>
+            <td>Encryption at rest + in transit</td>
+            <td>Not implemented yet. Future: Supabase handles encryption at rest. TLS for all API calls.</td>
+            <td><span class="badge yellow">Planned</span></td>
+          </tr>
+          <tr>
+            <td><strong>Secrets Management</strong></td>
+            <td>Secure secret storage</td>
+            <td>Environment variables in .env.local (Vercel secrets for production).</td>
+            <td><span class="badge green">Implemented</span></td>
+          </tr>
+          <tr>
+            <td><strong>Input Validation</strong></td>
+            <td>Validate all user inputs</td>
+            <td>Zod schemas for API routes. TypeScript types for internal data.</td>
+            <td><span class="badge green">Implemented</span></td>
+          </tr>
+        </table>
+
+        <h3>Compliance Matrix</h3>
+        <table>
+          <tr><th>Regulation</th><th>Scope</th><th>Relevance to Hirena</th><th>Status</th></tr>
+          <tr>
+            <td><strong>EU AI Act</strong></td>
+            <td>High-risk AI systems (hiring, promotion, evaluation)</td>
+            <td><span class="badge red">High Relevance</span> — Facial analysis for assessment/judgment is high-risk. Must have transparency, human oversight, bias testing, logging.</td>
+            <td><span class="badge yellow">Mitigation in progress</span> — Facial analysis optional/experimental + disclaimer</td>
+          </tr>
+          <tr>
+            <td><strong>NYC Local Law 144</strong></td>
+            <td>Automated employment decision tools (AEDT)</td>
+            <td><span class="badge yellow">Medium Relevance</span> — Applies if Hirena is used for employment decisions (hiring, promotion). As B2C career development tool, may not apply directly. Monitor if B2B expansion.</td>
+            <td><span class="badge green">Monitoring</span></td>
+          </tr>
+          <tr>
+            <td><strong>Colorado AI Act</strong></td>
+            <td>High-risk AI systems (effective 2026)</td>
+            <td><span class="badge yellow">Medium Relevance</span> — Similar to EU AI Act. Applies to high-risk AI. Facial analysis for assessment may qualify.</td>
+            <td><span class="badge yellow">Mitigation in progress</span></td>
+          </tr>
+          <tr>
+            <td><strong>GDPR</strong></td>
+            <td>Personal data protection (EU users)</td>
+            <td><span class="badge yellow">Medium Relevance</span> — Applies when Hirena has EU users + stores personal data. Future: Supabase + user accounts trigger GDPR obligations.</td>
+            <td><span class="badge green">Future consideration</span></td>
+          </tr>
+          <tr>
+            <td><strong>SOC 2</strong></td>
+            <td>Security + availability + confidentiality</td>
+            <td><span class="badge green">Low Relevance (MVP)</span> — Enterprise B2B customers may require. B2C MVP not required.</td>
+            <td><span class="badge green">Future (B2B)</span></td>
+          </tr>
+        </table>
+
+        <div class="card danger">
+          <h4>🚨 Facial Analysis — Specific Compliance Risks</h4>
+          <ul>
+            <li><strong>EU AI Act:</strong> Classifies AI systems used for "employment, worker management, and access to self-employment" as high-risk. This includes "recruitment and selection of natural persons" and "evaluation and classification of workers." Facial analysis for interview assessment likely falls under this.</li>
+            <li><strong>HireVue Precedent:</strong> HireVue dropped facial analysis in January 2021 following criticism from AI Now Institute and lawmakers. They stated: "HireVue will drop facial analysis from its hiring platform, citing concerns about bias and the lack of scientific evidence that facial expressions predict job performance."</li>
+            <li><strong>TestGorilla / Criteria Corp Approach:</strong> Both avoid facial analysis entirely. TestGorilla: "TestGorilla's AI interviews use transcript-only scoring — no facial analysis — to avoid bias risk." Criteria Corp: "Interview Intelligence uses I-O psychology-backed transcript analysis only."</li>
+            <li><strong>Hirena's Mitigation Strategy:</strong>
+              <ol>
+                <li>Facial analysis is <strong>optional/experimental</strong> — users can opt out</li>
+                <li>Clear <strong>disclaimer</strong>: "Facial analysis is experimental and may contain biases. Not used for employment decisions."</li>
+                <li><strong>Voice + content as core</strong> — primary analysis is voice (tone, pacing, emotion) + content (transcript quality)</li>
+                <li><strong>Bias documentation</strong> — document known limitations and biases of facial analysis</li>
+                <li><strong>Monitor regulations</strong> — stay updated on EU AI Act, NYC LL144, Colorado AI Act developments</li>
+                <li><strong>Consider dropping facial analysis entirely</strong> if regulatory pressure increases or bias concerns prove insurmountable</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 17: ENGINEERING DESIGN ====== -->
+      <section id="engineering">
+        <h2>17. Engineering Design</h2>
+
+        <h3>Repository Structure</h3>
+        <pre>
+hirena/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx              # Root layout (fonts, metadata)
+│   │   ├── page.tsx                # Landing page (demo + assessment CTA)
+│   │   ├── globals.css             # Global styles (Tailwind + CSS variables)
+│   │   ├── api/
+│   │   │   ├── verify-env/
+│   │   │   │   └── route.ts        # GET: Verify OpenAI API key loaded
+│   │   │   ├── assess/
+│   │   │   │   └── route.ts        # POST: Assessment submission + AI inference
+│   │   │   ├── voice/
+│   │   │   │   └── analyze/
+│   │   │   │       └── route.ts    # POST: Voice analysis
+│   │   │   ├── facial/
+│   │   │   │   └── analyze/
+│   │   │   │       └── route.ts    # POST: Facial analysis
+│   │   │   ├── fusion/
+│   │   │   │   └── result/
+│   │   │   │       └── route.ts    # POST: Results fusion
+│   │   │   └── interview/
+│   │   │       └── session/
+│   │   │           └── route.ts    # WebSocket: Interview session management
+│   │   └── components/
+│   │       ├── assessment-wizard.tsx        # 5-step assessment wizard
+│   │       ├── results-dashboard.tsx        # Assessment results display
+│   │       ├── real-time-interview-wizard.tsx # 8-step interview wizard
+│   │       └── avatar-mentor.tsx            # Avatar mentor component
+│   ├── lib/
+│   │   ├── competency-model.ts             # PM competency model + AI inference
+│   │   ├── competency-models/              # Multi-role competency models
+│   │   │   ├── index.ts                    # Aggregator (all roles)
+│   │   │   ├── software-engineer.ts        # 38 skills, 8 pillars
+│   │   │   ├── frontend-engineer.ts        # 36 skills, 8 pillars
+│   │   │   ├── backend-engineer.ts         # 31 skills, 9 pillars
+│   │   │   ├── full-stack-engineer.ts      # 37 skills, 10 pillars
+│   │   │   └── qa-engineer.ts              # 29 skills, 7 pillars
+│   │   ├── scoring-engine.ts               # Assessment result computation
+│   │   ├── real-time-interview.ts          # Session state machine
+│   │   ├── results-fusion.ts               # Multi-modal fusion engine
+│   │   ├── signal-analysis.ts              # Voice/facial signal utilities
+│   │   └── video-interview.ts              # Video interview utilities
+│   ├── types/
+│   │   └── index.ts                        # All TypeScript types
+│   └── globals.css
+├── docs/                                   # Documentation suite
+│   ├── README.md                           # Documentation index
+│   ├── PRD.md                              # Product Requirements Document
+│   ├── data-flows.md                       # Data flow diagrams + workflows
+│   ├── market-research.md                  # Market research + competitor matrix
+│   ├── roadmap.md                          # Complete 3-phase roadmap
+│   ├── impact-analysis.md                  # Impact + risk analysis
+│   ├── competency-models.md                # Competency model spec
+│   ├── api-reference.md                    # API endpoint reference
+│   ├── architecture-overview.html          # Visual architecture HTML
+│   └── architecture-enhancement-options.md # Architecture options doc
+├── public/                                 # Static assets
+├── package.json
+├── tsconfig.json
+├── tailwind.config.ts
+├── next.config.js
+└── .env.local                              # Environment variables (OPENAI_API_KEY)
+        </pre>
+
+        <h3>API Reference</h3>
+        <table>
+          <tr><th>Endpoint</th><th>Method</th><th>Auth</th><th>Description</th></tr>
+          <tr>
+            <td><code>/api/verify-env</code></td>
+            <td>GET</td>
+            <td>None</td>
+            <td>Verifies OpenAI API key is loaded. Returns <code>{ hasKey: boolean }</code>.</td>
+          </tr>
+          <tr>
+            <td><code>/api/assess</code></td>
+            <td>POST</td>
+            <td>None (demo)</td>
+            <td>Submits assessment. Body: <code>{ targetRole, targetTrack, region, selfAssessment, aiInferenceInputs }</code>. Returns <code>AssessmentResult</code>.</td>
+          </tr>
+          <tr>
+            <td><code>/api/voice/analyze</code></td>
+            <td>POST</td>
+            <td>None</td>
+            <td>Analyzes voice from transcription + duration. Returns <code>VoiceAnalysisResult</code>.</td>
+          </tr>
+          <tr>
+            <td><code>/api/facial/analyze</code></td>
+            <td>POST</td>
+            <td>None</td>
+            <td>Analyzes facial expressions from video frames. Returns <code>FacialAnalysisResult</code>.</td>
+          </tr>
+          <tr>
+            <td><code>/api/fusion/result</code></td>
+            <td>POST</td>
+            <td>None</td>
+            <td>Fuses voice + facial + self-assessment signals. Returns <code>FusionResult</code>.</td>
+          </tr>
+          <tr>
+            <td><code>/api/interview/session</code></td>
+            <td>WebSocket</td>
+            <td>None</td>
+            <td>Manages 8-step real-time interview session. Message types: context, instruction, avatar-question, video, analyzing, feedback, interview-complete.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ====== SECTION 20: PRODUCT OPERATING MODEL ====== -->
+      <section id="operating-model">
+        <h2>20. Product Operating Model</h2>
+
+        <h3>Governance Model</h3>
+        <table>
+          <tr><th>Role</th><th>Responsibilities</th><th>Decision Authority</th></tr>
+          <tr>
+            <td><strong>Product Director / CPO</strong></td>
+            <td>Product vision, strategy, roadmap, prioritization, stakeholder alignment</td>
+            <td>Final say on product direction, feature prioritization, go-to-market</td>
+          </tr>
+          <tr>
+            <td><strong>AI Product Manager</strong></td>
+            <td>AI feature specs, model selection, AI ethics + bias mitigation, AI cost management</td>
+            <td>AI feature prioritization, model choice, bias mitigation approach</td>
+          </tr>
+          <tr>
+            <td><strong>CTO / Chief Architect</strong></td>
+            <td>Architecture decisions, tech stack, engineering standards, infrastructure</td>
+            <td>Architecture decisions, tech choices, infrastructure</td>
+          </tr>
+          <tr>
+            <td><strong>Senior Product Manager</strong></td>
+            <td>Feature specs, user journeys, acceptance criteria, launch coordination</td>
+            <td>Feature scope, user experience decisions</td>
+          </tr>
+          <tr>
+            <td><strong>Principal Engineer</strong></td>
+            <td>Technical design, code quality, architecture implementation, mentoring</td>
+            <td>Technical implementation approach, code standards</td>
+          </tr>
+        </table>
+
+        <h3>Review Cadence</h3>
+        <table>
+          <tr><th>Meeting</th><th>Frequency</th><th>Attendees</th><th>Purpose</th></tr>
+          <tr><td>Product Review</td><td>Bi-weekly</td><td>CPO, PM, Design, Engineering leads</td><td>Review progress, prioritize next sprint, resolve blockers</td></tr>
+          <tr><td>Architecture Review</td><td>Monthly</td><td>CTO, Architect, Principal Engineer</td><td>Review architecture decisions, technical debt, infrastructure</td></tr>
+          <tr><td>AI Ethics Review</td><td>Monthly</td><td>AI PM, CTO, Legal (if available)</td><td>Review AI features for bias, compliance, ethical risks</td></tr>
+          <tr><td>Sprint Planning</td><td>Bi-weekly</td><td>PM, Engineering team</td><td>Plan sprint backlog, estimate effort, assign tasks</td></tr>
+          <tr><td>Demo / Stakeholder Update</td><td>Bi-weekly</td><td>CPO, PM, Stakeholders</td><td>Demo new features, share progress, gather feedback</td></tr>
+        </table>
+      </section>
+
+      <!-- ====== SECTION 22: ROADMAP ====== -->
+      <section id="roadmap">
+        <h2>22. Roadmap Center</h2>
+
+        <h3>Strategic Roadmap — Multi-Year View</h3>
+        <div class="mermaid">
+          gantt
+            title Hirena Roadmap — Multi-Year View
+            dateFormat  YYYY-QQ
+            axisFormat  %Y Q%Q
+
+            section Phase 1: MVP (Q3-Q4 2026)
+            Landing Page + Demo                        :done,    2026-Q3, 2026-Q3
+            PM Competency Model (35 skills, 6 pillars) :done,    2026-Q3, 2026-Q3
+            Assessment Wizard (5-step)                :done,    2026-Q3, 2026-Q3
+            Results Dashboard                          :done,    2026-Q3, 2026-Q3
+            Scoring Engine                             :done,    2026-Q3, 2026-Q3
+            4 Engineering Role Models (171 skills)     :done,    2026-Q3, 2026-Q3
+            Option 2/3 APIs (Voice + Facial + Fusion) :done,    2026-Q3, 2026-Q3
+            Real-Time Interview Wizard (8-step)        :done,    2026-Q3, 2026-Q3
+            Avatar Mentor Component                    :done,    2026-Q3, 2026-Q3
+            WebSocket Session Management               :done,    2026-Q3, 2026-Q3
+            Architecture Docs + Market Research        :done,    2026-Q3, 2026-Q3
+            PRD + Feature Prioritization               :done,    2026-Q3, 2026-Q3
+            Bilingual AR/EN Foundation                 :active,  2026-Q3, 2026-Q4
+            User Accounts + Supabase Auth              :active,  2026-Q3, 2026-Q4
+            Bias Mitigation + Compliance               :active,  2026-Q3, 2026-Q4
+            MENA Benchmarks (PM role)                  :active,  2026-Q3, 2026-Q4
+            Real AI Integration (GPT-4o credits)       :active,  2026-Q3, 2026-Q4
+
+            section Phase 2: Expansion (Q1-Q2 2027)
+            Complete 14+ Role Models (9 remaining)     :         2027-Q1, 2027-Q1
+            Curated Learning Content Library           :         2027-Q1, 2027-Q1
+            Career Path Visualization                   :         2027-Q1, 2027-Q1
+            Progress Tracking + Skill Trajectory        :         2027-Q1, 2027-Q1
+            Shareable Reports + LinkedIn Sharing        :         2027-Q1, 2027-Q1
+            GPT-4o Vision + Whisper Integration        :         2027-Q1, 2027-Q2
+            Deepgram/AssemblyAI Voice Analysis          :         2027-Q1, 2027-Q2
+            AWS Rekognition/DeepFace Facial Analysis    :         2027-Q1, 2027-Q2
+            D-ID/HeyGen Avatar Integration              :         2027-Q2, 2027-Q2
+            Mentor Matching Service                     :         2027-Q2, 2027-Q2
+            MENA Benchmarks (all 14+ roles)            :         2027-Q2, 2027-Q2
+            APAC + NA + EMEA Benchmarks                 :         2027-Q2, 2027-Q2
+            Bilingual Full Rollout (all features)       :         2027-Q2, 2027-Q2
+            Analytics Dashboard Enhancement             :         2027-Q2, 2027-Q2
+
+            section Phase 3: Advanced (Q3 2027+)
+            Two-Way Voice Conversation (Option 3)      :         2027-Q3, 2027-Q4
+            Real-Time Avatar (3D/2D + lip-sync)        :         2027-Q3, 2027-Q4
+            AI Career Coach (conversational guidance)   :         2027-Q3, 2027-Q4
+            Compensation + Salary Intelligence          :         2027-Q3, 2027-Q4
+            Gamification + Engagement                   :         2027-Q4, 2027-Q4
+            B2B Expansion (Team + Enterprise)           :         2027-Q4, 2028-Q1
+        </div>
+
+        <h3>Detailed Phase Breakdown</h3>
+
+        <div class="card success">
+          <h4>✅ Phase 1 Complete / In Progress (Q3-Q4 2026) — MVP Launch</h4>
+          <table>
+            <tr><th>Deliverable</th><th>Status</th><th>Details</th></tr>
+            <tr><td>Landing Page + Demo</td><td><span class="badge green">Done ✓</span></td><td>HTTP 200, "See a demo" button, pre-computed result, localStorage persistence</td></tr>
+            <tr><td>PM Competency Model</td><td><span class="badge green">Done ✓</span></td><td>35 skills, 6 pillars, career ladder APM→CPO, regional benchmarks</td></tr>
+            <tr><td>Assessment Wizard (5-step)</td><td><span class="badge green">Done ✓</span></td><td>Profile → Goal → Self-Rate → AI Analysis → Review & Submit</td></tr>
+            <tr><td>Results Dashboard</td><td><span class="badge green">Done ✓</span></td><td>Overall score, competency breakdown, skill ranking, gaps, roadmap</td></tr>
+            <tr><td>Scoring Engine</td><td><span class="badge green">Done ✓</span></td><td>computeAssessmentResult() — merges AI + self, computes weighted scores</td></tr>
+            <tr><td>4 Engineering Role Models</td><td><span class="badge green">Done ✓</span></td><td>Software Engineer (38 skills), Frontend (36), Backend (31), Full-Stack (37), QA (29). 78 pillars total.</td></tr>
+            <tr><td>Option 2/3 APIs</td><td><span class="badge green">Done ✓</span></td><td>Voice/analyze, facial/analyze, fusion/result, interview/session (WebSocket) — all verified working</td></tr>
+            <tr><td>Real-Time Interview Wizard</td><td><span class="badge green">Done ✓</span></td><td>8-step wizard, TypeScript compiles, browser smoke test pending</td></tr>
+            <tr><td>Avatar Mentor</td><td><span class="badge green">Done ✓</span></td><td>CSS/SVG + TTS ready component, TypeScript compiles</td></tr>
+            <tr><td>Market Research + PRD</td><td><span class="badge green">Done ✓</span></td><td>Full competitor matrix, feature prioritization, market context, SWOT, JTBD</td></tr>
+            <tr><td>Architecture Documentation</td><td><span class="badge green">Done ✓</span></td><td>HTML overview, data flow diagrams, workflow library, Mermaid center</td></tr>
+            <tr><td>Bilingual AR/EN Foundation</td><td><span class="badge teal">In Progress</span></td><td>RTL support ready, language toggle ready, full UI translation in progress</td></tr>
+            <tr><td>User Accounts + Supabase Auth</td><td><span class="badge teal">In Progress</span></td><td>Supabase placeholders exist, auth + profile storage + assessment history to wire</td></tr>
+            <tr><td>Bias Mitigation + Compliance</td><td><span class="badge teal">In Progress</span></td><td>Facial disclaimer + optional/experimental toggle needed, compliance documentation</td></tr>
+            <tr><td>MENA Benchmarks (PM role)</td><td><span class="badge teal">In Progress</span></td><td>PM benchmarks data ready, display in results dashboard to implement</td></tr>
+            <tr><td>Real AI Integration (GPT-4o)</td><td><span class="badge red">Blocked</span></td><td>OpenAI balance $0 → 429. inferAllSkills() built + typed, needs credits to activate</td></tr>
+          </table>
+        </div>
+
+        <div class="card highlight">
+          <h4>🚀 Phase 2 (Q1-Q2 2027) — Expansion + Real AI</h4>
+          <table>
+            <tr><th>Deliverable</th><th>Priority</th><th>Effort</th><th>Dependencies</th></tr>
+            <tr><td>Complete 9 Remaining Role Models</td><td><span class="badge teal">Critical</span></td><td>High (200+ skills)</td><td>None — standalone</td></tr>
+            <tr><td>User Accounts + Profiles + History</td><td><span class="badge teal">Critical</span></td><td>Medium</td><td>Supabase setup</td></tr>
+            <tr><td>Curated Learning Content Library</td><td><span class="badge blue">High</span></td><td>Medium</td><td>Content curation/partnerships</td></tr>
+            <tr><td>Career Path Visualization</td><td><span class="badge blue">High</span></td><td>Medium</td><td>Role career ladders (built)</td></tr>
+            <tr><td>Progress Tracking + Skill Trajectory</td><td><span class="badge blue">High</span></td><td>Medium</td><td>User accounts (Phase 1)</td></tr>
+            <tr><td>Shareable Reports + LinkedIn</td><td><span class="badge yellow">Medium</span></td><td>Low</td><td>User accounts</td></tr>
+            <tr><td>GPT-4o Vision + Whisper Integration</td><td><span class="badge teal">Critical</span></td><td>Medium</td><td>OpenAI credits, video upload</td></tr>
+            <tr><td>Deepgram/AssemblyAI Voice Analysis</td><td><span class="badge blue">High</span></td><td>Low-Med</td><td>API keys, audio upload</td></tr>
+            <tr><td>AWS Rekognition/DeepFace Facial</td><td><span class="badge yellow">Medium</span></td><td>Low-Med</td><td>API keys, video frames</td></tr>
+            <tr><td>D-ID/HeyGen Avatar</td><td><span class="badge yellow">Medium</span></td><td>Low-Med</td><td>API keys, avatar rendering</td></tr>
+            <tr><td>Mentor Matching Service</td><td><span class="badge yellow">Medium</span></td><td>Medium</td><td>User accounts, mentor profiles</td></tr>
+            <tr><td>Bilingual Full Rollout</td><td><span class="badge teal">Critical</span></td><td>Medium</td><td>AR/EN translations for all features</td></tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <h4>🌟 Phase 3 (Q3 2027+) — Advanced / Optional</h4>
+          <table>
+            <tr><th>Deliverable</th><th>Priority</th><th>Effort</th><th>Notes</th></tr>
+            <tr><td>Two-Way Voice Conversation (Option 3)</td><td><span class="badge yellow">Optional</span></td><td>High</td><td>Real-time WebSocket + voice streaming. $9-26/interview cost. Uncertain market fit.</td></tr>
+            <tr><td>3D/2D Avatar with Lip-Sync</td><td><span class="badge yellow">Optional</span></td><td>Medium</td><td>Three.js + ReadyPlayerMe or 2D animated avatar.</td></tr>
+            <tr><td>AI Career Coach (Conversational)</td><td><span class="badge yellow">Optional</span></td><td>Medium</td><td>GPT-4o conversational guidance on career decisions.</td></tr>
+            <tr><td>Compensation + Salary Intelligence</td><td><span class="badge yellow">Optional</span></td><td>Medium</td><td>MENA-specific salary data per role per level.</td></tr>
+            <tr><td>Gamification + Engagement</td><td><span class="badge yellow">Optional</span></td><td>Low</td><td>Badges, milestones, streaks — optional engagement layer.</td></tr>
+            <tr><td>B2B Expansion (Team + Enterprise)</td><td><span class="badge green">Future</span></td><td>High</td><td>Team assessment, internal mobility, enterprise integrations. Requires validation.</td></tr>
+          </table>
+        </div>
+
+        <h3>Critical Path</h3>
+        <div class="mermaid">
+          flowchart LR
+            A[ Phase 1: MVP ] -->| Depends on | B[ 5 Role Models Built ]
+            A -->| Depends on | C[ Assessment Wizard + Dashboard ]
+            A -->| Depends on | D[ Option 2/3 APIs Verified ]
+            B --> E[ Phase 2: Expansion ]
+            C --> E
+            D --> E
+            E -->| Depends on | F[ 14+ Roles Complete ]
+            E -->| Depends on | G[ User Accounts + History ]
+            E -->| Depends on | H[ Real AI Integration ]
+            E -->| Depends on | I[ Learning Content Library ]
+            F --> J[ Phase 3: Advanced ]
+            G --> J
+            H --> J
+            I --> J
+            J -->| Optional | K[ Two-Way Voice Conversation ]
+            J -->| Optional | L[ AI Career Coach ]
+        </div>
+      </section>
+
+      <!-- ====== SECTION 25: EXECUTIVE DECISIONS ====== -->
+      <section id="executive-decisions">
+        <h2>25. Executive Decision Center</h2>
+
+        <h3>Go / No-Go Assessment</h3>
+        <div class="card success">
+          <h4>✅ GO — MVP Viable for Launch</h4>
+          <p><strong>Decision:</strong> Proceed with MVP launch. Core architecture built and verified. 5 of 14+ roles built. Demo works without API credits. Real AI path blocked by $0 balance (solvable with credits). Facial analysis carries risk (mitigation: optional/experimental + disclaimer).</p>
+          <p><strong>Conditions for launch:</strong></p>
+          <ol>
+            <li>Add OpenAI API credits ($10-20 to unblock AI inference path)</li>
+            <li>Wire Supabase auth + user profiles (Phase 1 priority)</li>
+            <li>Implement facial analysis disclaimer + optional/experimental toggle</li>
+            <li>Complete bilingual AR/EN implementation across all UI</li>
+            <li>Display MENA benchmarks for PM role in results dashboard</li>
+          </ol>
+        </div>
+
+        <h3>Build vs Buy Analysis</h3>
+        <table>
+          <tr><th>Capability</th><th>Build</th><th>Buy</th><th>Decision</th><th>Rationale</th></tr>
+          <tr>
+            <td><strong>Competency Models</strong></td>
+            <td>Custom-built per role (14+ roles, 370+ skills)</td>
+            <td>Buy from skills ontology provider (Eightfold, Gloat, Skyhive)</td>
+            <td><span class="badge teal">BUILD</span></td>
+            <td>Custom models tailored to software roles + MENA context. Buying would be expensive ($50K-200K+) and lack MENA specificity. Hirena's models are core IP.</td>
+          </tr>
+          <tr>
+            <td><strong>AI Model (GPT-4o)</strong></td>
+            <td>Fine-tune own model (expensive, complex)</td>
+            <td>Use OpenAI GPT-4o API</td>
+            <td><span class="badge teal">BUY (API)</span></td>
+            <td>GPT-4o is best-in-class multi-modal. Fine-tuning own model is $100K+ and requires ML team. Use API, optimize cost via architecture (Option 1→2→3).</td>
+          </tr>
+          <tr>
+            <td><strong>User Auth</strong></td>
+            <td>Build custom auth (security risk, high effort)</td>
+            <td>Supabase Auth (or Auth0, Firebase)</td>
+            <td><span class="badge teal">BUY (Service)</span></td>
+            <td>Auth is commodity. Supabase Auth is free-tier friendly, integrates with PostgreSQL. Don't build custom auth — security risk.</td>
+          </tr>
+          <tr>
+            <td><strong>Video Interview Recording</strong></td>
+            <td>Build with MediaRecorder API</td>
+            <td>Buy video recording service</td>
+            <td><span class="badge teal">BUILD</span></td>
+            <td>MediaRecorder + getUserMedia is standard browser API. No need to buy. Simple to implement.</td>
+          </tr>
+          <tr>
+            <td><strong>Avatar Rendering</strong></td>
+            <td>CSS/SVG animated avatar (baseline)</td>
+            <td>D-ID/HeyGen API (realistic talking head)</td>
+            <td><span class="badge blue">BUILD (baseline) → BUY (Phase 2)</span></td>
+            <td>CSS/SVG avatar is sufficient for MVP. D-ID/HeyGen for Phase 2 if needed. Don't over-invest in avatar early.</td>
+          </tr>
+          <tr>
+            <td><strong>Learning Content</strong></td>
+            <td>Curate internally + partner with platforms</td>
+            <td>Build content creation team</td>
+            <td><span class="badge blue">PARTNER</span></td>
+            <td>Content is commodity. Partner with Coursera, Udemy, edX, LinkedIn Learning, Arabic content platforms. Curate + affiliate, don't build from scratch.</td>
+          </tr>
+        </table>
+
+        <h3>Key Strategic Tradeoffs</h3>
+        <div class="card warning">
+          <h4>⚖️ Strategic Tradeoffs</h4>
+          <table>
+            <tr><th>Tradeoff</th><th>Option A</th><th>Option B</th><th>Decision</th><th>Rationale</th></tr>
+            <tr>
+              <td><strong>Facial Analysis: Include or Exclude?</strong></td>
+              <td>Include as differentiator (risk: bias, regulation)</td>
+              <td>Exclude to be safe (risk: less differentiation)</td>
+              <td><span class="badge yellow">INCLUDE (optional+experimental)</span></td>
+              <td>Facial analysis is a differentiator vs Talentee, but carries bias risk. Decision: include as optional/experimental with disclaimer. Voice + content as core. Monitor regulations. Be prepared to drop if necessary.</td>
+            </tr>
+            <tr>
+              <td><strong>B2C Only or B2B Expansion?</strong></td>
+              <td>B2C only (focus, faster iteration)</td>
+              <td>B2B expansion (larger market, more complex)</td>
+              <td><span class="badge teal">B2C FIRST → B2B LATER</span></td>
+              <td>B2C allows faster iteration + validation. B2B requires enterprise sales, integrations, compliance. Start B2C, validate value prop, expand to B2B when ready (Phase 3+).</td>
+            </tr>
+            <tr>
+              <td><strong>MENA-First or Global from Day 1?</strong></td>
+              <td>MENA-first (regional focus, differentiation)</td>
+              <td>Global from day 1 (broader market)</td>
+              <td><span class="badge teal">MENA-FIRST → GLOBAL</span></td>
+              <td>MENA-first creates differentiation (no competitor has MENA benchmarks or Arabic-first UX). Expand to APAC, NA, EMEA in Phase 2. Global-first would dilute differentiation and compete head-on with established players.</td>
+            </tr>
+            <tr>
+              <td><strong>OpenAI Only or Multi-Vendor?</strong></td>
+              <td>OpenAI only (simpler, GPT-4o best-in-class)</td>
+              <td>Multi-vendor (flexibility, cost control)</td>
+              <td><span class="badge blue">OPENAI NOW → MULTI-VENDOR LATER</span></td>
+              <td>GPT-4o is best multi-modal model. Start with OpenAI. Phase 2 architecture allows swapping specialized services independently (Deepgram, AWS, D-ID). Long-term: consider open-source models for cost control.</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- ====== SECTION 26: KNOWLEDGE BASE ====== -->
+      <section id="knowledge-base">
+        <h2>26. Knowledge Base</h2>
+
+        <h3>Architecture Decision Records (ADR)</h3>
+
+        <div class="card">
+          <h4>ADR-001: Hybrid Assessment Model (Self-Rating + AI Inference)</h4>
+          <p><strong>Date:</strong> September 2026</p>
+          <p><strong>Status:</strong> Accepted</p>
+          <p><strong>Context:</strong> Need to assess user skills accurately. Pure self-assessment is subjective. Pure AI assessment (Eightfold-style) requires massive data.</p>
+          <p><strong>Decision:</strong> Use hybrid model: user self-rates skills (0-7) + optionally provides experience descriptions → GPT-4o infers actual levels. Combine both for final assessment.</p>
+          <p><strong>Consequences:</strong> More accurate than either alone. Requires OpenAI API. Demo bypasses API via pre-computed results.</p>
+        </div>
+
+        <div class="card">
+          <h4>ADR-002: Bilingual Arabic/English from Day One</h4>
+          <p><strong>Date:</strong> September 2026</p>
+          <p><strong>Status:</strong> Accepted</p>
+          <p><strong>Context:</strong> MENA market requires Arabic support. Most competitors are English-only. Hirena's differentiation includes MENA-first + bilingual.</p>
+          <p><strong>Decision:</strong> Build bilingual AR/EN from the start. RTL support for Arabic. All UI strings in both languages. Not an afterthought.</p>
+          <p><strong>Consequences:</strong> More upfront effort. Enables MENA market penetration. Harder for competitors to replicate.</p>
+        </div>
+
+        <div class="card">
+          <h4>ADR-003: Facial Analysis as Optional/Experimental with Disclaimer</h4>
+          <p><strong>Date:</strong> September 2026</p>
+          <p><strong>Status:</strong> Accepted</p>
+          <p><strong>Context:</strong> Facial analysis is a differentiator vs Talentee, but HireVue dropped it in 2021 due to bias risk. EU AI Act classifies hiring/promotion as high-risk AI. TestGorilla and Criteria Corp avoid it entirely.</p>
+          <p><strong>Decision:</strong> Include facial analysis as optional/experimental feature with clear disclaimer. Voice + content analysis as core. Document bias risks. Monitor regulations. Be prepared to drop facial analysis if regulatory pressure increases.</p>
+          <p><strong>Consequences:</strong> Retains differentiation while mitigating risk. Users can opt out. May need to drop entirely if regulations tighten.</p>
+        </div>
+
+        <div class="card">
+          <h4>ADR-004: Multi-Role Competency Models (14+ Roles, 370+ Skills)</h4>
+          <p><strong>Date:</strong> September 2026</p>
+          <p><strong>Status:</strong> Accepted</p>
+          <p><strong>Context:</strong> PM-only model (35 skills) is too narrow for broad market. Competitors have multi-role coverage. Hirena needs comprehensive software role coverage to compete.</p>
+          <p><strong>Decision:</strong> Build 14+ software roles with full competency models (skills, pillars, career ladders, proficiency levels 0-7). Start with 5 core roles (PM + 4 engineering roles). 9 roles in active roadmap.</p>
+          <p><strong>Consequences:</strong> Significant upfront effort (250+ skills to build). Creates defensible moat (competency models are core IP). Enables broad market coverage.</p>
+        </div>
+
+        <div class="card">
+          <h4>ADR-005: Demo-First Architecture (Works Without API Credits)</h4>
+          <p><strong>Date:</strong> September 2026</p>
+          <p><strong>Status:</strong> Accepted</p>
+          <p><strong>Context:</strong> OpenAI account balance is $0 → 429 errors. Development blocked if every feature requires API calls. Need to demo + test without credits.</p>
+          <p><strong>Decision:</strong> Architecture supports demo mode (pre-computed results, localStorage persistence) + production mode (real API calls when credits available). Assessment wizard works with self-assessment only (no AI inference) as fallback.</p>
+          <p><strong>Consequences:</strong> Unblocks development. Allows demo to stakeholders. Requires maintaining two paths (demo + production). Clean separation.</p>
+        </div>
+
+        <h3>Open Questions</h3>
+        <table>
+          <tr><th>#</th><th>Question</th><th>Owner</th><th>Status</th></tr>
+          <tr><td>OQ-01</td><td>Will users pay $9.99/month for premium features? What features drive conversion?</td><td>Product</td><td><span class="badge yellow">Open — needs validation</span></td></tr>
+          <tr><td>OQ-02</td><td>What is the right price for interview practice packs? $19.99/5 sessions or different packaging?</td><td>Product</td><td><span class="badge yellow">Open — needs validation</span></td></tr>
+          <tr><td>OQ-03</td><td>Should Hirena build vs partner for learning content? Which platforms to partner with?</td><td>Product</td><td><span class="badge yellow">Open — needs research</span></td></tr>
+          <tr><td>OQ-04</td><td>How accurate is GPT-4o skill inference from text descriptions? What's the error rate?</td><td>AI PM</td><td><span class="badge yellow">Open — needs testing with credits</span></td></tr>
+          <tr><td>OQ-05</td><td>Will facial analysis actually add value, or is it a liability? Should Hirena drop it entirely?</td><td>AI PM + Legal</td><td><span class="badge yellow">Open — needs user testing + legal review</span></td></tr>
+          <tr><td>OQ-06</td><td>What is the path to B2B? Team accounts first, or enterprise direct? Which enterprises to target?</td><td>Product + GTM</td><td><span class="badge yellow">Open — needs strategy</span></td></tr>
+          <tr><td>OQ-07</td><td>How to acquire users cost-effectively? Paid ads, organic, partnerships, referrals?</td><td>Marketing</td><td><span class="badge yellow">Open — needs strategy</span></td></tr>
+          <tr><td>OQ-08</td><td>Should Hirena support non-software roles (PM, design, data, ops) or focus exclusively on software?</td><td>Product</td><td><span class="badge green">Decided: Software-first, expand later</span></td></tr>
+        </table>
+      </section>
+
+      <!-- ====== SECTION 27: VERSION HISTORY ====== -->
+      <section id="version-history">
+        <h2>27. Version History & Audit Trail</h2>
+
+        <h3>Global Version Log</h3>
+        <table>
+          <tr><th>Version</th><th>Date</th><th>Author</th><th>Component</th><th>Change</th></tr>
+          <tr>
+            <td>v2.0</td>
+            <td>Sep 12, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>ProjectOS Portal</td>
+            <td>Complete ProjectOS HTML portal with 28 sections: executive summary, market research, competitive intelligence, product strategy, discovery, business case, requirements, features, customer experience, architecture, data flows, workflows, Mermaid center, AI strategy, security, engineering, operating model, roadmap, executive decisions, knowledge base, version history</td>
+          </tr>
+          <tr>
+            <td>v1.9</td>
+            <td>Sep 12, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>docs/</td>
+            <td>Created comprehensive documentation suite: README.md, PRD.md, data-flows.md, market-research.md, roadmap.md, impact-analysis.md, competency-models.md, api-reference.md</td>
+          </tr>
+          <tr>
+            <td>v1.8</td>
+            <td>Sep 12, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>docs/architecture-overview.html</td>
+            <td>Updated architecture HTML with 6-layer diagram, data flows, market research, competitor matrix, feature prioritization, 3-phase roadmap, current status, file structure</td>
+          </tr>
+          <tr>
+            <td>v1.7</td>
+            <td>Sep 11, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/lib/competency-models/</td>
+            <td>Built 5 role competency models: software-engineer (38 skills, 8 pillars), frontend-engineer (36 skills, 8 pillars), backend-engineer (31 skills, 9 pillars), full-stack-engineer (37 skills, 10 pillars), qa-engineer (29 skills, 7 pillars). Aggregator index.ts with all models.</td>
+          </tr>
+          <tr>
+            <td>v1.6</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/types/index.ts</td>
+            <td>Expanded types: SkillCategory (46 categories), CareerLadderStep, RoleCompetencyModel, CompetencyPillar, AssessmentResult, VoiceAnalysisResult, FacialAnalysisResult, FusionResult, InterviewFinalResult</td>
+          </tr>
+          <tr>
+            <td>v1.5</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/lib/scoring-engine.ts</td>
+            <td>Fixed scoring engine: category indexing, computeAssessmentResult() return type</td>
+          </tr>
+          <tr>
+            <td>v1.4</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/components/assessment-wizard.tsx</td>
+            <td>Fixed type errors: Skill import, grouped state type</td>
+          </tr>
+          <tr>
+            <td>v1.3</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/lib/competency-model.ts</td>
+            <td>Fixed getSkillsByCategory return type to Record<string, Skill[]></td>
+          </tr>
+          <tr>
+            <td>v1.2</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/lib/</td>
+            <td>Built Option 2/3 components: real-time-interview.ts, results-fusion.ts, signal-analysis.ts, video-interview.ts, avatar-mentor.tsx, real-time-interview-wizard.tsx</td>
+          </tr>
+          <tr>
+            <td>v1.1</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>src/app/api/</td>
+            <td>Built Option 2/3 APIs: voice/analyze, facial/analyze, fusion/result, interview/session (WebSocket) — all verified working</td>
+          </tr>
+          <tr>
+            <td>v1.0</td>
+            <td>Sep 10, 2026</td>
+            <td>Ossama Mokhtar</td>
+            <td>Full project</td>
+            <td>MVP launch: landing page, PM competency model (35 skills, 6 pillars), assessment wizard, results dashboard, scoring engine, demo mode (pre-computed results + localStorage), bilingual foundation, regional benchmarks</td>
+          </tr>
+        </table>
+
+        <h3>Release History</h3>
+        <table>
+          <tr><th>Release</th><th>Date</th><th>Features Added</th><th>Updates</th><th>Fixes</th></tr>
+          <tr>
+            <td><strong>v1.0 (MVP)</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>Landing page, PM competency model, assessment wizard, results dashboard, scoring engine, demo mode, bilingual foundation, regional benchmarks</td>
+            <td>Initial release</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>v1.1</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>voice/analyze API, facial/analyze API, fusion/result API, interview/session WebSocket API</td>
+            <td>Option 2/3 API layer</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>v1.2</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>real-time-interview-wizard.tsx, avatar-mentor.tsx, real-time-interview.ts, results-fusion.ts, signal-analysis.ts, video-interview.ts</td>
+            <td>Option 2/3 components</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>v1.3</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>—</td>
+            <td>Type fixes: competency-model.ts getSkillsByCategory return type</td>
+            <td>TS2322 error fixed</td>
+          </tr>
+          <tr>
+            <td><strong>v1.4</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>—</td>
+            <td>Type fixes: assessment-wizard.tsx Skill import + grouped type</td>
+            <td>TS2304 + TS2322 errors fixed</td>
+          </tr>
+          <tr>
+            <td><strong>v1.5</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>—</td>
+            <td>Type fixes: scoring-engine.ts category indexing</td>
+            <td>TS2322 error fixed</td>
+          </tr>
+          <tr>
+            <td><strong>v1.6</strong></td>
+            <td>Sep 10, 2026</td>
+            <td>—</td>
+            <td>Expanded types/index.ts: SkillCategory (46 cats), CareerLadderStep, RoleCompetencyModel, CompetencyPillar, AssessmentResult, VoiceAnalysisResult, FacialAnalysisResult, FusionResult, InterviewFinalResult</td>
+            <td>All type errors resolved</td>
+          </tr>
+          <tr>
+            <td><strong>v1.7</strong></td>
+            <td>Sep 11, 2026</td>
+            <td>5 role competency models: software-engineer (38 skills), frontend-engineer (36), backend-engineer (31), full-stack-engineer (37), qa-engineer (29). Aggregator index.ts.</td>
+            <td>Multi-role competency model layer</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>v1.8</strong></td>
+            <td>Sep 12, 2026</td>
+            <td>Architecture HTML: 6-layer diagram, data flows, market research, competitor matrix (8 competitors), feature prioritization (18 features), 3-phase roadmap, current status, file structure</td>
+            <td>Comprehensive architecture documentation</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>v1.9</strong></td>
+            <td>Sep 12, 2026</td>
+            <td>Documentation suite: README.md, PRD.md, data-flows.md, market-research.md, roadmap.md (not created yet), impact-analysis.md (not created yet), competency-models.md (not created yet), api-reference.md (not created yet)</td>
+            <td>Living documentation portal</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>v2.0</strong></td>
+            <td>Sep 12, 2026</td>
+            <td>ProjectOS HTML Portal with 28 sections: executive summary, market research, competitive intelligence, product strategy, discovery, business case + financials (3 scenarios), requirements, features (18 features scored), customer experience (journey maps + service blueprints), enterprise architecture (C4 Level 1+2), data flows (DFD Level 0+1+2), workflows (Mermaid), Mermaid diagram center (14 diagrams), AI strategy, security + compliance (EU AI Act, NYC LL144, Colorado), engineering design, product operating model, roadmap (3-phase Gantt), executive decisions (build vs buy, tradeoffs), knowledge base (5 ADRs), version history</td>
+            <td>Complete ProjectOS portal</td>
+            <td>—</td>
+          </tr>
+        </table>
+      </section>
+
+      <div style="text-align:center;padding:3rem 0;color:var(--text-tertiary);font-size:0.875rem">
+        <p><strong>Hirena ProjectOS v2.0</strong> — Living Project Intelligence Portal</p>
+        <p>Last updated: September 12, 2026 · Maintained by Ossama Mokhtar</p>
+        <p>Single source of truth for strategy, product, technology, AI, data, security, finances, governance, execution, roadmaps, documentation, and decision history.</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Mermaid initialization
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+
+    // Theme toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const html = document.querySelector('[data-theme]');
+      const savedTheme = localStorage.getItem('hirena-theme');
+      if (savedTheme) html.setAttribute('data-theme', savedTheme);
+    });
+
+    // Search functionality
+    document.getElementById('search').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        const text = section.textContent.toLowerCase();
+        section.style.display = text.includes(query) ? 'block' : 'none';
+      });
+      // Show section if search is empty
+      if (!query) sections.forEach(s => s.style.display = 'block');
+    });
+
+    // Keyboard shortcut for search
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('search').focus();
+      }
+    });
+  </script>
+</body>
+</html>

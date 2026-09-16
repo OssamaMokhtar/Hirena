@@ -1,3 +1,16 @@
+<!-- ARCHIVED -->
+<div align="center">
+
+# ⚠️ This repository has been merged into [Hirena](https://github.com/OssamaMokhtar/Hirena)
+
+**OS3** is now part of **Hirena** — the canonical home for AI-powered skills assessment & career pathing.
+
+🔗 Continue at: https://github.com/OssamaMokhtar/Hirena
+
+</div>
+
+---
+
 # Hirena
 
 **AI-Powered Skills Assessment Platform for the MENA Region**

@@ -1,335 +1,317 @@
-// Hirena — DevOps Engineer Competency Model
-// 24 skills across 5 pillars, proficiency levels 0-7, career ladder.
+import type { Skill, CompetencyArea, ProficiencyLevel, CareerLadderStep } from "@/types";
 
-import type { Skill, ProficiencyLevel, CompetencyArea, CareerLadderStep, RoleCompetencyModel, CompetencyPillar } from '@/types';
+/**
+ * DevOps Engineer Competency Model
+ * Covers CI/CD, infrastructure-as-code, containers, cloud platforms, monitoring, deployment automation.
+ * 28 skills across 7 competency areas.
+ */
 
-export const DEVOPS_ENGINEER_SKILLS: Record<string, Skill> = {
-  // Cloud Platforms (5 skills)
-  "aws-devops": {
-    id: "aws-devops",
-    name: "AWS",
-    description: "AWS services for DevOps: EC2, S3, RDS, Lambda, ECS/EKS, CloudFront, CloudWatch, IAM, VPC, Route 53, SNS/SQS, Secrets Manager",
-    category: "cloud-infrastructure",
+export const SKILLS: Record<string, Skill> = {
+  // Technical foundation
+  "linux-unix-admin": {
+    id: "linux-unix-admin",
+    name: "Linux/Unix Administration",
+    description: "Shell scripting (Bash), package management, systemd services, users/permissions, cron jobs, NFS/SMB, disk management, kernel basics.",
+    category: "technical-foundation",
     level: 0,
   },
-  "gcp-devops": {
-    id: "gcp-devops",
-    name: "Google Cloud Platform (GCP)",
-    description: "GCP services: Compute Engine, Cloud Run, GKE, Cloud Functions, Cloud Storage, BigQuery, IAM, VPC, Cloud Monitoring, Cloud Build",
-    category: "cloud-infrastructure",
+  "networking-fundamentals": {
+    id: "networking-fundamentals",
+    name: "Networking Fundamentals",
+    description: "TCP/IP, DNS, HTTP/HTTPS, load balancing, firewalls, subnets, routing, VPN, CDN, NAT, proxy servers, SSL/TLS certificates.",
+    category: "technical-foundation",
     level: 0,
   },
-  "azure-devops": {
-    id: "azure-devops",
-    name: "Microsoft Azure",
-    description: "Azure services: VMs, App Service, AKS, Functions, Blob Storage, SQL Database, IAM, VNet, Monitor, Azure DevOps",
-    category: "cloud-infrastructure",
-    level: 0,
-  },
-  "multi-cloud": {
-    id: "multi-cloud",
-    name: "Multi-Cloud Strategy",
-    description: "Designing multi-cloud architectures: provider comparison, workload placement, cloud-agnostic patterns, cost optimization, vendor lock-in avoidance",
-    category: "cloud-infrastructure",
-    level: 0,
-  },
-  "cloud-cost": {
-    id: "cloud-cost",
-    name: "Cloud Cost Optimization",
-    description: "Optimizing cloud costs: right-sizing, reserved instances, spot instances, auto-scaling, cost monitoring, FinOps practices",
-    category: "cloud-infrastructure",
+  "security-fundamentals": {
+    id: "security-fundamentals",
+    name: "Security Fundamentals",
+    description: "Principles of least privilege, attack vectors (XSS, CSRF, injection, MITM), cryptography basics, certificate management, secrets management, secure configuration, vulnerability scanning.",
+    category: "security",
     level: 0,
   },
 
-  // CI/CD & Automation (5 skills)
-  "ci-cd-devops": {
-    id: "ci-cd-devops",
-    name: "CI/CD Pipeline Design",
-    description: "Designing CI/CD pipelines: build, test, security scan, deploy; tools (GitHub Actions, GitLab CI, Jenkins, CircleCI, ArgoCD); pipeline optimization",
-    category: "ci-cd",
+  // Infrastructure as Code
+  "terraform": {
+    id: "terraform",
+    name: "Terraform (Infrastructure as Code)",
+    description: "Authoring Terraform configurations: providers, resources, modules, state management (remote state, locking), workspaces, import, plan/apply workflows, Terraform Cloud, best practices for modular infrastructure.",
+    category: "iac",
     level: 0,
   },
-  "deployment-strategies": {
-    id: "deployment-strategies",
-    name: "Deployment Strategies",
-    description: "Deployment patterns: blue-green, canary, rolling, recreate; feature flags; approval gates; rollback strategies; zero-downtime deployments",
-    category: "ci-cd",
+  "ansible": {
+    id: "ansible",
+    name: "Ansible (Configuration Management)",
+    description: "Writing Ansible playbooks and roles: inventory management, modules, variables, templates (Jinja2), handlers, roles, vault for secrets, best practices for idempotent configuration.",
+    category: "iac",
     level: 0,
   },
-  "iac-terraform": {
-    id: "iac-terraform",
-    name: "Infrastructure as Code (Terraform)",
-    description: "Terraform: providers, resources, modules, state management (local, remote, locking), workspaces, plan/apply, best practices",
-    category: "ci-cd",
-    level: 0,
-  },
-  "automation-scripting": {
-    id: "automation-scripting",
-    name: "Automation Scripting",
-    description: "Scripting for automation: Bash, Python, PowerShell; automating repetitive tasks; cron jobs; configuration management",
-    category: "ci-cd",
-    level: 0,
-  },
-  "gitops": {
-    id: "gitops",
-    name: "GitOps",
-    description: "GitOps practices: ArgoCD, Flux; declarative infrastructure; git as source of truth; sync strategies; rollback via git revert",
-    category: "ci-cd",
+  "cloudformation": {
+    id: "cloudformation",
+    name: "CloudFormation / ARM Templates",
+    description: "AWS CloudFormation or Azure ARM/Bicep templates: declarative infrastructure, stacks, change sets, drift detection, nested stacks, parameterization, outputs.",
+    category: "iac",
     level: 0,
   },
 
-  // Containers & Orchestration (5 skills)
-  "docker-devops": {
-    id: "docker-devops",
+  // Containers & Orchestration
+  "docker": {
+    id: "docker",
     name: "Docker",
-    description: "Docker: image building (multi-stage, optimization), container lifecycle, Dockerfile best practices, container security, Docker Compose",
-    category: "containerization",
+    description: "Containerization: images, containers, Dockerfile best practices (multi-stage builds, layer caching, minimal images), Docker Compose, networking, volumes, registry, security scanning.",
+    category: "containers",
     level: 0,
   },
-  "kubernetes-devops": {
-    id: "kubernetes-devops",
+  "kubernetes": {
+    id: "kubernetes",
     name: "Kubernetes",
-    description: "Kubernetes: pods, deployments, services, ingress, configmaps, secrets, volumes, HPA, PDB, RBAC, networking, troubleshooting",
-    category: "containerization",
+    description: "Container orchestration: pods, deployments, services, ingress, configmaps, secrets, statefulsets, HPA/VPA, jobs/cronjobs, RBAC, Helm charts, operators, cluster administration, troubleshooting.",
+    category: "containers",
     level: 0,
   },
-  " Helm": {
-    id: "helm",
-    name: "Helm",
-    description: "Helm: chart development, templating, values management, repositories, releases, hooks, library charts, best practices",
-    category: "containerization",
-    level: 0,
-  },
-  "service-mesh": {
-    id: "service-mesh",
-    name: "Service Mesh (Istio/Linkerd)",
-    description: "Service mesh: traffic management, observability, security (mTLS), fault injection, canary deployments, mesh architecture",
-    category: "containerization",
-    level: 0,
-  },
-  "serverless-containers": {
-    id: "serverless-containers",
-    name: "Serverless Containers (Cloud Run / Fargate)",
-    description: "Serverless containers: AWS Fargate, Google Cloud Run; cold start optimization, concurrency, scaling, cost, limitations",
-    category: "containerization",
+  "container-security": {
+    id: "container-security",
+    name: "Container Security",
+    description: "Image scanning (Trivy, Docker Scout), signed images (Cosign), runtime security (Falco), pod security standards, network policies, read-only root filesystems, least-privilege containers, secrets management in K8s.",
+    category: "security",
     level: 0,
   },
 
-  // Monitoring & Observability (5 skills)
+  // CI/CD
+  "github-actions": {
+    id: "github-actions",
+    name: "GitHub Actions",
+    description: "CI/CD with GitHub Actions: workflows, jobs, steps, runners (shared vs self-hosted), secrets, matrix builds, caching, environment protection, reusable workflows, marketplace actions, best practices.",
+    category: "cicd",
+    level: 0,
+  },
+  "gitlab-ci": {
+    id: "gitlab-ci",
+    name: "GitLab CI/CD",
+    description: "GitLab CI/CD: .gitlab-ci.yml, pipelines, jobs, stages, artifacts, caching, runners, environments, deployment strategies, DevOps pipeline integration, security scanning integration.",
+    category: "cicd",
+    level: 0,
+  },
+  "jenkins": {
+    id: "jenkins",
+    name: "Jenkins",
+    description: "Jenkins pipelines (declarative + scripted Groovy), shared libraries, agents/nodes, plugins, credentials management, build triggers, Blue Ocean, scaling with Kubernetes, pipeline best practices.",
+    category: "cicd",
+    level: 0,
+  },
+
+  // Cloud platforms
+  "aws": {
+    id: "aws",
+    name: "AWS",
+    description: "Core AWS services: EC2, S3, VPC, IAM, RDS, Lambda, CloudWatch, ECS/EKS, CloudFormation, Route 53, CloudFront, SNS/SQS, security groups, AWS best practices, cost optimization.",
+    category: "cloud-platforms",
+    level: 0,
+  },
+  "azure": {
+    id: "azure",
+    name: "Azure",
+    description: "Core Azure services: VMs, Blob Storage, VNet, Entra ID (Azure AD), Azure SQL, App Service, AKS, Functions, Monitor, ARM templates/Bicep, networking, Azure policy, cost management.",
+    category: "cloud-platforms",
+    level: 0,
+  },
+  "gcp": {
+    id: "gcp",
+    name: "Google Cloud Platform (GCP)",
+    description: "Core GCP services: Compute Engine, Cloud Storage, VPC, IAM, Cloud SQL, Cloud Run, GKE, Cloud Functions, Cloud Build, Monitoring, networking, Anthos, cost optimization.",
+    category: "cloud-platforms",
+    level: 0,
+  },
+
+  // Monitoring & Observability
   "monitoring-tools": {
     id: "monitoring-tools",
-    name: "Monitoring Tools (Prometheus/Grafana)",
-    description: "Prometheus: metrics collection, exporters, alerting rules, recording rules; Grafana: dashboards, panels, variables, alerting",
+    name: "Monitoring Tools (Prometheus, Grafana, Datadog)",
+    description: "Metrics collection and alerting: Prometheus metrics, Grafana dashboards, Datadog/New Relic CloudWatch. Setting up alerts, dashboards, SLOs/SLIs, notification channels.",
     category: "observability",
     level: 0,
   },
-  "logging": {
-    id: "logging",
-    name: "Logging Infrastructure",
-    description: "Logging: structured logging, log aggregation (ELK, Loki, CloudWatch Logs), log levels, log retention, log analysis, cost management",
+  "logging-infrastructure": {
+    id: "logging-infrastructure",
+    name: "Logging Infrastructure (ELK, Loki, Splunk)",
+    description: "Centralized logging: ELK Stack (Elasticsearch, Logstash, Kibana), OpenSearch, Loki + Grafana, Fluentd/Fluent Bit, log aggregation, structured logging, log retention policies.",
     category: "observability",
     level: 0,
   },
-  "tracing": {
-    id: "tracing",
-    name: "Distributed Tracing",
-    description: "Distributed tracing: OpenTelemetry, Jaeger, Zipkin; trace context propagation, span attributes, sampling, tracing in microservices",
+  "distributed-tracing": {
+    id: "distributed-tracing",
+    name: "Distributed Tracing (OpenTelemetry, Jaeger)",
+    description: "Request tracing across microservices: OpenTelemetry, Jaeger, Zipkin, tracing context propagation, span attributes, service maps, latency analysis, tracing best practices.",
     category: "observability",
     level: 0,
   },
-  "alerting": {
-    id: "alerting",
-    name: "Alerting & Incident Response",
-    description: "Alerting: alert rules, notification channels (PagerDuty, Slack), alert routing, escalation policies, on-call rotation, incident response",
-    category: "observability",
-    level: 0,
-  },
-  "slo-sli": {
-    id: "slo-sli",
-    name: "SLOs, SLIs, SLAs",
-    description: "Service level objectives: defining SLIs/SLOs/SLAs, error budgets, burn rate alerts, reliability targets, reporting",
-    category: "observability",
+  "sre-principles": {
+    id: "sre-principles",
+    name: "SRE Principles (SLOs, Error Budgets, Toil)",
+    description: "Site Reliability Engineering: Service Level Objectives (SLOs), error budgets, toil reduction, automation mindset, postmortems, incident response, release engineering, capacity planning.",
+    category: "operations",
     level: 0,
   },
 
-  // Security & Compliance (3 skills)
-  "secrets-management": {
-    id: "secrets-management",
-    name: "Secrets Management",
-    description: "Secrets management: HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, GCP Secret Manager; secret rotation, access control, auditing",
-    category: "security",
+  // Scripting & Automation
+  "bash-scripting": {
+    id: "bash-scripting",
+    name: "Bash Scripting",
+    description: "Advanced Bash: functions, arrays, conditionals, loops, traps, here-documents, exit codes, set -euo pipefail, portable scripts, shellcheck, automation scripts for system tasks.",
+    category: "scripting",
     level: 0,
   },
-  "infrastructure-security": {
-    id: "infrastructure-security",
-    name: "Infrastructure Security",
-    description: "Securing infrastructure: network security (VPC, security groups, NACLs), IAM policies, encryption (at rest, in transit), security groups, WAF",
-    category: "security",
-    level: 0,
-  },
-  "compliance-devops": {
-    id: "compliance-devops",
-    name: "Compliance & Governance",
-    description: "Compliance: SOC 2, ISO 27001, GDPR; infrastructure compliance as code; audit logging; policy as code (OPA, Sentinel); compliance monitoring",
-    category: "security",
+  "python-automation": {
+    id: "python-automation",
+    name: "Python Automation",
+    description: "Automating operations tasks with Python: boto3 (AWS SDK), Azure SDK, GCP SDK, automation scripts, infrastructure manipulation, Lambda/Function handlers, CLI tools.",
+    category: "scripting",
     level: 0,
   },
 
-  // Collaboration & Soft Skills (2 skills)
-  "devops-culture": {
-    id: "devops-culture",
-    name: "DevOps Culture & Practices",
-    description: "DevOps culture: collaboration between dev and ops, shared responsibility, blameless postmortems, continuous improvement, psychological safety",
-    category: "collaboration",
+  // Git & Version Control
+  "git-advanced": {
+    id: "git-advanced",
+    name: "Git (Advanced)",
+    description: "Advanced Git: branching strategies (GitFlow, trunk-based), rebasing, cherry-picking, bisect, submodules, hooks, Gerrit/for-slip workflows, large repo management, Git internals.",
+    category: "development-tools",
     level: 0,
   },
-  "developer-experience": {
-    id: "developer-experience",
-    name: "Developer Experience (DevEx)",
-    description: "Improving developer experience: reducing friction, self-service tools, documentation, onboarding, feedback loops, inner source",
+
+  // Soft skills for DevOps
+  "incident-response": {
+    id: "incident-response",
+    name: "Incident Response & On-Call",
+    description: "Responding to production incidents: triage, severity classification, escalation procedures, communication during incidents, postmortems (blameless), runbooks, on-call rotation management, stress management.",
+    category: "operations",
+    level: 0,
+  },
+  "documentation": {
+    id: "documentation",
+    name: "Documentation & Runbooks",
+    description: "Creating and maintaining operational documentation: runbooks, playbooks, architecture diagrams, deployment guides, incident response procedures, knowledge base maintenance.",
+    category: "process",
+    level: 0,
+  },
+  "collaboration": {
+    id: "collaboration",
+    name: "Cross-team Collaboration",
+    description: "Working effectively with development, security, and business teams: bridging operations and development (DevOps culture), communication, empathy, negotiating priorities, teaching ops practices to developers.",
     category: "collaboration",
     level: 0,
   },
 };
 
-export const DEVOPS_ENGINEER_PILLARS: CompetencyPillar[] = [
+export const COMPETENCY_AREAS: CompetencyArea[] = [
   {
-    id: "cloud",
-    name: "Cloud Platforms",
-    description: "AWS, GCP, Azure, multi-cloud strategy, cloud cost optimization",
-    weight: 20,
-    categories: ["cloud-infrastructure", "cloud-platforms"],
+    id: "technical-foundation",
+    name: "Technical Foundation",
+    description: "Linux, networking, and security fundamentals that underpin all DevOps work.",
+    skills: ["linux-unix-admin", "networking-fundamentals", "security-fundamentals"],
+    weight: 15,
   },
   {
-    id: "cicd",
-    name: "CI/CD & Automation",
-    description: "CI/CD pipeline design, deployment strategies, infrastructure as code, automation scripting, GitOps",
-    weight: 25,
-    categories: ["ci-cd", "containerization"],
+    id: "iac",
+    name: "Infrastructure as Code",
+    description: "Defining and managing infrastructure declaratively with Terraform, Ansible, and cloud-native tools.",
+    skills: ["terraform", "ansible", "cloudformation"],
+    weight: 20,
   },
   {
     id: "containers",
     name: "Containers & Orchestration",
-    description: "Docker, Kubernetes, Helm, service mesh, serverless containers",
-    weight: 25,
-    categories: ["containerization"],
+    description: "Docker and Kubernetes for containerized application deployment and management.",
+    skills: ["docker", "kubernetes", "container-security"],
+    weight: 22,
+  },
+  {
+    id: "cicd",
+    name: "CI/CD Pipelines",
+    description: "Automated build, test, and deployment pipelines across GitHub Actions, GitLab CI, and Jenkins.",
+    skills: ["github-actions", "gitlab-ci", "jenkins"],
+    weight: 20,
+  },
+  {
+    id: "cloud-platforms",
+    name: "Cloud Platforms",
+    description: "Multi-cloud proficiency across AWS, Azure, and GCP — compute, storage, networking, serverless, and cost.",
+    skills: ["aws", "azure", "gcp"],
+    weight: 18,
   },
   {
     id: "observability",
-    name: "Monitoring & Observability",
-    description: "Monitoring tools, logging, distributed tracing, alerting & incident response, SLOs/SLIs/SLAs",
-    weight: 20,
-    categories: ["observability"],
+    name: "Observability & SRE",
+    description: "Monitoring, logging, tracing, and SRE principles to keep systems healthy and reliable.",
+    skills: ["monitoring-tools", "logging-infrastructure", "distributed-tracing", "sre-principles"],
+    weight: 25,
   },
   {
-    id: "security",
-    name: "Security & Compliance",
-    description: "Secrets management, infrastructure security, compliance & governance",
-    weight: 10,
-    categories: ["security"],
+    id: "scripting",
+    name: "Scripting & Automation",
+    description: "Bash and Python for automating operational tasks, integrating cloud SDKs, and building tooling.",
+    skills: ["bash-scripting", "python-automation"],
+    weight: 15,
+  },
+  {
+    id: "process",
+    name: "Process & Collaboration",
+    description: "Incident response, documentation, Git mastery, and cross-team collaboration for effective DevOps.",
+    skills: ["incident-response", "documentation", "git-advanced", "collaboration"],
+    weight: 20,
   },
 ];
 
-export const DEVOPS_ENGINEER_LEVELS = [
-  { level: 0 as ProficiencyLevel, name: "No Experience", description: "No practical experience with this skill" },
-  { level: 1 as ProficiencyLevel, name: "Basic", description: "Can understand and use the skill with guidance" },
-  { level: 2 as ProficiencyLevel, name: "Intermediate", description: "Can use the skill independently on routine tasks" },
-  { level: 3 as ProficiencyLevel, name: "Competent", description: "Can use the skill independently on complex tasks; can troubleshoot" },
-  { level: 4 as ProficiencyLevel, name: "Advanced", description: "Can apply the skill to novel problems; can teach others; deep understanding" },
-  { level: 5 as ProficiencyLevel, name: "Expert", description: "Recognized expert; can design systems using this skill; can drive best practices" },
-  { level: 6 as ProficiencyLevel, name: "Master", description: "Industry-level expertise; can contribute to the field; extensive real-world experience" },
-  { level: 7 as ProficiencyLevel, name: "Authority", description: "Thought leader; has shaped the practice; extensive publications, talks, or open-source contributions" },
-];
+export const LEVELS: ProficiencyLevel[] = [0, 1, 2, 3, 4, 5, 6, 7];
 
-export const DEVOPS_ENGINEER_CAREER_LADDER: CareerLadderStep[] = [
+export const CAREER_LADDER: CareerLadderStep[] = [
   {
     title: "Junior DevOps Engineer",
     minLevel: 0,
-    maxLevel: 2,
-    expectedProficiency: {
-      "cloud": 1,
-      "cicd": 1,
-      "containers": 1,
-      "observability": 1,
-      "security": 1,
-    },
-    description: "Entry-level DevOps engineer. Learns cloud basics, CI/CD pipelines, and containerization. Works under guidance on routine tasks.",
     typicalYearsOfExperience: "0-2 years",
+    description: "Entry-level DevOps. Learning CI/CD pipelines, basic containers, cloud fundamentals. Works under supervision on deployment and monitoring tasks.",
   },
   {
     title: "DevOps Engineer",
     minLevel: 2,
-    maxLevel: 3,
-    expectedProficiency: {
-      "cloud": 2,
-      "cicd": 3,
-      "containers": 2,
-      "observability": 2,
-      "security": 2,
-    },
-    description: "Mid-level DevOps engineer. Builds and maintains CI/CD pipelines. Manages cloud infrastructure. Deploys and monitors applications. Handles incidents.",
-    typicalYearsOfExperience: "2-5 years",
+    typicalYearsOfExperience: "2-4 years",
+    description: "Core DevOps role. Builds and maintains CI/CD pipelines, manages containers, configures cloud infrastructure. Works independently on deployment automation and monitoring.",
   },
   {
     title: "Senior DevOps Engineer",
     minLevel: 3,
-    maxLevel: 4,
-    expectedProficiency: {
-      "cloud": 3,
-      "cicd": 4,
-      "containers": 3,
-      "observability": 3,
-      "security": 3,
-    },
-    description: "Senior DevOps engineer. Designs infrastructure and pipelines. Optimizes cloud costs. Implements monitoring and alerting. Handles complex incidents. Mentors juniors.",
-    typicalYearsOfExperience: "5-8 years",
+    typicalYearsOfExperience: "4-7 years",
+    description: "Senior DevOps. Designs infrastructure, leads complex migrations, mentors juniors. Strong depth in cloud, containers, IaC, and CI/CD. Handles production incidents independently.",
   },
   {
     title: "Lead DevOps Engineer",
     minLevel: 4,
-    maxLevel: 5,
-    expectedProficiency: {
-      "cloud": 4,
-      "cicd": 5,
-      "containers": 4,
-      "observability": 4,
-      "security": 4,
-    },
-    description: "Lead DevOps engineer. Sets infrastructure strategy and standards. Makes architectural decisions. Drives DevOps culture. Ensures reliability and security. Mentors team.",
-    typicalYearsOfExperience: "8-12 years",
+    typicalYearsOfExperience: "6-8 years",
+    description: "Technical lead for infrastructure/operations. Sets DevOps standards, drives automation strategy, leads migrations, manages on-call rotations, and mentors a team of DevOps engineers.",
   },
   {
     title: "Principal DevOps Engineer",
     minLevel: 5,
-    maxLevel: 7,
-    expectedProficiency: {
-      "cloud": 5,
-      "cicd": 5,
-      "containers": 5,
-      "observability": 5,
-      "security": 5,
-    },
-    description: "Principal DevOps engineer. Technical authority for infrastructure and DevOps across the organization. Solves the hardest infrastructure problems. Drives innovation. Recognized expert.",
-    typicalYearsOfExperience: "12+ years",
+    typicalYearsOfExperience: "8+ years",
+    description: "Principal-level DevOps. Sets architectural direction across multiple teams. Designs multi-cloud strategies, drives org-wide automation, and is the go-to expert for complex infrastructure problems.",
+  },
+  {
+    title: "DevOps Architect",
+    minLevel: 5,
+    typicalYearsOfExperience: "8+ years",
+    description: "Architect-level DevOps. Designs entire infrastructure landscapes, evaluates tools/platforms strategically, and provides long-term infrastructure vision for the organization.",
+  },
+  {
+    title: "Engineering Manager (DevOps)",
+    minLevel: 3,
+    typicalYearsOfExperience: "8+ years",
+    description: "People manager for DevOps/Infrastructure teams. Hires, develops, and manages engineers. Balances people leadership with technical oversight and strategic planning.",
+  },
+  {
+    title: "Director of Infrastructure",
+    minLevel: 2,
+    typicalYearsOfExperience: "10+ years",
+    description: "Leads multiple infrastructure/operations teams. Sets organization-wide infrastructure strategy and budgets. Manages managers. Focuses on organizational effectiveness and alignment with business goals.",
   },
 ];
 
-export const DEVOPS_ENGINEER_MODEL: RoleCompetencyModel = {
-  role: "devops-engineer",
-  roleName: "DevOps Engineer",
-  track: "engineering",
-  description: "DevOps engineer focused on building and maintaining reliable, scalable, secure infrastructure and CI/CD pipelines. Bridges development and operations to enable rapid, safe software delivery.",
-  skills: DEVOPS_ENGINEER_SKILLS,
-  pillars: DEVOPS_ENGINEER_PILLARS,
-  levels: DEVOPS_ENGINEER_LEVELS,
-  careerLadder: DEVOPS_ENGINEER_CAREER_LADDER,
-  expectedLevels: {
-    junior: 2,
-    "devops-engineer": 3,
-    senior: 4,
-    lead: 5,
-    principal: 6,
-  },
-  region: "MENAC",
-  totalSkills: Object.keys(DEVOPS_ENGINEER_SKILLS).length,
-};
+export const SKILL_COUNT = Object.keys(SKILLS).length;
+export const PILLAR_COUNT = COMPETENCY_AREAS.length;

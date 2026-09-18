@@ -168,6 +168,12 @@ export default function Home() {
               >
                 Video Interview
               </a>
+              <a
+                href="/progress"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Track Progress
+              </a>
               {showAssessment ? (
                 <button
                   onClick={() => {

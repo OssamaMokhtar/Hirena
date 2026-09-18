@@ -7,6 +7,9 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { formatScore, getScoreColor, getScoreBg, proficiencyToLabel } from "@/lib/utils";
 import type { AssessmentResult, SkillCategory } from "@/types";
+import { getRoleModel, ROLE_COMPETENCY_MODELS } from "@/lib/competency-models/index";
+import { CareerLadderViz } from "@/components/career-ladder-viz";
+import { LearningResourcesPanel } from "@/components/learning-resources-panel";
 
 interface ResultsDashboardProps {
   result: AssessmentResult;
@@ -14,6 +17,13 @@ interface ResultsDashboardProps {
 
 export function ResultsDashboard({ result }: ResultsDashboardProps) {
   const [activeTab, setActiveTab] = React.useState<"overview" | "skills" | "gaps" | "roadmap">("overview");
+  const [showBenchmarks, setShowBenchmarks] = React.useState(false);
+  const roleModel = React.useMemo(
+    () => getRoleModel(result.targetRole),
+    [result.targetRole]
+  );
+
+  const hasBenchmarks = result.benchmark?.overall?.median != null;
 
   const getCompetencyColor = (score: number): string => {
     if (score >= 4) return "bg-success";
@@ -93,17 +103,78 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
           <div className="mt-6">
             <div className="mb-2 text-sm text-foreground-muted">
               Your performance vs. {result.targetRole} benchmark
+              {hasBenchmarks && " (MENA region)"}
             </div>
-            <Progress value={result.overallScore} className="h-3 w-full" />
-            <div className="mt-2 flex justify-between text-xs text-foreground-muted">
+            <div className="relative h-3 rounded-full bg-secondary/30 overflow-hidden">
+              <div className="absolute left-0 top-0 h-full bg-foreground/20" style={{ width: "100%" }} />
+              {hasBenchmarks && result.benchmark?.overall && (
+                <>
+                  {/* Median marker */}
+                  <div
+                    className="absolute top-0 bottom-0 w-0.5 bg-foreground/40 z-10"
+                    style={{ left: `${(result.benchmark.overall.median / 100) * 100}%` }}
+                  >
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 text-[10px] font-medium text-foreground-muted whitespace-nowrap">
+                      Median: {result.benchmark.overall.median.toFixed(0)}
+                    </div>
+                  </div>
+                  {/* Top quartile marker */}
+                  <div
+                    className="absolute top-0 bottom-0 w-0.5 bg-success/50 z-10"
+                    style={{ left: `${(result.benchmark.overall.topQuartile / 100) * 100}%` }}
+                  >
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 text-[10px] font-medium text-success whitespace-nowrap">
+                      75th %ile: {result.benchmark.overall.topQuartile.toFixed(0)}
+                    </div>
+                  </div>
+                  {/* User score bar */}
+                  <div
+                    className="absolute top-0 bottom-0 bg-primary z-20 transition-all duration-500"
+                    style={{
+                      left: 0,
+                      width: `${(result.overallScore / 100) * 100}%`,
+                    }}
+                  />
+                </>
+              )}
+            </div>
+            <div className="mt-3 flex justify-between text-xs flex-wrap gap-1">
               <span>0</span>
-              <span>25</span>
-              <span>50</span>
-              <span>75</span>
+              {hasBenchmarks && result.benchmark?.overall && (
+                <>
+                  <span className="text-foreground-muted">
+                    Median: {result.benchmark.overall.median.toFixed(0)}
+                  </span>
+                  <span className="text-foreground-muted">
+                    75th %ile: {result.benchmark.overall.topQuartile.toFixed(0)}
+                  </span>
+                </>
+              )}
               <span>100</span>
             </div>
+            {!hasBenchmarks && (
+              <p className="mt-2 text-xs text-foreground-muted">
+                Benchmarks are being populated. Check back soon for regional comparisons.
+              </p>
+            )}
           </div>
         </div>
+
+        {/* Career Ladder */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>{result.targetRole} — Career Progression Path</CardTitle>
+            <p className="text-sm text-foreground-muted">
+              Where you sit today and the role levels ahead of you in this track
+            </p>
+          </CardHeader>
+          <CardContent>
+            <CareerLadderViz
+              ladder={roleModel?.careerLadder ?? []}
+              currentLevel={result.overallScore >= 80 ? 4 : result.overallScore >= 60 ? 3 : result.overallScore >= 40 ? 2 : 1}
+            />
+          </CardContent>
+        </Card>
 
         {/* Tabs */}
         <div className="mb-6 flex gap-1 rounded-lg bg-surface p-1 border border-border">
@@ -127,37 +198,72 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
         <div className="space-y-6">
           {activeTab === "overview" && (
             <div className="space-y-6">
-              {/* Competency Areas */}
+              {/* Competency Areas with Benchmarks */}
               <Card>
                 <CardHeader>
                   <CardTitle>Competency Area Scores</CardTitle>
                   <p className="text-sm text-foreground-muted">
-                    Your proficiency across the six core PM competency areas
+                    Your proficiency across competency areas — with MENA regional benchmarks where available
                   </p>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
-                    {Object.entries(result.competencyScores).map(([category, data]) => (
-                      <div key={category} className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-foreground capitalize">
-                            {category}
-                          </span>
-                          <span className={cn("text-sm font-semibold", getCompetencyColor(data.average))}>
-                            {data.average.toFixed(1)} / 5
-                          </span>
+                    {Object.entries(result.competencyScores).map(([category, data]) => {
+                      const benchmark = result.benchmark?.competencies?.[category];
+                      const showBenchmark = benchmark && benchmark.median != null;
+
+                      return (
+                        <div key={category} className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-foreground capitalize">
+                              {category}
+                            </span>
+                            <div className="flex items-center gap-3">
+                              {showBenchmark && (
+                                <span className="text-xs text-foreground-muted">
+                                  vs median {benchmark.median.toFixed(1)}
+                                </span>
+                              )}
+                              <span className={cn("text-sm font-semibold", getCompetencyColor(data.average))}>
+                                {data.average.toFixed(1)} / 5
+                              </span>
+                            </div>
+                          </div>
+                          <div className="relative h-2.5 rounded-full bg-secondary/30 overflow-hidden">
+                            {/* Median marker */}
+                            {showBenchmark && (
+                              <div
+                                className="absolute top-0 bottom-0 w-0.5 bg-foreground/30 z-10"
+                                style={{ left: `${(benchmark.median / 5) * 100}%` }}
+                              />
+                            )}
+                            {/* Top quartile marker */}
+                            {showBenchmark && (
+                              <div
+                                className="absolute top-0 bottom-0 w-0.5 bg-amber-500/40 z-10"
+                                style={{ left: `${(benchmark.topQuartile / 5) * 100}%` }}
+                              />
+                            )}
+                            {/* User's bar */}
+                            <div
+                              className="absolute left-0 top-0 h-full bg-primary z-20 transition-all duration-500"
+                              style={{ width: `${(data.average / 5) * 100}%` }}
+                            />
+                          </div>
+                          <div className="flex justify-between text-xs text-foreground-muted">
+                            <span>{data.skills.length} skills assessed</span>
+                            <span>{proficiencyToLabel(Math.round(data.average))}</span>
+                            {showBenchmark && (
+                              <span className="capitalize">
+                                {data.average >= benchmark.topQuartile ? "Top quartile" :
+                                 data.average >= benchmark.median ? "Above median" :
+                                 "Below median"}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <Progress
-                          value={(data.average / 5) * 100}
-                          className="h-2.5"
-                          indicatorClassName={cn("h-2.5", getCompetencyColor(data.average).replace("bg-", "bg-").concat(" opacity-80"))}
-                        />
-                        <div className="flex justify-between text-xs text-foreground-muted">
-                          <span>{data.skills.length} skills assessed</span>
-                          <span>{proficiencyToLabel(Math.round(data.average))}</span>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
@@ -185,7 +291,7 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
                           <div className="text-right">
                             <div className="text-lg font-bold text-success">{skill.level}/5</div>
                             <div className="text-xs text-foreground-muted">
-                              Above target by {Math.abs(result.gaps.find(g => g.skill.id === skill.id)?.gapSize || 1)}+ level
+                              {skill.category}
                             </div>
                           </div>
                         </div>
@@ -406,9 +512,28 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Learning Resources */}
+              {result.gaps.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recommended Learning Resources</CardTitle>
+                    <p className="text-sm text-foreground-muted">
+                      Curated courses mapped to the skill gaps identified in this assessment — from Coursera, edX, DeepLearning.AI, and LinkedIn Learning
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <LearningResourcesPanel
+                      targetRole={result.targetRole}
+                      gaps={result.gaps}
+                      missingSkills={result.missingSkills}
+                      region={result.region}
+                    />
+                  </CardContent>
+                </Card>
+              )}
             </div>
           )}
-
           {activeTab === "roadmap" && (
             <Card>
               <CardHeader>

@@ -1,13 +1,33 @@
 import type { AssessmentInput, AssessmentResult, Skill, SkillGap, SkillCategory, ProficiencyLevel } from "@/types";
-import {
-  PM_SKILLS,
-  getExpectedProficiency,
-  getBenchmark,
-} from "@/lib/competency-model";
+import { PM_SKILLS, getBenchmark } from "@/lib/competency-model";
+import { getRoleExpectedLevels } from "@/lib/competency-framework";
 
 /**
- * Scoring weights by target role
+ * Get the expected proficiency level for a given role and competency category.
+ * Uses the competency framework's role expected levels.
  */
+function getExpectedProficiency(targetRole: string): Record<SkillCategory, number> {
+  const roleLevels = getRoleExpectedLevels(targetRole);
+  if (!roleLevels || Object.keys(roleLevels).length === 0) {
+    // Fallback: return a flat default
+    return {
+      strategy: 2, discovery: 2, delivery: 3, analytics: 2, ai: 1, leadership: 2,
+      "technical-foundation": 2, "development-tools": 2, "engineering-practices": 2,
+      "system-design": 2, data: 2, "cloud-infrastructure": 2, collaboration: 2,
+      testing: 2, security: 1, frontend: 2, backend: 2, databases: 2, devops: 2,
+    } as unknown as Record<SkillCategory, number>;
+  }
+  // roleLevels is Record<string, Record<string, number>> (role → category → level)
+  // Return the first (and typically only) entry's category map
+  const entries = Object.values(roleLevels);
+  if (entries.length > 0 && entries[0]) {
+    return entries[0] as unknown as Record<SkillCategory, number>;
+  }
+  return {} as unknown as Record<SkillCategory, number>;
+}
+
+
+/** Scoring weights by target role — PM roles only for now */
 const ROLE_WEIGHTS: Record<string, Partial<Record<SkillCategory, number>>> = {
   "Associate Product Manager": { strategy: 15, discovery: 30, delivery: 25, analytics: 20, ai: 5, leadership: 5 },
   "Product Manager": { strategy: 20, discovery: 25, delivery: 25, analytics: 15, ai: 10, leadership: 5 },
@@ -19,9 +39,7 @@ const ROLE_WEIGHTS: Record<string, Partial<Record<SkillCategory, number>>> = {
   "CPO": { strategy: 40, discovery: 5, delivery: 10, analytics: 10, ai: 10, leadership: 25 },
 };
 
-/**
- * Compute the overall assessment result from input (sync, no AI calls)
- */
+/** Compute the overall assessment result from input (sync, no AI calls) */
 export function computeAssessmentResult(
   input: AssessmentInput,
   userId: string,
@@ -96,26 +114,48 @@ export function computeAssessmentResult(
     }
   });
 
-  gaps.sort((a, b) => {
-    const order = { critical: 0, important: 1, "nice-to-have": 2 };
-    const diff = order[a.priority] - order[b.priority];
-    return diff !== 0 ? diff : b.gapSize - a.gapSize;
-  });
+  gaps.sort((a, b) => b.gapSize - a.gapSize);
+
+  // AI inference notes (for display in results)
+  const aiInferenceNotes: Record<string, string> = {};
+  if (aiInferenceResults) {
+    for (const [skillId, result] of Object.entries(aiInferenceResults)) {
+      aiInferenceNotes[skillId] = result.reasoning;
+    }
+  }
+
+  // Generate a deterministic assessment ID
+  const assessmentId = `assess-${userId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+  // Build roadmap from gaps
+  const immediateActions = gaps.slice(0, 3).map((g) => ({
+    skillId: g.skill.id,
+    skillName: g.skill.name,
+    action: g.note || "",
+    priority: g.priority,
+  }));
+  const intermediateActions: Array<{ skillId: string; skillName: string; action: string; priority: string }> = [];
+  const longTermActions: Array<{ skillId: string; skillName: string; action: string; priority: string }> = [];
 
   return {
-    id: crypto.randomUUID(),
+    id: assessmentId,
     userId,
     targetRole,
     targetTrack,
     region,
-    overallScore: Math.min(100, Math.max(0, overallScore)),
+    overallScore,
     competencyScores,
     skillRanking,
     strengths,
-    gaps: gaps.slice(0, 10),
+    gaps,
     missingSkills,
-    aiInferenceNotes: {},
+    aiInferenceNotes,
     createdAt: new Date(),
     completedAt: new Date(),
+    roadmap: {
+      immediateActions,
+      intermediateActions,
+      longTermActions,
+    },
   };
 }

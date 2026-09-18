@@ -158,6 +158,18 @@ export interface AssessmentResult {
   targetTrack: string;
   region: string;
   overallScore: number;
+  benchmark?: {
+    overall?: {
+      median: number;
+      topQuartile: number;
+      bottomQuartile: number;
+    };
+    competencies?: Record<string, {
+      average: number;
+      topQuartile: number;
+      median: number;
+    }>;
+  };
   competencyScores: Record<string, {
     average: number;
     skills: Skill[];
@@ -170,6 +182,11 @@ export interface AssessmentResult {
   createdAt: Date;
   completedAt: Date;
   previousAssessmentId?: string;
+  roadmap?: {
+    immediateActions: Array<{ skillId: string; skillName: string; action: string; priority: string }>;
+    intermediateActions: Array<{ skillId: string; skillName: string; action: string; priority: string }>;
+    longTermActions: Array<{ skillId: string; skillName: string; action: string; priority: string }>;
+  };
 }
 
 export interface CareerLevel {
@@ -226,6 +243,7 @@ export interface RoleCompetencyModel {
   careerLadder: CareerLadderStep[];
   expectedLevels?: Record<string, number> | Record<string, Record<string, number>>;
   totalSkills?: number;
+  pillarCount?: number;
   region?: string;
 }
 
@@ -336,8 +354,50 @@ export interface User {
   email: string;
   name: string;
   profile: Profile;
-  assessments: AssessmentResult[];
+  assessments: string[]; // Array of assessment IDs (FK to assessments table)
   createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * Supabase database representation of an assessment.
+ * Used for persistence + progress tracking.
+ */
+export interface AssessmentRecord {
+  id: string;
+  user_id: string;
+  target_role: string;
+  target_track: string;
+  region: string;
+  overall_score: number;
+  competency_scores: string; // JSON stringified
+  strengths: string; // JSON stringified skill IDs
+  gaps: string; // JSON stringified
+  missing_skills: string; // JSON stringified
+  roadmap: string; // JSON stringified
+  self_assessment: string; // JSON stringified
+  ai_inference_inputs: string; // JSON stringified
+  ai_inference_results?: string; // JSON stringified (nullable)
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * API response that wraps an AssessmentResult with user context.
+ */
+export interface AssessmentResponse {
+  success: boolean;
+  result: AssessmentResult;
+  saved: boolean; // Whether the result was persisted to DB
+  assessmentId?: string;
+}
+
+/**
+ * Input for saving an assessment to the database.
+ */
+export interface SaveAssessmentInput {
+  userId: string;
+  result: AssessmentResult;
 }
 
 export interface Mentor {
@@ -383,6 +443,14 @@ export type AiFeatureToggle = {
   contentAnalysis: boolean;
   useRealAi: boolean;
 };
+
+export interface UserPreferences {
+  facialAnalysisEnabled: boolean;
+  language: string;
+  region: string;
+  newsletterOptIn: boolean;
+  aiMode: "auto" | "mock" | "production";
+}
 
 export interface AiDisclaimer {
   message: string;

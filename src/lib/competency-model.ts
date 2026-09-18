@@ -1,5 +1,6 @@
 import type { Benchmark, SkillCategory } from "@/types";
 import type { Skill } from "@/types";
+import { SOFTWARE_ENGINEER_SKILLS } from "./software-competency-model";
 
 /**
  * Hirena PM Competency Model
@@ -52,42 +53,42 @@ export const PM_SKILLS: Record<string, Skill> = {
   "product-vision": {
     id: "product-vision",
     name: "Product Vision",
-    description: "Ability to articulate a clear, compelling product vision that aligns stakeholders and guides decision-making",
+    description: "Ability to articulate a compelling long-term vision for a product that aligns with business goals and user needs",
     category: "strategy",
     level: 0,
   },
   "business-strategy": {
     id: "business-strategy",
     name: "Business Strategy",
-    description: "Understanding of business models, competitive positioning, and how product strategy connects to business objectives",
+    description: "Understanding business models, go-to-market strategy, competitive positioning, and financial implications of product decisions",
     category: "strategy",
     level: 0,
   },
   "market-analysis": {
     id: "market-analysis",
     name: "Market Analysis",
-    description: "Ability to research, analyze, and interpret market trends, size, growth, and dynamics",
+    description: "Researching and analyzing market trends, size, growth, segmentation, and opportunities for product expansion",
     category: "strategy",
     level: 0,
   },
   "competitive-analysis": {
     id: "competitive-analysis",
     name: "Competitive Analysis",
-    description: "Systematic evaluation of competitors' products, strategies, strengths, and weaknesses",
+    description: "Systematically evaluating competitors' products, features, pricing, positioning, and identifying competitive advantages",
     category: "strategy",
     level: 0,
   },
   "pricing-strategy": {
     id: "pricing-strategy",
     name: "Pricing Strategy",
-    description: "Understanding of pricing models, value-based pricing, and ability to develop pricing strategies",
+    description: "Developing pricing models, understanding price elasticity, packaging, tiering, and optimizing for revenue and adoption",
     category: "strategy",
     level: 0,
   },
   "go-to-market": {
     id: "go-to-market",
     name: "Go-to-Market Strategy",
-    description: "Planning and executing product launches, positioning, messaging, and adoption strategies",
+    description: "Planning and executing product launches: positioning, messaging, sales enablement, marketing campaigns, and channel strategy",
     category: "strategy",
     level: 0,
   },
@@ -96,42 +97,42 @@ export const PM_SKILLS: Record<string, Skill> = {
   "customer-research": {
     id: "customer-research",
     name: "Customer Research",
-    description: "Planning and conducting user research: interviews, surveys, observation, and synthesizing insights",
+    description: "Conducting user interviews, surveys, focus groups, and ethnographic research to understand user needs, behaviors, and pain points",
     category: "discovery",
     level: 0,
   },
   "problem-validation": {
     id: "problem-validation",
     name: "Problem Validation",
-    description: "Testing whether a problem is worth solving: verifying pain points, validating need, assessing willingness to pay",
+    description: "Validating that a problem is worth solving: assessing market need, user willingness to pay, and opportunity size before building",
     category: "discovery",
     level: 0,
   },
   "user-interviews": {
     id: "user-interviews",
     name: "User Interviews",
-    description: "Designing and conducting effective user interviews to uncover insights, behaviors, and needs",
+    description: "Designing and conducting effective user interviews: question design, facilitation, note-taking, and synthesizing insights",
     category: "discovery",
     level: 0,
   },
   "usability-testing": {
     id: "usability-testing",
     name: "Usability Testing",
-    description: "Planning and running usability tests to evaluate product designs and identify friction points",
+    description: "Planning and conducting usability tests: task design, moderation, measuring success metrics, and identifying UX issues",
     category: "discovery",
     level: 0,
   },
   "data-discovery": {
     id: "data-discovery",
     name: "Data-Driven Discovery",
-    description: "Using data (analytics, logs, A/B tests) to inform discovery and identify opportunities",
+    description: "Using analytics, behavioral data, and quantitative methods to discover user problems, validate hypotheses, and identify opportunities",
     category: "discovery",
     level: 0,
   },
   "opportunity-assessment": {
     id: "opportunity-assessment",
     name: "Opportunity Assessment",
-    description: "Evaluating and prioritizing opportunities based on value, feasibility, and strategic fit",
+    description: "Evaluating and prioritizing product opportunities using frameworks like CIRCLES, assessing value, feasibility, and strategic fit",
     category: "discovery",
     level: 0,
   },
@@ -272,263 +273,68 @@ export const PM_SKILLS: Record<string, Skill> = {
   "executive-communication": {
     id: "executive-communication",
     name: "Executive Communication",
-    description: "Presenting to leadership; storytelling with data; executive presence; influencing at the highest level",
+    description: "Communicating effectively with executives and board members: storytelling, data-driven presentations, and decision facilitation",
     category: "leadership",
     level: 0,
   },
   "pl-ownership": {
     id: "pl-ownership",
     name: "P&L Ownership",
-    description: "Understanding and owning P&L: revenue, margin, cost; building business cases; financial acumen",
+    description: "Understanding and managing product P&L: revenue, costs, margins, and financial accountability",
     category: "leadership",
     level: 0,
   },
-  "org-design-awareness": {
-    id: "org-design-awareness",
-    name: "Organizational Design Awareness",
-    description: "Understanding how organizations are structured; navigating matrixed orgs; designing effective team structures",
-    category: "leadership",
-    level: 0,
-  },
-  "negotiation": {
-    id: "negotiation",
-    name: "Negotiation",
-    description: "Negotiating priorities, resources, timelines; resolving conflicts; securing buy-in and alignment",
+  "organizational-skills": {
+    id: "organizational-skills",
+    name: "Organizational Skills",
+    description: "Navigating organizational dynamics, building alliances, influencing culture, and driving change management",
     category: "leadership",
     level: 0,
   },
 };
 
 /**
- * Get all skills organized by category
+ * PM career ladder - role progression levels
  */
-export function getSkillsByCategory(): Record<string, Skill[]> {
-  const result: Partial<Record<string, Skill[]>> = {};
-
-  Object.values(PM_SKILLS).forEach((skill) => {
-    const cat = skill.category;
-    if (!result[cat]) {
-      result[cat] = [];
-    }
-    result[cat]!.push(skill);
-  });
-
-  return result as Record<SkillCategory, Skill[]>;
-}
+export const PM_CAREER_LADDER = [
+  { role: "Associate Product Manager", level: 1 },
+  { role: "Product Manager", level: 2 },
+  { role: "Senior Product Manager", level: 3 },
+  { role: "Lead Product Manager", level: 4 },
+  { role: "Principal Product Manager", level: 5 },
+  { role: "Director of Product", level: 6 },
+  { role: "VP of Product", level: 7 },
+  { role: "Chief Product Officer", level: 8 },
+] as const;
 
 /**
- * Get a skill by ID
+ * Regional benchmarks for PM roles (average and top quartile scores out of 5)
  */
-export function getSkillById(id: string): Skill | undefined {
-  return PM_SKILLS[id];
-}
-
-/**
- * Get all skill IDs
- */
-export function getAllSkillIds(): string[] {
-  return Object.keys(PM_SKILLS);
-}
-
-/**
- * PM Career Ladder — target roles with expected proficiency levels by competency area
- */
-export interface CareerLevel {
-  role: string;
-  track: string;
-  expectedProficiency: Partial<Record<SkillCategory, number>>;
-  description: string;
-}
-
-export const PM_CAREER_LADDER: CareerLevel[] = [
-  {
-    role: "Associate Product Manager",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 2,
-      discovery: 2,
-      delivery: 2,
-      analytics: 1,
-      ai: 1,
-      leadership: 1,
-    },
-    description: "Entry-level PM role. Focus on learning, supporting senior PMs, and developing core product skills.",
-  },
-  {
-    role: "Product Manager",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 3,
-      discovery: 3,
-      delivery: 3,
-      analytics: 2,
-      ai: 2,
-      leadership: 2,
-    },
-    description: "Core PM role. Owns a product or feature area. Expected to independently drive discovery, delivery, and measurement.",
-  },
-  {
-    role: "Senior Product Manager",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 3,
-      discovery: 3,
-      delivery: 4,
-      analytics: 3,
-      ai: 2,
-      leadership: 3,
-    },
-    description: "Experienced PM who operates independently and mentors others. Strong execution and growing strategic thinking.",
-  },
-  {
-    role: "Lead Product Manager",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 3,
-      discovery: 3,
-      delivery: 4,
-      analytics: 3,
-      ai: 3,
-      leadership: 3,
-    },
-    description: "Leads a team of PMs or a significant product area. Expected to set direction and elevate the team.",
-  },
-  {
-    role: "Group Product Manager",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 4,
-      discovery: 3,
-      delivery: 4,
-      analytics: 3,
-      ai: 3,
-      leadership: 4,
-    },
-    description: "Manages a group of PMs across multiple products. Strong strategic and leadership capabilities required.",
-  },
-  {
-    role: "Director of Product",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 4,
-      discovery: 3,
-      delivery: 4,
-      analytics: 3,
-      ai: 3,
-      leadership: 4,
-    },
-    description: "Leads product organization or major product area. Heavy focus on strategy, leadership, and business impact.",
-  },
-  {
-    role: "VP Product",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 5,
-      discovery: 3,
-      delivery: 4,
-      analytics: 4,
-      ai: 4,
-      leadership: 5,
-    },
-    description: "Executive leadership of product. Sets company-wide product vision, strategy, and culture.",
-  },
-  {
-    role: "CPO",
-    track: "product-management",
-    expectedProficiency: {
-      strategy: 5,
-      discovery: 3,
-      delivery: 4,
-      analytics: 4,
-      ai: 4,
-      leadership: 5,
-    },
-    description: "Chief Product Officer. Ultimate product leadership role. Owns product strategy, organization, and outcomes at the highest level.",
-  },
-];
-
-/**
- * Get expected proficiency for a role
- */
-export function getExpectedProficiency(role: string): Partial<Record<SkillCategory, number>> | undefined {
-  const found = PM_CAREER_LADDER.find((level) => level.role === role);
-  return found?.expectedProficiency;
-}
-
-/**
- * Regional benchmarks (seed data — to be replaced with real market data over time)
- */
-export const REGIONAL_BENCHMARKS: Record<string, Record<string, Partial<Record<SkillCategory, { average: number; topQuartile: number }>>>> = {
+export const REGIONAL_BENCHMARKS: Record<string, Record<string, Record<string, { average: number; topQuartile: number }>>> = {
   "MENA": {
     "Senior Product Manager": {
-      strategy: { average: 3.2, topQuartile: 4.0 },
-      discovery: { average: 3.5, topQuartile: 4.0 },
-      delivery: { average: 3.8, topQuartile: 4.5 },
-      analytics: { average: 3.0, topQuartile: 4.0 },
-      ai: { average: 2.0, topQuartile: 3.0 },
-      leadership: { average: 2.8, topQuartile: 4.0 },
+      strategy: { average: 2.5, topQuartile: 3.5 },
+      discovery: { average: 2.8, topQuartile: 3.5 },
+      delivery: { average: 3.0, topQuartile: 4.0 },
+      analytics: { average: 2.2, topQuartile: 3.0 },
+      ai: { average: 1.2, topQuartile: 2.0 },
+      leadership: { average: 1.8, topQuartile: 2.5 },
     },
     "Product Manager": {
-      strategy: { average: 2.8, topQuartile: 3.5 },
-      discovery: { average: 3.0, topQuartile: 3.5 },
-      delivery: { average: 3.2, topQuartile: 4.0 },
-      analytics: { average: 2.5, topQuartile: 3.0 },
-      ai: { average: 1.5, topQuartile: 2.5 },
-      leadership: { average: 2.0, topQuartile: 3.0 },
+      strategy: { average: 2.0, topQuartile: 2.5 },
+      discovery: { average: 2.2, topQuartile: 3.0 },
+      delivery: { average: 2.5, topQuartile: 3.0 },
+      analytics: { average: 1.8, topQuartile: 2.5 },
+      ai: { average: 1.0, topQuartile: 1.5 },
+      leadership: { average: 1.5, topQuartile: 2.0 },
     },
-  },
-  "North America": {
-    "Senior Product Manager": {
-      strategy: { average: 3.5, topQuartile: 4.5 },
-      discovery: { average: 3.5, topQuartile: 4.0 },
-      delivery: { average: 3.8, topQuartile: 4.5 },
-      analytics: { average: 3.5, topQuartile: 4.5 },
-      ai: { average: 2.5, topQuartile: 3.5 },
-      leadership: { average: 3.0, topQuartile: 4.0 },
-    },
-    "Product Manager": {
-      strategy: { average: 3.0, topQuartile: 3.5 },
-      discovery: { average: 3.0, topQuartile: 3.5 },
-      delivery: { average: 3.5, topQuartile: 4.0 },
-      analytics: { average: 3.0, topQuartile: 4.0 },
-      ai: { average: 2.0, topQuartile: 3.0 },
-      leadership: { average: 2.5, topQuartile: 3.5 },
-    },
-  },
-  "APAC": {
-    "Senior Product Manager": {
-      strategy: { average: 3.0, topQuartile: 4.0 },
-      discovery: { average: 3.2, topQuartile: 3.8 },
-      delivery: { average: 3.5, topQuartile: 4.2 },
-      analytics: { average: 3.2, topQuartile: 4.0 },
-      ai: { average: 2.2, topQuartile: 3.2 },
-      leadership: { average: 2.5, topQuartile: 3.5 },
-    },
-    "Product Manager": {
-      strategy: { average: 2.5, topQuartile: 3.0 },
-      discovery: { average: 2.8, topQuartile: 3.2 },
-      delivery: { average: 3.0, topQuartile: 3.5 },
-      analytics: { average: 2.8, topQuartile: 3.5 },
-      ai: { average: 1.8, topQuartile: 2.5 },
-      leadership: { average: 2.0, topQuartile: 3.0 },
-    },
-  },
-  "EMEA": {
-    "Senior Product Manager": {
-      strategy: { average: 3.3, topQuartile: 4.0 },
-      discovery: { average: 3.3, topQuartile: 3.8 },
-      delivery: { average: 3.5, topQuartile: 4.2 },
-      analytics: { average: 3.2, topQuartile: 4.0 },
-      ai: { average: 2.3, topQuartile: 3.2 },
-      leadership: { average: 2.8, topQuartile: 3.8 },
-    },
-    "Product Manager": {
-      strategy: { average: 2.8, topQuartile: 3.2 },
-      discovery: { average: 2.8, topQuartile: 3.2 },
-      delivery: { average: 3.2, topQuartile: 3.8 },
-      analytics: { average: 2.8, topQuartile: 3.5 },
-      ai: { average: 1.8, topQuartile: 2.5 },
-      leadership: { average: 2.2, topQuartile: 3.0 },
+    "Associate Product Manager": {
+      strategy: { average: 1.5, topQuartile: 2.0 },
+      discovery: { average: 1.8, topQuartile: 2.5 },
+      delivery: { average: 2.0, topQuartile: 2.5 },
+      analytics: { average: 1.5, topQuartile: 2.0 },
+      ai: { average: 0.8, topQuartile: 1.0 },
+      leadership: { average: 1.0, topQuartile: 1.5 },
     },
   },
 };
@@ -569,4 +375,86 @@ export const INDUSTRIES = [
   "Logistics / Supply Chain",
   "Food / Beverage",
   "Other",
+] as const;
+
+/**
+ * Software Engineering career ladder roles available for assessment
+ */
+export const SOFTWARE_ENGINEERING_ROLES = [
+  { role: "Junior Software Engineer", track: "software-engineering" },
+  { role: "Software Engineer", track: "software-engineering" },
+  { role: "Senior Software Engineer", track: "software-engineering" },
+  { role: "Lead Software Engineer", track: "software-engineering" },
+  { role: "Principal Software Engineer", track: "software-engineering" },
+  { role: "Staff Software Engineer", track: "software-engineering" },
+  { role: "Engineering Manager", track: "software-engineering" },
+  { role: "Director of Engineering", track: "software-engineering" },
+] as const;
+
+/**
+ * Import software engineering skills from the dedicated model file
+ */
+export const SOFTWARE_ENGINEERING_SKILLS = SOFTWARE_ENGINEER_SKILLS;
+
+/**
+ * AI inference questions for Product Management track
+ * These questions help GPT-4o infer skill proficiency from textual descriptions
+ */
+export const PM_AI_INFERENCE_QUESTIONS = [
+  {
+    skillId: "product-strategy",
+    question: "Describe a product strategy you developed or contributed to. What was the market need, your approach, and what was the outcome?",
+    placeholder: "e.g. I led the product strategy for a B2B SaaS platform serving the healthcare industry...",
+  },
+  {
+    skillId: "customer-discovery",
+    question: "Tell us about a time you conducted customer research or user interviews. What did you learn and how did it influence the product?",
+    placeholder: "e.g. I conducted 15 user interviews with HR managers to understand their pain points...",
+  },
+  {
+    skillId: "product-execution",
+    question: "Describe a complex product you delivered from conception to launch. What was your role, key decisions, and results?",
+    placeholder: "e.g. I owned the end-to-end delivery of a mobile app feature that increased user engagement by 40%...",
+  },
+  {
+    skillId: "stakeholder-management",
+    question: "Give an example of how you managed conflicting stakeholder priorities or communicated a difficult product decision.",
+    placeholder: "e.g. I had to align engineering, design, and business stakeholders on a pivot...",
+  },
+  {
+    skillId: "data-driven-decision-making",
+    question: "Describe a time you used data or analytics to make a product decision. What metrics did you track and what was the impact?",
+    placeholder: "e.g. I analyzed user funnel data and identified a 60% drop-off at onboarding...",
+  },
+] as const;
+
+/**
+ * AI inference questions for Software Engineering track
+ */
+export const SOFTWARE_ENGINEERING_AI_INFERENCE_QUESTIONS = [
+  {
+    skillId: "technical-problem-solving",
+    question: "Describe a challenging technical problem you solved. What was the problem, your approach, and what was the outcome?",
+    placeholder: "e.g. I optimized a database query that was causing performance issues, reducing response time from 5s to 200ms...",
+  },
+  {
+    skillId: "system-design",
+    question: "Tell us about a system or architecture you designed. What were the requirements, your design decisions, and trade-offs?",
+    placeholder: "e.g. I designed a microservices architecture for a payment processing system...",
+  },
+  {
+    skillId: "code-quality",
+    question: "Describe your approach to writing clean, maintainable code. Give an example of a refactoring or improvement you led.",
+    placeholder: "e.g. I introduced TDD to our team and refactored a legacy module, reducing bug rate by 40%...",
+  },
+  {
+    skillId: "collaboration",
+    question: "Give an example of how you collaborated with team members or resolved technical disagreements.",
+    placeholder: "e.g. I led code reviews and mentored junior developers, helping them grow their skills...",
+  },
+  {
+    skillId: "continuous-improvement",
+    question: "Describe a time you improved a development process, tooling, or infrastructure. What was the impact?",
+    placeholder: "e.g. I set up CI/CD pipelines that reduced deployment time from hours to minutes...",
+  },
 ] as const;

@@ -34,6 +34,27 @@ import {
 import {
   SKILLS as BUSINESS_CONSULTANT_SKILLS, COMPETENCY_AREAS as BUSINESS_CONSULTANT_COMPETENCY_AREAS, LEVELS as BUSINESS_CONSULTANT_LEVELS, CAREER_LADDER as BUSINESS_CONSULTANT_CAREER_LADDER, SKILL_COUNT as BC_SKILL_COUNT, PILLAR_COUNT as BC_PILLAR_COUNT
 } from './business-consultant';
+import {
+  SKILLS as UX_UI_DESIGNER_SKILLS, COMPETENCY_AREAS as UX_UI_DESIGNER_COMPETENCY_AREAS, LEVELS as UX_UI_DESIGNER_LEVELS, CAREER_LADDER as UX_UI_DESIGNER_CAREER_LADDER, SKILL_COUNT as UID_SKILL_COUNT, PILLAR_COUNT as UID_PILLAR_COUNT
+} from './ux-ui-designer';
+import {
+  SKILLS as SCRUM_MASTER_SKILLS, COMPETENCY_AREAS as SCRUM_MASTER_COMPETENCY_AREAS, LEVELS as SCRUM_MASTER_LEVELS, CAREER_LADDER as SCRUM_MASTER_CAREER_LADDER, SKILL_COUNT as SM_SKILL_COUNT, PILLAR_COUNT as SM_PILLAR_COUNT
+} from './scrum-master';
+import {
+  SKILLS as BUSINESS_ANALYST_SKILLS, COMPETENCY_AREAS as BUSINESS_ANALYST_COMPETENCY_AREAS, LEVELS as BUSINESS_ANALYST_LEVELS, CAREER_LADDER as BUSINESS_ANALYST_CAREER_LADDER, SKILL_COUNT as BA_SKILL_COUNT, PILLAR_COUNT as BA_PILLAR_COUNT
+} from './business-analyst';
+import {
+  SKILLS as DATA_SCIENTIST_SKILLS, COMPETENCY_AREAS as DATA_SCIENTIST_COMPETENCY_AREAS, LEVELS as DATA_SCIENTIST_LEVELS, CAREER_LADDER as DATA_SCIENTIST_CAREER_LADDER, SKILL_COUNT as DS_SKILL_COUNT, PILLAR_COUNT as DS_PILLAR_COUNT
+} from './data-scientist';
+import {
+  SKILLS as ML_ENGINEER_SKILLS, COMPETENCY_AREAS as ML_ENGINEER_COMPETENCY_AREAS, LEVELS as ML_ENGINEER_LEVELS, CAREER_LADDER as ML_ENGINEER_CAREER_LADDER, SKILL_COUNT as MLE_SKILL_COUNT, PILLAR_COUNT as MLE_PILLAR_COUNT
+} from './ml-engineer';
+import {
+  SKILLS as SECURITY_ENGINEER_SKILLS, COMPETENCY_AREAS as SECURITY_ENGINEER_COMPETENCY_AREAS, LEVELS as SECURITY_ENGINEER_LEVELS, CAREER_LADDER as SECURITY_ENGINEER_CAREER_LADDER, SKILL_COUNT as SE_SEC_SKILL_COUNT, PILLAR_COUNT as SE_SEC_PILLAR_COUNT
+} from './security-engineer';
+import {
+  SKILLS as CLOUD_ARCHITECT_SKILLS, COMPETENCY_AREAS as CLOUD_ARCHITECT_COMPETENCY_AREAS, LEVELS as CLOUD_ARCHITECT_LEVELS, CAREER_LADDER as CLOUD_ARCHITECT_CAREER_LADDER, SKILL_COUNT as CA_SKILL_COUNT, PILLAR_COUNT as CA_PILLAR_COUNT
+} from './cloud-architect';
 import type { Skill, ProficiencyLevel, CompetencyArea, CareerLadderStep, RoleCompetencyModel, RoleSummary } from '@/types';
 
 export const ROLE_COMPETENCY_MODELS: Record<string, RoleCompetencyModel> = {
@@ -120,6 +141,69 @@ export const ROLE_COMPETENCY_MODELS: Record<string, RoleCompetencyModel> = {
     competencyAreas: BUSINESS_CONSULTANT_COMPETENCY_AREAS,
     careerLadder: BUSINESS_CONSULTANT_CAREER_LADDER,
     totalSkills: BC_SKILL_COUNT,
+  },
+  'ux-ui-designer': {
+    role: 'ux-ui-designer',
+    track: 'design',
+    description: 'Creates intuitive, user-centered digital experiences through research, wireframing, prototyping, visual design, and design systems. Bridges user needs with business goals through iterative design and testing.',
+    skills: UX_UI_DESIGNER_SKILLS,
+    competencyAreas: UX_UI_DESIGNER_COMPETENCY_AREAS,
+    careerLadder: UX_UI_DESIGNER_CAREER_LADDER,
+    totalSkills: UID_SKILL_COUNT,
+  },
+  'scrum-master': {
+    role: 'scrum-master',
+    track: 'agile',
+    description: 'Facilitates Agile/Scrum processes, removes impediments, coaches teams on Agile practices, and fosters an environment of continuous improvement. Serves as a shield and enabler for the development team.',
+    skills: SCRUM_MASTER_SKILLS,
+    competencyAreas: SCRUM_MASTER_COMPETENCY_AREAS,
+    careerLadder: SCRUM_MASTER_CAREER_LADDER,
+    totalSkills: SM_SKILL_COUNT,
+  },
+  'business-analyst': {
+    role: 'business-analyst',
+    track: 'business',
+    description: 'Acts as a bridge between business stakeholders and technical teams. Elicits, analyzes, and documents requirements; facilitates communication; and ensures solutions deliver business value.',
+    skills: BUSINESS_ANALYST_SKILLS,
+    competencyAreas: BUSINESS_ANALYST_COMPETENCY_AREAS,
+    careerLadder: BUSINESS_ANALYST_CAREER_LADDER,
+    totalSkills: BA_SKILL_COUNT,
+  },
+  'data-scientist': {
+    role: 'data-scientist',
+    track: 'data',
+    description: 'Builds statistical models and machine learning solutions to extract insights, predict outcomes, and drive data-informed decisions. Combines statistics, programming, and domain expertise.',
+    skills: DATA_SCIENTIST_SKILLS,
+    competencyAreas: DATA_SCIENTIST_COMPETENCY_AREAS,
+    careerLadder: DATA_SCIENTIST_CAREER_LADDER,
+    totalSkills: DS_SKILL_COUNT,
+  },
+  'ml-engineer': {
+    role: 'ml-engineer',
+    track: 'data',
+    description: 'Designs, builds, and deploys machine learning models and data products into production. Bridges data science and software engineering to deliver scalable, reliable ML systems.',
+    skills: ML_ENGINEER_SKILLS,
+    competencyAreas: ML_ENGINEER_COMPETENCY_AREAS,
+    careerLadder: ML_ENGINEER_CAREER_LADDER,
+    totalSkills: MLE_SKILL_COUNT,
+  },
+  'security-engineer': {
+    role: 'security-engineer',
+    track: 'security',
+    description: 'Designs and implements security controls, monitors for threats, responds to incidents, and ensures compliance with security standards. Protects systems, data, and infrastructure from security risks.',
+    skills: SECURITY_ENGINEER_SKILLS,
+    competencyAreas: SECURITY_ENGINEER_COMPETENCY_AREAS,
+    careerLadder: SECURITY_ENGINEER_CAREER_LADDER,
+    totalSkills: SE_SEC_SKILL_COUNT,
+  },
+  'cloud-architect': {
+    role: 'cloud-architect',
+    track: 'infrastructure',
+    description: 'Designs and oversees cloud infrastructure, multi-cloud strategies, container orchestration, and infrastructure-as-code. Ensures scalable, secure, and cost-effective cloud environments.',
+    skills: CLOUD_ARCHITECT_SKILLS,
+    competencyAreas: CLOUD_ARCHITECT_COMPETENCY_AREAS,
+    careerLadder: CLOUD_ARCHITECT_CAREER_LADDER,
+    totalSkills: CA_SKILL_COUNT,
   },
 };
 
@@ -231,6 +315,90 @@ export const ROLE_SUMMARIES: RoleSummary[] = [
     careerLadder: ['Junior Business Consultant', 'Business Consultant', 'Senior Business Consultant', 'Lead Consultant / Engagement Manager', 'Principal Consultant', 'Managing Consultant / Director', 'Partner / Senior Partner'],
     proficiencyLevels: 7,
     icon: '💼',
+  },
+  {
+    id: 'ux-ui-designer',
+    title: 'UX/UI Designer',
+    track: 'Design',
+    description: 'Creates intuitive, user-centered digital experiences. Specializes in user research, wireframing, prototyping, visual design, design systems, accessibility, and user testing.',
+    skillCount: UID_SKILL_COUNT,
+    pillarCount: UID_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior UX/UI Designer', 'UX/UI Designer', 'Senior UX/UI Designer', 'Lead UX/UI Designer', 'Principal UX/UI Designer', 'UX/UI Design Manager', 'Director of Design', 'VP of Design / Head of Design'],
+    proficiencyLevels: 7,
+    icon: '🎨',
+  },
+  {
+    id: 'scrum-master',
+    title: 'Scrum Master',
+    track: 'Agile',
+    description: 'Facilitates Agile/Scrum processes, removes impediments, coaches teams on Agile practices, and fosters an environment of continuous improvement and self-organization.',
+    skillCount: SM_SKILL_COUNT,
+    pillarCount: SM_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior Scrum Master', 'Scrum Master', 'Senior Scrum Master', 'Lead Scrum Master / Agile Coach', 'Principal Agile Coach', 'Scrum Master Manager / Agile Practice Lead', 'Director of Agile', 'VP of Agile / Chief Agile Officer'],
+    proficiencyLevels: 7,
+    icon: '🔄',
+  },
+  {
+    id: 'business-analyst',
+    title: 'Business Analyst',
+    track: 'Business',
+    description: 'Acts as a bridge between business stakeholders and technical teams. Elicits, analyzes, and documents requirements to ensure solutions deliver business value.',
+    skillCount: BA_SKILL_COUNT,
+    pillarCount: BA_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior Business Analyst', 'Business Analyst', 'Senior Business Analyst', 'Lead Business Analyst', 'Principal Business Analyst', 'Business Analyst Manager / Practice Lead', 'Director of Business Analysis', 'VP of Business Analysis / Chief Business Architect'],
+    proficiencyLevels: 7,
+    icon: '📋',
+  },
+  {
+    id: 'data-scientist',
+    title: 'Data Scientist',
+    track: 'Data',
+    description: 'Builds statistical models and machine learning solutions to extract insights, predict outcomes, and drive data-informed decisions. Combines statistics, programming, and domain expertise.',
+    skillCount: DS_SKILL_COUNT,
+    pillarCount: DS_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior Data Scientist', 'Data Scientist', 'Senior Data Scientist', 'Lead Data Scientist / Data Science Lead', 'Principal Data Scientist', 'Data Science Manager / Head of Data Science', 'Director of Data Science', 'VP of Data Science / Chief Data Officer'],
+    proficiencyLevels: 7,
+    icon: '🤖',
+  },
+  {
+    id: 'ml-engineer',
+    title: 'ML Engineer',
+    track: 'Data',
+    description: 'Designs, builds, and deploys machine learning models and data products into production. Bridges data science and software engineering to deliver scalable, reliable ML systems.',
+    skillCount: MLE_SKILL_COUNT,
+    pillarCount: MLE_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior ML Engineer', 'ML Engineer', 'Senior ML Engineer', 'Lead ML Engineer / ML Tech Lead', 'Principal ML Engineer', 'ML Engineering Manager / Head of ML Engineering', 'Director of ML Engineering / Head of AI', 'VP of AI / Chief AI Officer'],
+    proficiencyLevels: 7,
+    icon: '🧠',
+  },
+  {
+    id: 'security-engineer',
+    title: 'Security Engineer',
+    track: 'Security',
+    description: 'Designs and implements security controls, monitors for threats, responds to incidents, and ensures compliance with security standards and regulations.',
+    skillCount: SE_SEC_SKILL_COUNT,
+    pillarCount: SE_SEC_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior Security Engineer', 'Security Engineer', 'Senior Security Engineer', 'Lead Security Engineer / Security Lead', 'Principal Security Engineer', 'Security Engineering Manager / Security Manager', 'Director of Security / Head of Security', 'VP of Security / CISO'],
+    proficiencyLevels: 7,
+    icon: '🔒',
+  },
+  {
+    id: 'cloud-architect',
+    title: 'Cloud Architect',
+    track: 'Infrastructure',
+    description: 'Designs and oversees cloud infrastructure, multi-cloud strategies, container orchestration, and infrastructure-as-code. Ensures scalable, secure, and cost-effective cloud environments.',
+    skillCount: CA_SKILL_COUNT,
+    pillarCount: CA_PILLAR_COUNT,
+    levels: 7,
+    careerLadder: ['Junior Cloud Architect', 'Cloud Architect', 'Senior Cloud Architect', 'Lead Cloud Architect / Principal Cloud Engineer', 'Principal Cloud Architect', 'Cloud Architecture Manager / Head of Cloud', 'Director of Cloud / Head of Infrastructure', 'VP of Cloud / CTO / Chief Architect'],
+    proficiencyLevels: 7,
+    icon: '☁️',
   },
 ];
 

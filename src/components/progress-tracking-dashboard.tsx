@@ -141,7 +141,7 @@ export function ProgressTrackingDashboard({ userId, userName = "You", userAvatar
         <div>
           <h2 className="text-2xl font-bold text-foreground">Progress Tracking</h2>
           <p className="text-foreground-muted mt-1">
-            Track your skills assessment history and growth over time
+            {t("progress.trackingSubtitle")}
           </p>
         </div>
         <div className="flex items-center gap-3">

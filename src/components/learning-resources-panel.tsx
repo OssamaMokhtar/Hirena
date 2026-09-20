@@ -908,9 +908,9 @@ export function LearningResourcesPanel({ gaps, missingSkills, targetRole, region
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-foreground">Learning Resources</h3>
+        <h3 className="text-lg font-semibold text-foreground">{t("resources.title")}</h3>
         <p className="text-sm text-foreground-muted">
-          Curated courses from Coursera, edX, DeepLearning.AI, and more
+          {t("resources.subtitle")}
         </p>
       </div>
 

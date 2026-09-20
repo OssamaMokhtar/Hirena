@@ -200,7 +200,7 @@ export default function Home() {
                     onClick={() => setShowAssessment(true)}
                     className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary-dark transition-colors"
                   >
-                    See a demo assessment
+                    {t("landing.cta.demo")}
                   </button>
                   <button
                     onClick={() => setShowAssessment(true)}

@@ -120,32 +120,32 @@ export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
   const getStepTitle = () => {
     switch (state.step) {
       case 1:
-        return "Tell Us About Yourself";
+        return t("wizard.steps.profile");
       case 2:
-        return "Define Your Career Goal";
+        return t("wizard.steps.goals");
       case 3:
-        return "Assess Your Skills";
+        return t("wizard.steps.assessment");
       case 4:
-        return "AI Skill Analysis";
+        return t("wizard.steps.aiReview");
       case 5:
-        return "Review & Submit";
+        return t("wizard.reviewSummary");
       default:
-        return "Hirena";
+        return t("wizard.title");
     }
   };
 
   const getStepDescription = () => {
     switch (state.step) {
       case 1:
-        return "Tell us about yourself and your role to get started.";
+        return t("wizard.profile.description");
       case 2:
-        return "Tell us about your career aspirations so we can personalize the assessment.";
+        return t("wizard.goals.description");
       case 3:
-        return "Rate your proficiency in each skill honestly.";
+        return t("wizard.assessment.description");
       case 4:
-        return "Describe your experience with key skills for AI-powered analysis.";
+        return t("wizard.aiReview.description");
       case 5:
-        return "Review your assessment before submitting.";
+        return t("wizard.reviewSummary");
       default:
         return "";
     }

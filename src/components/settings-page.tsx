@@ -23,6 +23,7 @@ interface MockModeIndicatorProps {
 const MOCK_MODE_WARN = "This assessment used Hirena's built-in mock AI engine — no OpenAI credits were consumed. Connect a real API key to enable AI-powered skill analysis.";
 
 export function MockModeIndicator({ className }: MockModeIndicatorProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = React.useState<"real" | "mock" | "unknown">("unknown");
 
   React.useEffect(() => {
@@ -50,14 +51,14 @@ export function MockModeIndicator({ className }: MockModeIndicatorProps) {
   return (
     <div className={cn("flex items-center gap-2 rounded-md bg-amber-50 border border-amber-200/60 px-3 py-2", className)}>
       <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-100 text-amber-700 text-sm">
-        {mode === "mock" ? "🤖" : "🧠"}
+      {mode === "mock" ? "🤖" : "🧠"}
       </div>
       <div className="flex flex-col">
-        <span className="text-xs font-semibold text-amber-800">
-          {mode === "mock" ? "Mock AI Mode" : "AI Mode"}
-        </span>
-        <span className="text-[10px] text-amber-700/70">
-          {mode === "mock" ? "No OpenAI credits used — deterministic scoring" : "OpenAI GPT-4 powered analysis"}
+      <span className="text-xs font-semibold text-amber-800">
+      {mode === "mock" ? t("settings.mockModeLabel") : t("settings.aiModeLabel")}
+      </span>
+      <span className="text-[10px] text-amber-700/70">
+      {mode === "mock" ? t("settings.mockModeSubtext") : t("settings.aiModeSubtext")}
         </span>
       </div>
       {mode === "mock" && (
@@ -247,32 +248,32 @@ export function SettingsPage() {
     <div className="mx-auto max-w-3xl px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Settings</h1>
-        <p className="text-foreground-muted mt-1">Manage your account preferences and feature toggles.</p>
+        <h1 className="text-2xl font-bold text-foreground">{t("settings.title")}</h1>
+        <p className="text-foreground-muted mt-1">{t("settings.subtitle")}</p>
       </div>
 
       {/* User info */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="text-base">Account</CardTitle>
-          <CardDescription>Your Hirena account information</CardDescription>
+          <CardTitle className="text-base">{t("settings.account.title")}</CardTitle>
+          <CardDescription>{t("settings.account.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <div className="text-xs text-foreground-muted">Display Name</div>
+              <div className="text-xs text-foreground-muted">{t("settings.labels.displayName")}</div>
               <div className="text-lg font-medium text-foreground">{user?.displayName}</div>
             </div>
             <div>
-              <div className="text-xs text-foreground-muted">Email</div>
+              <div className="text-xs text-foreground-muted">{t("settings.labels.email")}</div>
               <div className="text-lg font-medium text-foreground">{user?.email}</div>
             </div>
             <div>
-              <div className="text-xs text-foreground-muted">User ID</div>
+              <div className="text-xs text-foreground-muted">{t("settings.labels.userId")}</div>
               <div className="text-sm font-mono text-foreground-muted break-all">{user?.id}</div>
             </div>
             <div>
-              <div className="text-xs text-foreground-muted">Mode</div>
+              <div className="text-xs text-foreground-muted">{t("settings.labels.mode")}</div>
               <Badge variant="secondary" className="text-xs">Demo</Badge>
             </div>
           </div>
@@ -282,8 +283,8 @@ export function SettingsPage() {
       {/* Preferences */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="text-base">Preferences</CardTitle>
-          <CardDescription>Customize your assessment experience</CardDescription>
+          <CardTitle className="text-base">{t("settings.preferences.title")}</CardTitle>
+          <CardDescription>{t("settings.preferences.description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           {/* Language */}
@@ -293,8 +294,8 @@ export function SettingsPage() {
 
           {/* Learning Interests */}
           <div className="flex flex-col">
-            <div className="font-medium text-foreground">Learning Interests</div>
-            <div className="text-sm text-foreground-muted mb-2">Topics you're interested in for curated learning recommendations</div>
+            <div className="font-medium text-foreground">{t("settings.learningInterests.title")}</div>
+            <div className="text-sm text-foreground-muted mb-2">{t("settings.learningInterests.description")}</div>
             <div className="flex flex-wrap gap-2">
               {["Product Strategy", "Data & Analytics", "Technical Leadership", "UX Design", "AI & ML", "Agile & Scrum", "Cloud & DevOps"].map(topic => (
                 <Badge
@@ -320,8 +321,8 @@ export function SettingsPage() {
           {/* Use Real AI */}
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <div className="font-medium text-foreground">Use Real AI (OpenAI)</div>
-              <div className="text-sm text-foreground-muted">Use GPT-4 for skill analysis instead of the built-in mock engine. Requires a valid API key.</div>
+              <div className="font-medium text-foreground">{t("settings.useRealAi.label")}</div>
+              <div className="text-sm text-foreground-muted">{t("settings.useRealAi.description")}</div>
             </div>
             <button
               className={cn(
@@ -364,8 +365,8 @@ export function SettingsPage() {
           {/* AI Disclaimer */}
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <div className="font-medium text-foreground">AI Disclaimer Acknowledged</div>
-              <div className="text-sm text-foreground-muted">Confirm you understand AI-generated assessments are coaching tools, not definitive evaluations.</div>
+              <div className="font-medium text-foreground">{t("settings.aiDisclaimer.label")}</div>
+              <div className="text-sm text-foreground-muted">{t("settings.aiDisclaimer.description")}</div>
             </div>
             <button
               className={cn(
@@ -383,20 +384,20 @@ export function SettingsPage() {
       {/* Facial Analysis Toggle — P2 */}
       <Card className="mb-6 border-amber-200/50">
         <CardHeader>
-          <CardTitle className="text-base text-amber-800">Facial Analysis (Experimental)</CardTitle>
+          <CardTitle className="text-base text-amber-800">{t("settings.facial.title")}</CardTitle>
           <CardDescription className="text-amber-700/70">
-            Optional video-based facial expression analysis during interview practice.
-            <span className="block mt-1 text-[11px]">This feature is experimental and may reflect biases. See documentation below.</span>
+            {t("settings.facial.description")}
+            <span className="block mt-1 text-[11px]">{t("settings.facial.disclaimerShort")}</span>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <div className="font-medium text-foreground">Enable Facial Analysis</div>
+              <div className="font-medium text-foreground">{t("settings.facial.toggleLabel")}</div>
               <div className="text-sm text-foreground-muted">
-                Analyze facial expressions, eye contact, and engagement from video responses.
+                {t("settings.facial.toggleDescription")}
                 <span className="block mt-1 text-[11px] text-amber-600/80">
-                  Voluntary opt-in only. Never used for rejection decisions. Results are coaching suggestions.
+                  {t("settings.facial.toggleDisclaimer")}
                 </span>
               </div>
             </div>

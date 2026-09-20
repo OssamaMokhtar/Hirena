@@ -207,6 +207,12 @@ export interface CareerLadderStep {
   expectedProficiency?: Record<string, number>;
   description: string;
   typicalYearsOfExperience?: string;
+  /** Key skills expected at this level (skill IDs from competency model) */
+  skills?: string[];
+  /** Salary range in USD (monthly, gross) for MENA market */
+  salaryRange?: { min: number; max: number; currency?: string };
+  /** Key responsibilities at this level */
+  responsibilities?: string[];
 }
 
 export interface CompetencyPillar {

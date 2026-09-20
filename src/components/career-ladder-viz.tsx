@@ -4,6 +4,7 @@ import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { CareerStepDetailPanel } from "@/components/career-step-detail-panel";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n-provider";
 import type { CareerLadderStep } from "@/types";
@@ -12,6 +13,8 @@ interface CareerLadderVizProps {
   ladder: CareerLadderStep[];
   currentLevel?: number;
   className?: string;
+  onStepClick?: (step: CareerLadderStep, index: number) => void;
+  selectedStepIndex?: number;
 }
 
 const LEVEL_COLORS: Record<number, string> = {
@@ -36,11 +39,26 @@ const LEVEL_BG: Record<number, string> = {
   7: "bg-rose-700/20",
 };
 
-export function CareerLadderViz({ ladder, currentLevel = -1, className }: CareerLadderVizProps) {
+export function CareerLadderViz({ ladder, currentLevel = -1, className, onStepClick, selectedStepIndex }: CareerLadderVizProps) {
   const { t } = useTranslation();
   if (!ladder.length) return null;
 
   const maxLevel = Math.max(...ladder.map((s) => s.minLevel));
+
+  // Compute selected step detail panel
+  const selectedStep = selectedStepIndex != null && selectedStepIndex >= 0 && selectedStepIndex < ladder.length
+    ? ladder[selectedStepIndex]
+    : null;
+
+  const detailPanel = selectedStep ? (
+    <div className="mt-4">
+      <CareerStepDetailPanel
+        step={selectedStep}
+        currentLevel={currentLevel}
+        isCurrent={currentLevel >= 0 && currentLevel >= selectedStep.minLevel && (selectedStepIndex === ladder.length - 1 || currentLevel < ladder[selectedStepIndex! + 1]?.minLevel)}
+      />
+    </div>
+  ) : null;
 
   return (
     <div className={cn("space-y-6", className)}>
@@ -69,11 +87,13 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
               return (
                 <div
                   key={step.title}
+                  onClick={() => onStepClick?.(step, idx)}
                   className={cn(
-                    "relative pl-2 transition-all hover:bg-surface/50 rounded-lg p-3 -mx-2",
+                    "relative pl-2 transition-all hover:bg-surface/50 rounded-lg p-3 -mx-2 cursor-pointer",
                     isCurrent && "bg-primary/10 border-l-2 border-l-primary",
                     isFuture && "opacity-60",
-                    !isCurrent && !isFuture && "opacity-40"
+                    !isCurrent && !isFuture && "opacity-40",
+                    selectedStepIndex === idx && "ring-2 ring-primary ring-offset-1 rounded-md"
                   )}
                 >
                   {/* Connector line */}
@@ -117,14 +137,14 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
                     {step.title}
                   </h4>
 
-                  {/* Description (expandable) */}
+                  {/* Description */}
                   {step.description && (
                     <p className="mt-1 text-sm text-foreground-muted leading-relaxed">
                       {step.description}
                     </p>
                   )}
 
-                  {/* Progress bar showing how far into this level */}
+                  {/* Progress bar */}
                   {isCurrent && currentLevel >= 0 && (
                     <div className="mt-2">
                       <div className="flex justify-between text-xs text-foreground-muted mb-1">
@@ -160,6 +180,8 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
           <span>{t("careerLadder.legend.future")}</span>
         </div>
       </div>
+
+      {detailPanel}
     </div>
   );
 }

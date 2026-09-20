@@ -20,6 +20,11 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = React.useState<"overview" | "skills" | "gaps" | "roadmap">("overview");
   const [showBenchmarks, setShowBenchmarks] = React.useState(false);
+  const [selectedStepIndex, setSelectedStepIndex] = React.useState<number | null>(null);
+  const handleStepClick = (step: any, idx: number) => {
+    setSelectedStepIndex(idx);
+  };
+
   const roleModel = React.useMemo(
     () => getRoleModel(result.targetRole),
     [result.targetRole]

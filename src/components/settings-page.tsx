@@ -8,6 +8,8 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { FacialBiasDoc, getFacialBiasSummary } from "@/lib/facial-bias-doc";
 import { getCurrentUser } from "@/lib/user-service";
+import { LanguageSelector } from "@/components/language-selector";
+import { useTranslation } from "@/lib/i18n-provider";
 
 // ─── Mock AI Mode Indicator ──────────────────────────────────────────────────
 // Shows in the UI when the mock AI fallback is active instead of real OpenAI.
@@ -83,6 +85,7 @@ function useSimpleToast() {
 // ─── Settings Page ───────────────────────────────────────────────────────────
 
 export function SettingsPage() {
+  const { t } = useTranslation();
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState<{ id: string; email: string; displayName: string } | null>(null);
   const [facialEnabled, setFacialEnabled] = React.useState(false);
@@ -284,19 +287,7 @@ export function SettingsPage() {
         </CardHeader>
         <CardContent className="space-y-5">
           {/* Language */}
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col">
-              <div className="font-medium text-foreground">Language</div>
-              <div className="text-sm text-foreground-muted">Interface language for Hirena</div>
-            </div>
-            <select
-              className="rounded-md border border-border bg-background px-3 py-1.5 text-sm"
-              value={preferences?.language || "en"}
-              onChange={(e) => handleSavePreferences({ language: e.target.value })}
-            >
-              <option value="en">English</option>
-            </select>
-          </div>
+          <LanguageSelector />
 
           <Separator />
 

@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n-provider";
 
 interface AssessmentHistoryItem {
   id: string;
@@ -43,6 +44,7 @@ const SCORE_COLORS: Record<number, string> = {
 };
 
 export function ProgressTrackingDashboard({ userId, userName = "You", userAvatar }: ProgressTrackingProps) {
+  const { t } = useTranslation();
   const [assessments, setAssessments] = React.useState<AssessmentHistoryItem[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);

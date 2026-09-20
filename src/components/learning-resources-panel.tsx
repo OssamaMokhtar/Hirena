@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import type { SkillGap, Skill } from "@/types";
 import { getSkillDescription, getRoleDescription } from "@/lib/it-skill-descriptions";
+import { useTranslation } from "@/lib/i18n-provider";
 
 // ─── Partner Content Registry ──────────────────────────────────────────────
 // Maps skill IDs to curated learning resources from top educational platforms.
@@ -888,6 +889,7 @@ interface LearningResourcesPanelProps {
 }
 
 export function LearningResourcesPanel({ gaps, missingSkills, targetRole, region, onResourceClose }: LearningResourcesPanelProps) {
+  const { t } = useTranslation();
   const [expandedSkill, setExpandedSkill] = React.useState<string | null>(null);
 
   const openResource = (skillId: string) => {

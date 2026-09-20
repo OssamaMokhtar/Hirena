@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { formatScore, getScoreColor, getScoreBg, proficiencyToLabel } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n-provider";
 import type { AssessmentResult, SkillCategory } from "@/types";
 import { getRoleModel, ROLE_COMPETENCY_MODELS } from "@/lib/competency-models/index";
 import { CareerLadderViz } from "@/components/career-ladder-viz";
@@ -16,6 +17,7 @@ interface ResultsDashboardProps {
 }
 
 export function ResultsDashboard({ result }: ResultsDashboardProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = React.useState<"overview" | "skills" | "gaps" | "roadmap">("overview");
   const [showBenchmarks, setShowBenchmarks] = React.useState(false);
   const roleModel = React.useMemo(

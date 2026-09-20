@@ -2,6 +2,8 @@
 
 import { Fragment, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { LanguageSelector } from "@/components/language-selector";
+import { useTranslation } from "@/lib/i18n-provider";
 import { Button } from "@/components/ui/button";
 import type { AssessmentInput } from "@/types";
 import { computeAssessmentResult } from "@/lib/scoring-engine";
@@ -108,6 +110,7 @@ const DEMO_AI_INFERENCE_RESULTS: Record<
 const DEMO_RESULT = computeAssessmentResult(DEMO_INPUT, "demo-user", DEMO_AI_INFERENCE_RESULTS);
 
 export default function Home() {
+  const { t } = useTranslation();
   const [showAssessment, setShowAssessment] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [showVideoInterview, setShowVideoInterview] = useState(false);
@@ -180,6 +183,7 @@ export default function Home() {
               >
                 Sign In
               </a>
+              <LanguageSelector />
               {showAssessment ? (
                 <button
                   onClick={() => {
@@ -248,23 +252,21 @@ export default function Home() {
                   {/* Tagline */}
                   <div className="mb-6">
                     <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium text-foreground-muted">
-                      <span className="flex h-2 w-2 rounded-full bg-success" />
-                      Now in Public Beta
+                    <span className="flex h-2 w-2 rounded-full bg-success" />
+                    {t("landing.taglineBeta")}
                     </span>
                   </div>
 
                   <h2 className="mb-6 text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-                    Know where you stand.
+                    {t("landing.hero.line1")}
                     <br />
-                    See what's next.
+                    {t("landing.hero.line2")}
                     <br />
-                    Get there.
+                    {t("landing.hero.line3")}
                   </h2>
 
                   <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-foreground-muted">
-                    Hirena is an AI-powered skills assessment and career development platform.
-                    Assess your skills against target roles, benchmark against the market,
-                    and get a personalized roadmap to accelerate your career.
+                    {t("landing.hero.subtitleLong")}
                   </p>
 
                   {/* CTA */}
@@ -276,7 +278,7 @@ export default function Home() {
                       }}
                       className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-dark hover:shadow-xl transition-all duration-200 active:scale-[0.98]"
                     >
-                      See a demo assessment
+                      {t("landing.cta.demo")}
                       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 5.136l-3.197-3.197a1.25 1.25 0 00-1.768 0L6.864 10.803m0 0l3.197 3.197m-3.197-3.197h12.588a1.25 1.25 0 011.768 1.768L14.752 19.136" />
                       </svg>
@@ -285,7 +287,7 @@ export default function Home() {
                       href="#vision"
                       className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-8 py-4 text-lg font-medium text-foreground shadow-sm hover:bg-secondary hover:shadow-md transition-all duration-200"
                     >
-                      Explore the Vision
+                      {t("nav.exploreVision")}
                     </a>
                   </div>
 
@@ -687,8 +689,7 @@ export default function Home() {
                     Ready to understand your career potential?
                   </h2>
                   <p className="mt-4 text-lg text-foreground-muted">
-                    Join hundreds of professionals who are using Hirena to assess their skills,
-                    identify gaps, and build a clearer path to their target role.
+                    {t("landing.ctaSectionJoin")}
                   </p>
 
                   <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -699,7 +700,7 @@ export default function Home() {
                       }}
                       className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-dark hover:shadow-xl transition-all duration-200 active:scale-[0.98]"
                     >
-                      See a demo assessment
+                      {t("landing.cta.demo")}
                       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 5.136l-3.197-3.197a1.25 1.25 0 00-1.768 0L6.864 10.803m0 0l3.197 3.197m-3.197-3.197h12.588a1.25 1.25 0 011.768 1.768L14.752 19.136" />
                       </svg>
@@ -707,13 +708,13 @@ export default function Home() {
                   </div>
 
                   <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-foreground-muted">
-                    <span>Free to use</span>
+                    <span>{t("landing.trust.freeToUse")}</span>
                     <span>·</span>
-                    <span>No account required to start</span>
+                    <span>{t("landing.trust.noAccountRequired")}</span>
                     <span>·</span>
-                    <span>Your data stays private</span>
+                    <span>{t("landing.trust.yourDataPrivate")}</span>
                     <span>·</span>
-                    <span>Takes 5-10 minutes</span>
+                    <span>{t("landing.trust.takes5to10")}</span>
                   </div>
                 </div>
               </div>

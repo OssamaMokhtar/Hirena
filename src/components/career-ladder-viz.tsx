@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n-provider";
 import type { CareerLadderStep } from "@/types";
 
 interface CareerLadderVizProps {
@@ -36,15 +37,16 @@ const LEVEL_BG: Record<number, string> = {
 };
 
 export function CareerLadderViz({ ladder, currentLevel = -1, className }: CareerLadderVizProps) {
+  const { t } = useTranslation();
   if (!ladder.length) return null;
 
   const maxLevel = Math.max(...ladder.map((s) => s.minLevel));
 
   return (
     <div className={cn("space-y-6", className)}>
-      <h3 className="text-lg font-semibold text-foreground">Career Progression Path</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t("careerLadder.progressionPath")}</h3>
       <p className="text-sm text-foreground-muted">
-        Typical progression from entry-level to executive roles. Your current level is marked.
+        {t("careerLadder.subtitle")}
       </p>
 
       <div className="relative flex flex-col">
@@ -52,14 +54,9 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
         <div className="relative">
           {/* Level markers on the left */}
           <div className="absolute left-0 top-0 bottom-24 flex flex-col justify-between text-xs text-foreground-muted">
-            <span>LVL 0</span>
-            <span>LVL 1</span>
-            <span>LVL 2</span>
-            <span>LVL 3</span>
-            <span>LVL 4</span>
-            <span>LVL 5</span>
-            <span>LVL 6</span>
-            <span>LVL 7</span>
+            {Array.from({ length: 8 }, (_, i) => (
+              <span key={i}>{t("careerLadder.lvl", { n: i })}</span>
+            ))}
           </div>
 
           {/* Steps */}
@@ -100,12 +97,12 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
                     </Badge>
                     {isCurrent && (
                       <Badge variant="secondary" className="text-xs font-medium">
-                      CURRENT
-                    </Badge>
+                        {t("careerLadder.currentLabel")}
+                      </Badge>
                     )}
                     {isFuture && (
                       <Badge variant="outline" className="text-xs font-medium text-foreground-muted">
-                        TARGET
+                        {t("careerLadder.targetLabel")}
                       </Badge>
                     )}
                   </div>
@@ -131,7 +128,7 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
                   {isCurrent && currentLevel >= 0 && (
                     <div className="mt-2">
                       <div className="flex justify-between text-xs text-foreground-muted mb-1">
-                        <span>Progress to next level</span>
+                        <span>{t("careerLadder.progressToNext")}</span>
                         <span>{Math.round(((currentLevel - step.minLevel) / Math.max(1, (ladder[idx + 1]?.minLevel ?? step.minLevel + 3) - step.minLevel)) * 100)}%</span>
                       </div>
                       <Progress
@@ -152,15 +149,15 @@ export function CareerLadderViz({ ladder, currentLevel = -1, className }: Career
       <div className="flex flex-wrap gap-4 text-xs text-foreground-muted pt-2 border-t border-border">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-primary/20 border-l-2 border-l-primary" />
-          <span>Current role (based on your level)</span>
+          <span>{t("careerLadder.legend.current")}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-foreground/60" />
-          <span>Achieved / past roles</span>
+          <span>{t("careerLadder.legend.past")}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-sm bg-foreground/40" />
-          <span>Future / target roles</span>
+          <span>{t("careerLadder.legend.future")}</span>
         </div>
       </div>
     </div>

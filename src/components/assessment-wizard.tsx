@@ -11,6 +11,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useTranslation } from "@/lib/i18n-provider";
 import {
   REGIONS,
   INDUSTRIES,
@@ -72,6 +73,7 @@ interface AssessmentWizardProps {
 }
 
 export function AssessmentWizard({ onComplete }: AssessmentWizardProps) {
+  const { t } = useTranslation();
   const [state, setState] = React.useState<StepState>(initialState);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);

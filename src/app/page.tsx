@@ -174,6 +174,12 @@ export default function Home() {
               >
                 Track Progress
               </a>
+              <a
+                href="/auth/signin"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Sign In
+              </a>
               {showAssessment ? (
                 <button
                   onClick={() => {

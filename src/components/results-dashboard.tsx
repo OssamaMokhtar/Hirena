@@ -11,6 +11,7 @@ import type { AssessmentResult, SkillCategory } from "@/types";
 import { getRoleModel, ROLE_COMPETENCY_MODELS } from "@/lib/competency-models/index";
 import { CareerLadderViz } from "@/components/career-ladder-viz";
 import { LearningResourcesPanel } from "@/components/learning-resources-panel";
+import { ReportShareBar } from "@/components/report-share-bar";
 
 interface ResultsDashboardProps {
   result: AssessmentResult;
@@ -647,10 +648,8 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
         </div>
 
         {/* Footer */}
-        <div className="mt-8 flex justify-center">
-          <Button variant="outline" size="lg">
-            Save & Share Results
-          </Button>
+        <div className="mt-8">
+          <ReportShareBar result={result} />
         </div>
       </div>
     </div>

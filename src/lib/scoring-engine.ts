@@ -1,5 +1,5 @@
 import type { AssessmentInput, AssessmentResult, Skill, SkillGap, SkillCategory, ProficiencyLevel } from "@/types";
-import { PM_SKILLS, getBenchmark } from "@/lib/competency-model";
+import { PM_SKILLS, getBenchmark, REGIONAL_BENCHMARKS } from "@/lib/competency-model";
 import { getRoleExpectedLevels } from "@/lib/competency-framework";
 
 /**
@@ -137,6 +137,27 @@ export function computeAssessmentResult(
   const intermediateActions: Array<{ skillId: string; skillName: string; action: string; priority: string }> = [];
   const longTermActions: Array<{ skillId: string; skillName: string; action: string; priority: string }> = [];
 
+  // Build benchmark data for MENA region display
+  const rawBenchmarks = getBenchmark(region, targetRole);
+  const benchmarkData: AssessmentResult["benchmark"] = rawBenchmarks ? {
+    overall: {
+      // Scale from 0-5 to 0-100 (same as overallScore)
+      median: Math.round(Object.values(rawBenchmarks).reduce((sum, b) => sum + b.average, 0) / Object.keys(rawBenchmarks).length * 20),
+      topQuartile: Math.round(Object.values(rawBenchmarks).reduce((sum, b) => sum + b.topQuartile, 0) / Object.keys(rawBenchmarks).length * 20),
+      bottomQuartile: 0,
+    },
+    competencies: Object.fromEntries(
+      Object.entries(rawBenchmarks).map(([cat, b]) => [
+        cat,
+        {
+          average: b.average,
+          topQuartile: b.topQuartile,
+          median: b.average,
+        },
+      ])
+    ),
+  } : undefined;
+
   return {
     id: assessmentId,
     userId,
@@ -152,6 +173,7 @@ export function computeAssessmentResult(
     aiInferenceNotes,
     createdAt: new Date(),
     completedAt: new Date(),
+    benchmark: benchmarkData,
     roadmap: {
       immediateActions,
       intermediateActions,

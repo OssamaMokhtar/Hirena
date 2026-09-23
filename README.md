@@ -46,7 +46,7 @@ With no key, `AI_MODE=auto` uses the labelled rule-based fallback.
 | Route | Purpose |
 |---|---|
 | `POST /api/assess` | Score an assessment; optional text-evidence inference |
-| `GET/POST /api/preferences` | User preferences (local or Supabase) |
+| `GET/PATCH /api/preferences` | User preferences: AI mode, language, region |
 | `GET /api/share/[id]` | Shareable report |
 | `/api/facial/analyze`, `/api/voice/analyze`, `/api/verify-env`, `/api/test-env` | **410 Gone.** Removed for compliance and security; kept only so old clients get a clear answer |
 

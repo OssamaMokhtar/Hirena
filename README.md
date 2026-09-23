@@ -1,16 +1,3 @@
-<!-- ARCHIVED -->
-<div align="center">
-
-# ⚠️ This repository has been merged into [Hirena](https://github.com/OssamaMokhtar/Hirena)
-
-**OS3** is now part of **Hirena** — the canonical home for AI-powered skills assessment & career pathing.
-
-🔗 Continue at: https://github.com/OssamaMokhtar/Hirena
-
-</div>
-
----
-
 # Hirena
 
 **AI-Powered Skills Assessment Platform for the MENA Region**
@@ -46,10 +33,14 @@ Hirena is an AI-powered skills assessment platform that combines:
 
 - **Frontend:** Next.js 15 + TypeScript + Tailwind CSS + Shadcn/UI + Radix UI
 - **Backend:** Next.js App Router API routes (serverless)
-- **AI:** OpenAI GPT-4o (multi-modal: text + vision + audio)
+- **AI:** OpenAI GPT-4o (text inference)
 - **Design System:** Apple-inspired, clean/minimal, teal primary color
 - **Deployment:** Vercel (Next.js native)
 - **Database (Optional):** Supabase (auth, profile storage, assessment history)
+
+### Current Scope
+
+Hirena's production scope is **self-assessment + AI text inference + competency scoring**. Voice and facial analysis were explored as Option 2/3 enhancements but **are not in scope for the production release** (see STOP SHIP below).
 
 ### Project Structure
 
@@ -59,16 +50,13 @@ hirena/
 │   ├── app/
 │   │   ├── api/
 │   │   │   ├── assess/route.ts          # POST: Assessment submission + AI inference
-│   │   │   ├── verify-env/route.ts      # GET: Verify OpenAI API key loaded
-│   │   │   ├── test-env/route.ts        # GET: Alternate env test
+│   │   │   ├── auth/                     # Auth routes (future)
+│   │   │   ├── preferences/             # User preference routes
+│   │   │   ├── share/                   # Share/link routes
 │   │   │   ├── interview/
-│   │   │   │   └── session/route.ts     # WebSocket: Real-time interview session
-│   │   │   ├── voice/
-│   │   │   │   └── analyze/route.ts     # POST: Voice analysis from transcription
-│   │   │   ├── facial/
-│   │   │   │   └── analyze/route.ts     # POST: Facial expression analysis from video
+│   │   │   │   └── session/route.ts     # WebSocket: Real-time interview session (text-based)
 │   │   │   └── fusion/
-│   │   │       └── result/route.ts      # POST: Multi-modal results fusion
+│   │   │       └── result/route.ts      # POST: Multi-modal results fusion (self-assessment only)
 │   │   ├── page.tsx                     # Landing page + demo assessment
 │   │   └── layout.tsx                   # Root layout with fonts, metadata
 │   ├── components/
@@ -76,25 +64,24 @@ hirena/
 │   │   ├── assessment-wizard.tsx        # 5-step assessment wizard
 │   │   ├── results-dashboard.tsx        # Results display with scores, gaps, roadmap
 │   │   ├── avatar-mentor.tsx            # Avatar mentor for real-time interview
-│   │   ├── real-time-interview-wizard.tsx  # 8-step real-time interview flow
-│   │   ├── video-interview.tsx          # Video interview capture component
+│   │   ├── real-time-interview-wizard.tsx  # 8-step real-time interview flow (text)
 │   │   └── ...
 │   ├── lib/
 │   │   ├── scoring-engine.ts            # computeAssessmentResult(): scoring + gap analysis
 │   │   ├── ai.ts                        # OpenAI client + inferAllSkills() + roadmap generation
 │   │   ├── competency-model.ts          # 35 PM skills, 6 pillars, career ladder
 │   │   ├── pillar-model.ts              # Pillar weights and definitions
-│   │   ├── real-time-interview.ts       # Real-time interview session manager
-│   │   ├── results-fusion.ts            # Multi-modal results fusion engine
-│   │   ├── signal-analysis.ts           # Voice/facial signal analysis utilities
-│   │   ├── video-interview.ts           # Video interview utilities
+│   │   ├── real-time-interview.ts       # Real-time interview session manager (text)
+│   │   ├── results-fusion.ts            # Self-assessment fusion engine
+│   │   ├── video-interview.ts           # Video interview utilities (DEPRECATED)
 │   │   └── utils.ts                     # cn() utility (clsx + tailwind-merge)
 │   ├── types/
 │   │   └── index.ts                     # TypeScript types: Skill, AssessmentInput, Result, etc.
 │   └── ...
 ├── docs/
 │   ├── architecture-overview.html       # Architecture diagram (HTML)
-│   └── architecture-enhancement-options.md  # 3 implementation options
+│   ├── architecture-enhancement-options.md  # 3 implementation options
+│   └── STOP-SHIP.md                     # Mandatory fixes before any deployment
 ├── public/
 │   └── ...
 ├── package.json
@@ -109,18 +96,6 @@ hirena/
 ## 📡 API Endpoints
 
 ### Assessment APIs
-
-#### `GET /api/verify-env`
-Verifies that the OpenAI API key is loaded in the environment.
-
-**Response:**
-```json
-{
-  "hasKey": true,
-  "keyPrefix": "sk-proj-...",
-  "model": "gpt-4o"
-}
-```
 
 #### `POST /api/assess`
 Submits an assessment for scoring. Accepts self-assessment ratings and optional AI inference inputs.
@@ -157,117 +132,38 @@ Submits an assessment for scoring. Accepts self-assessment ratings and optional 
 }
 ```
 
-### Real-Time Interview APIs (Option 2/3)
-
-#### `POST /api/voice/analyze`
-Analyzes voice characteristics from a transcription + duration.
-
-**Request Body (form-data):**
-- `targetRole`: string — target role for context
-- `transcription`: string — spoken content transcript
-- `duration`: number — duration in seconds
-
-**Response:**
-```json
-{
-  "success": true,
-  "result": {
-    "overallQuality": 3.5,
-    "dimensions": {
-      "confidence": 3.5,
-      "clarity": 3.8,
-      "pacing": 3.2,
-      "emotion": 3.3,
-      "engagement": 3.4,
-      "fillerWords": 3.8
-    }
-  },
-  "note": "Simulated analysis"
-}
-```
-
-#### `POST /api/facial/analyze`
-Analyzes facial expressions from video frames.
-
-**Request Body (form-data):**
-- `targetRole`: string — target role for context
-- `duration`: number — duration in seconds
-
-**Response:**
-```json
-{
-  "success": true,
-  "result": {
-    "overallEngagement": 2.9,
-    "dimensions": {
-      "eyeContact": 2.6,
-      "engagement": 2.8,
-      "confidence": 3.3,
-      "stress": 3.9,
-      "expressiveness": 3.9,
-      "smileWarmth": 0.7
-    },
-    "frames": [ ... ],           // 6 frames with emotion, eye contact, expression, head pose
-    "emotionDistribution": [ ... ],
-    "metadata": { ... }
-  },
-  "note": "Simulated analysis"
-}
-```
-
-#### `POST /api/fusion/result`
-Fuses voice + facial + self-assessment signals into a comprehensive score.
-
-**Request Body:**
-```typescript
-{
-  targetRole: string;
-  voiceAnalysis: VoiceAnalysisResult;
-  facialAnalysis: FacialAnalysisResult;
-  selfAssessment?: Record<string, number>;
-  competencyModel?: RoleCompetencyModel;
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "result": {
-    "overallScore": 3.54,        // 0-5 scale
-    "scores": {
-      "voice": 3.5,
-      "facial": 2.9,
-      "selfAssessment": 0,
-      "content": 0
-    },
-    "dimensionBreakdown": { ... },
-    "strengths": [ ... ],
-    "gaps": [ ... ],
-    "recommendations": [ ... ]
-  },
-  "note": "Simulated fusion"
-}
-```
+### Real-Time Interview APIs
 
 #### `WebSocket /api/interview/session`
-Manages a real-time interview session with an avatar mentor.
+Manages a real-time text-based interview session with an avatar mentor.
 
-**Flow (8 steps):**
+**Flow (8 steps, text-only):**
 1. **Greeting** — Server sends welcome message
 2. **Context** — Client sends target role + experience level
 3. **Instruction** — Server sends interview instructions
 4. **Avatar Question** — Server sends first interview question
-5. **Record** — Client records video response
-6. **Voice Analysis** — Server analyzes voice from transcription
-7. **Facial Analysis** — Server analyzes facial expressions from video
-8. **Feedback** — Server sends analysis feedback
-9. **Follow-up** — Server sends follow-up question (repeat steps 4-8)
-10. **Final Result** — Server sends comprehensive assessment result
+5. **Response** — Client sends text response
+6. **AI Analysis** — Server analyzes response content via GPT-4o
+7. **Feedback** — Server sends analysis feedback
+8. **Follow-up** — Server sends follow-up question (repeat steps 4-7)
+9. **Final Result** — Server sends comprehensive assessment result
 
 **Messages:**
 - `WSServerMessage` — Server → Client: type, step, message, data
-- `WSClientMessage` — Client → Server: type, step, data (context, transcription, video)
+- `WSClientMessage` — Client → Server: type, step, data (context, text response)
+
+### Deprecated Endpoints (STOP SHIP — removed)
+
+The following endpoints have been **removed** from the codebase and must not be restored:
+
+| Endpoint | Reason | Status |
+|---|---|---|
+| `GET /api/verify-env` | Leaked OpenAI API key prefix in HTTP response — security risk | **Removed** (410) |
+| `GET /api/test-env` | Leaked OpenAI API key prefix in HTTP response — security risk | **Removed** (410) |
+| `POST /api/voice/analyze` | Voice analysis from transcription — explored, not in production scope | **Removed** (410) |
+| `POST /api/facial/analyze` | Facial expression analysis from video — violates EU AI Act Art. 5(1)(f) | **Removed** (410) |
+
+All four endpoints now return HTTP 410 (Gone) with an explanation. If you see them listed in documentation or code references anywhere, treat that as outdated.
 
 ---
 
@@ -293,7 +189,7 @@ Manages a real-time interview session with an avatar mentor.
 - **Director of Product** → Level 5
 - **CPO (Chief Product Officer)** → Level 5+
 
-### Expansion Plans (Option 2/3)
+### Expansion Plans (Option 2/3 — not in scope)
 
 - **Software Industry Roles:** Data Analyst, BA, QA Engineer, Tester, Software Architect, Software Engineer, Frontend Engineer, Backend Engineer, Full-Stack Engineer, DevOps Engineer, UX/UI Designer, Engineering Manager, Tech Lead
 - **~15 roles × ~25 skills avg = ~375 skills**
@@ -355,13 +251,8 @@ open http://localhost:3000
 
 ## 🧪 Testing
 
-### Verify Environment
-```bash
-curl http://localhost:3000/api/verify-env
-# Expected: {"hasKey":true,"keyPrefix":"sk-proj-...","model":"gpt-4o"}
-```
-
 ### Test Assessment (self-assessment only, no AI credits needed)
+
 ```bash
 curl -X POST http://localhost:3000/api/assess \
   -H "Content-Type: application/json" \
@@ -369,65 +260,68 @@ curl -X POST http://localhost:3000/api/assess \
 # Expected: {"success":true,"result":{"overallScore":42,...}}
 ```
 
-### Test Real-Time Interview APIs (simulated)
+### Check Deprecated Endpoints
+
 ```bash
-# Voice analysis
+# All four deprecated endpoints return HTTP 410 (Gone)
+curl http://localhost:3000/api/verify-env
+curl http://localhost:3000/api/test-env
 curl -X POST http://localhost:3000/api/voice/analyze \
-  -F "targetRole=software-engineer" \
-  -F "transcription=I built a React application..." \
-  -F "duration=30"
-
-# Facial analysis
+  -F "targetRole=software-engineer" -F "transcription=hello" -F "duration=30"
 curl -X POST http://localhost:3000/api/facial/analyze \
-  -F "targetRole=software-engineer" \
-  -F "duration=30"
-
-# Results fusion
-curl -X POST http://localhost:3000/api/fusion/result \
-  -H "Content-Type: application/json" \
-  -d '{"targetRole":"software-engineer","voiceAnalysis":{...},"facialAnalysis":{...}}'
+  -F "targetRole=software-engineer" -F "duration=30"
 ```
 
 ---
 
-## 🚧 Current Status (2026-09-10)
+## 🚧 Current Status
 
 ### ✅ Verified Working
 
 - ✅ Landing page renders (HTTP 200)
 - ✅ "See a demo assessment" button — shows pre-computed results
 - ✅ "Start Free Assessment" button — starts 5-step wizard
-- ✅ `/api/verify-env` → `hasKey: true` (OpenAI key loaded)
 - ✅ `/api/assess` self-assessment path → `overallScore: 42`
-- ✅ `/api/fusion/result` → fused score with dimension breakdown
-- ✅ `/api/voice/analyze` → simulated voice analysis (6 dimensions)
-- ✅ `/api/facial/analyze` → simulated facial analysis (6 frames, emotion distribution)
-- ✅ `/api/interview/session` → WebSocket session management (8-step flow)
+- ✅ `/api/fusion/result` → self-assessment fused score
+- ✅ `/api/interview/session` → WebSocket session management (text-based, 8-step flow)
 - ✅ TypeScript compilation clean (`npx tsc --noEmit` exit 0)
 - ✅ Dev server running at localhost:3000
-- ✅ Real-time interview wizard built (8-step flow with avatar mentor)
-- ✅ Results fusion engine working (multi-modal scoring)
+- ✅ Real-time interview wizard built (8-step flow with avatar mentor, text-based)
+- ✅ Results fusion engine working (self-assessment scoring)
+
+### 🚫 Deprecated / Removed (STOP SHIP)
+
+The following were explored as Option 2/3 enhancements but are **not in scope** for production and have been **removed from the codebase**:
+
+- ❌ `/api/verify-env` — **Removed** (leaked API key prefix)
+- ❌ `/api/test-env` — **Removed** (leaked API key prefix)
+- ❌ `/api/voice/analyze` — **Removed** (not in production scope)
+- ❌ `/api/facial/analyze` — **Removed** (EU AI Act Art. 5(1)(f) violation)
+- ❌ `video-interview.ts` / `video-interview.tsx` — **Deprecated** (video capture component)
+- ❌ `signal-analysis.ts` — **Deprecated** (voice/facial signal utilities)
+- ❌ `facial-analysis.ts` — **Deprecated** (facial analysis types)
+
+All deprecated code has been replaced with clear 410 responses. Do not restore.
 
 ### 🔧 In Progress
 
 - 🔧 Browser smoke test of real-time interview wizard (next step)
-- 🔧 Commit + push to GitHub (next step)
 - 🔧 AI inference path blocked by 429 (OpenAI balance $0) — demo uses pre-computed results
 
-### 🚀 Option 2/3 Components Built
+### 🚀 Option 2/3 Components (Explored — not in scope)
 
-| Component | Status | Description |
-|-----------|--------|-------------|
-| `real-time-interview-wizard.tsx` | ✅ Built | 8-step wizard with state management |
-| `avatar-mentor.tsx` | ✅ Built | Avatar mentor with conversation state |
-| `signal-analysis.ts` | ✅ Built | Voice/facial signal utilities |
-| `results-fusion.ts` | ✅ Built | Multi-modal fusion + scoring engine |
-| `real-time-interview.ts` | ✅ Built | Session manager (8-state machine) |
-| `video-interview.ts` | ✅ Built | Video interview utilities |
-| `/api/voice/analyze` | ✅ Verified | Voice analysis API (simulated) |
-| `/api/facial/analyze` | ✅ Verified | Facial analysis API (simulated) |
-| `/api/fusion/result` | ✅ Verified | Results fusion API (simulated) |
-| `/api/interview/session` | ✅ Verified | WebSocket session management |
+| Component | Status | Reason |
+|-----------|--------|--------|
+| `real-time-interview-wizard.tsx` | ✅ Built | Text-based interview wizard (in scope) |
+| `avatar-mentor.tsx` | ✅ Built | Avatar mentor with conversation state (text-based, in scope) |
+| `signal-analysis.ts` | ❌ Deprecated | Voice/facial signal utilities — removed |
+| `results-fusion.ts` | ✅ Built | Self-assessment fusion engine (in scope) |
+| `real-time-interview.ts` | ✅ Built | Session manager (text-based, in scope) |
+| `video-interview.ts` | ❌ Deprecated | Video interview utilities — removed |
+| `/api/voice/analyze` | ❌ Removed | Voice analysis — not in scope |
+| `/api/facial/analyze` | ❌ Removed | Facial analysis — EU AI Act violation |
+| `/api/fusion/result` | ✅ Built | Self-assessment fusion (in scope) |
+| `/api/interview/session` | ✅ Built | WebSocket session management (in scope) |
 
 ---
 
@@ -441,12 +335,29 @@ See [docs/architecture-enhancement-options.md](docs/architecture-enhancement-opt
 
 **Recommendation:** Start with Option 1 for the demo, then evolve to Option 2.
 
+**Note:** Option 2 and Option 3 included voice and facial analysis. These are **not in scope** for production due to EU AI Act constraints and lack of LLMVision API access. Focus on text-based interview analysis via GPT-4o.
+
+---
+
+## 🛑 STOP SHIP — Mandatory Fixes
+
+These must be resolved before any deployment:
+
+1. **SS-1: Remove facial analysis** — Biometric categorization is prohibited under EU AI Act Art. 5(1)(f). Facial analysis endpoints (`/api/facial/analyze`) and related code (`video-interview.ts`, `signal-analysis.ts`, `facial-analysis.ts`) have been removed. **Status: DONE** (2026-09-23).
+
+2. **SS-2: Restore OpenAI API credit or remove AI inference from demo** — Current OpenAI balance is $0, causing 429 errors. Either restore credit or make demos fully offline. **Status: OPEN**.
+
+3. **SS-3: Remove verify-env and test-env routes** — These leaked the OpenAI API key prefix in HTTP responses. Both endpoints have been removed (410 Gone). **Status: DONE** (2026-09-23).
+
+4. **SS-4: (Youna repo)** Fix Youna README Privacy section — say localStorage, not encrypted. **Status: DONE** (2026-09-23, in Youna repo).
+
 ---
 
 ## 📄 Documentation
 
 - [Architecture Overview](docs/architecture-overview.html) — Visual architecture diagram
 - [Architecture Enhancement Options](docs/architecture-enhancement-options.md) — 3 implementation paths with pros/cons/costs
+- [STOP SHIP](docs/STOP-SHIP.md) — Mandatory fixes before deployment (see above)
 
 ---
 

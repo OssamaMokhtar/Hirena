@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const key = process.env.OPENAI_API_KEY;
-  const hasKey = Boolean(key && key.startsWith("sk-"));
-
-  return NextResponse.json({
-    status: hasKey ? "configured" : "missing",
-    hasKey,
-    keyPrefix: key ? key.slice(0, 8) + "..." : null,
-    note: "This is a test endpoint. Remove after verifying the API key is loaded.",
-  });
+  return NextResponse.json(
+    {
+      error: "This endpoint has been removed. API key verification is done via server-side health checks only. No environment variables are exposed to clients.",
+      removedAt: "2026-09-23",
+      reason: "Security: this endpoint leaked the OpenAI API key prefix in every HTTP response. Clients should never receive environment variable values.",
+    },
+    { status: 410 }
+  );
 }

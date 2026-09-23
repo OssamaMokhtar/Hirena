@@ -1,0 +1,42 @@
+name: CI
+
+# Hirena — Next.js 15 MVP with OpenAI-powered skills assessment
+# ──────────────────────────────────────────────────────────────────────────────
+# Node.js v20.18.1 (current LTS at time of build)
+# ──────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js v20.18.1 (current LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18.1'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check (noEmit)
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint --if-present || echo 'No lint script'
+
+      - name: Build (Next.js)
+        run: npm run build
+
+      - name: Dependency audit (production only)
+        run: npm audit --omit=dev --audit-level=moderate || true

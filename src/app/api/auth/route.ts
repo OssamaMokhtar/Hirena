@@ -6,7 +6,7 @@
 //   POST /api/auth/signin    — Sign in an existing user
 //   POST /api/auth/signout   — Sign out the current user
 //   GET  /api/auth/me        — Get the current user + profile
-//   PATCH /api/auth/preferences — Update user preferences (e.g., facial toggle)
+//   PATCH /api/auth/preferences — Update user preferences
 
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/db";
@@ -17,7 +17,6 @@ import {
   getCurrentUser,
   getUserPreferences,
   saveUserPreferences,
-  setFacialAnalysisEnabled,
 } from "@/lib/user-service";
 import type { UserPreferences } from "@/types";
 
@@ -177,48 +176,6 @@ export async function POST(request: Request) {
       console.error("[preferences] Error:", error);
       return NextResponse.json(
         { error: "Failed to update preferences." },
-        { status: 500 }
-      );
-    }
-  }
-
-  if (pathname === "/api/auth/facial-toggle") {
-    try {
-      const user = await getCurrentUser();
-      if (!user) {
-        return NextResponse.json(
-          { error: "Not signed in." },
-          { status: 401 }
-        );
-      }
-
-      const body = await request.json();
-      const { enabled } = body;
-
-      if (typeof enabled !== "boolean") {
-        return NextResponse.json(
-          { error: "enabled must be a boolean" },
-          { status: 400 }
-        );
-      }
-
-      const result = await setFacialAnalysisEnabled(user.id, enabled);
-
-      if (!result.success) {
-        return NextResponse.json({ error: result.error }, { status: 500 });
-      }
-
-      return NextResponse.json({
-        success: true,
-        facialAnalysisEnabled: enabled,
-        message: enabled
-          ? "Facial analysis enabled. Remember: this is an experimental coaching feature — see the bias documentation for details."
-          : "Facial analysis disabled.",
-      });
-    } catch (error) {
-      console.error("[facial-toggle] Error:", error);
-      return NextResponse.json(
-        { error: "Failed to update facial analysis setting." },
         { status: 500 }
       );
     }

@@ -6,6 +6,8 @@ You rate yourself on 35 PM competencies across six pillars, optionally describe 
 
 > **Status (23 Sep 2026): working prototype, not in production, no users.** Hirena is a B2C self-assessment tool. It is **not** a hiring or candidate-screening product, and it has no hiring pipeline or employer customers.
 
+**Architecture docs:** [full set](docs/README.md) · [system architecture](docs/01-system-architecture.md) · [AI architecture](docs/04-ai-architecture.md) · [scoring engine](docs/05-scoring-engine.md) · [evaluation](docs/07-evaluation.md) · [security and compliance](docs/08-security-and-compliance.md) · [decision log](docs/10-decision-log.md) · [gaps](docs/GAPS.md)
+
 ---
 
 ## How it works
@@ -48,7 +50,7 @@ With no key, `AI_MODE=auto` uses the labelled rule-based fallback.
 | `GET /api/share/[id]` | Shareable report |
 | `/api/facial/analyze`, `/api/voice/analyze`, `/api/verify-env`, `/api/test-env` | **410 Gone.** Removed for compliance and security; kept only so old clients get a clear answer |
 
-Full reference: [`docs/api-reference.md`](docs/api-reference.md). Note that parts of that document describe the removed video-interview option.
+Full reference: [`docs/03-api.md`](docs/03-api.md).
 
 ## Quality gates (CI, every push and PR)
 
@@ -61,7 +63,7 @@ Typecheck → lint → tests → build → `npm audit` (high and critical fail).
 
 ## Docs
 
-[PRD](docs/PRD.md) · [Competency models](docs/competency-models.md) · [Roadmap](docs/roadmap.md) · [STOP SHIP log](docs/STOP-SHIP.md) · [Architecture options](docs/architecture-enhancement-options.md) (historical: options 2 and 3 are out of scope)
+[Architecture docs](docs/README.md) · [PRD](docs/PRD.md) · [Competency models](docs/competency-models.md) · [Roadmap](docs/roadmap.md) · [STOP SHIP log](docs/STOP-SHIP.md) · [Archive](docs/archive/README.md) (pre-text-only designs)
 
 ## Tech
 

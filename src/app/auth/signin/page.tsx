@@ -63,7 +63,7 @@ export default function SignInPage() {
 
       {/* Footer */}
       <p className="mt-6 text-center text-xs text-foreground-subtle">
-        By continuing, you agree to Hirena's Terms of Service and Privacy Policy. Demo mode stores data locally only.
+        By continuing, you agree to Hirena&apos;s Terms of Service and Privacy Policy. Demo mode stores data locally only.
       </p>
     </div>
   );

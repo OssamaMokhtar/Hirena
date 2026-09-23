@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     {
       error: "This endpoint has been removed.",
       removedAt: "2026-09-23",
-      reason: "EU AI Act compliance: facial expression analysis from video is prohibited under Article 5(1)(f) (biometric categorization of natural persons). This endpoint analyzed facial expressions and has been decommissioned.",
+      reason: "EU AI Act Art. 5(1)(f) prohibits inferring the emotions of a person in the workplace or in education. This endpoint inferred emotions from facial expressions and has been decommissioned.",
     },
     { status: 410 }
   );

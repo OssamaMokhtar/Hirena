@@ -9,8 +9,6 @@ import type { AssessmentInput } from "@/types";
 import { computeAssessmentResult } from "@/lib/scoring-engine";
 import { AssessmentWizard } from "@/components/assessment-wizard";
 import { ResultsDashboard } from "@/components/results-dashboard";
-import { RealTimeInterviewWizard } from "@/components/real-time-interview-wizard";
-import { SOFTWARE_ROLES } from "@/lib/software-competency-model";
 
 // Pre-computed demo assessment — realistic self-ratings across all 6 pillars
 // for a Senior Product Manager in MENA, plus AI-inferred skill inferences
@@ -113,9 +111,6 @@ export default function Home() {
   const { t } = useTranslation();
   const [showAssessment, setShowAssessment] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [showVideoInterview, setShowVideoInterview] = useState(false);
-  const [interviewResult, setInterviewResult] = useState<any>(null);
-  const [selectedRole, setSelectedRole] = useState("software-engineer");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -166,12 +161,6 @@ export default function Home() {
                 How It Works
               </a>
               <a
-                href="#video-interview"
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                Video Interview
-              </a>
-              <a
                 href="/progress"
                 className="text-sm font-medium text-foreground hover:text-primary transition-colors"
               >
@@ -218,15 +207,17 @@ export default function Home() {
       {/* Main content */}
       <main className="pt-16">
         {showAssessment && result ? (
-          <ResultsDashboard result={result} />
-        ) : showVideoInterview && interviewResult ? (
-          <ResultsDashboard result={interviewResult} />
-        ) : showVideoInterview ? (
-          <RealTimeInterviewWizard
-            targetRole={selectedRole}
-            onComplete={setInterviewResult}
-            onCancel={() => setShowVideoInterview(false)}
-          />
+          <>
+            {result.userId === "demo-user" && (
+              <div className="mx-auto max-w-6xl px-4 pt-6">
+                <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                  <strong>Sample result.</strong> This is a pre-computed example for a fictional Senior PM. The
+                  &quot;AI-inferred&quot; levels were written in advance, not produced by a live model call.
+                </div>
+              </div>
+            )}
+            <ResultsDashboard result={result} />
+          </>
         ) : showAssessment ? (
           <AssessmentWizard onComplete={setResult} />
         ) : (
@@ -397,55 +388,10 @@ export default function Home() {
               </div>
             </section>
 
-            {/* Video Interview Section — Option 1 */}
-            <section id="video-interview" className="border-t border-border bg-background">
-              <div className="mx-auto max-w-6xl px-4 py-24">
-                <div className="text-center mb-16">
-                  <h2 className="text-3xl font-bold text-foreground">Video Interview Assessment</h2>
-                  <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground-muted">
-                    Practice with an AI mentor who asks real interview questions and analyzes your video responses.
-                    Get instant feedback on technical accuracy, communication, and problem-solving approach.
-                  </p>
-                </div>
-
-                <div className="mx-auto max-w-xl">
-                  {/* Role selector */}
-                  <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
-                    <label className="block text-sm font-medium text-foreground mb-3">
-                      Select your role for tailored questions:
-                    </label>
-                    <select
-                      value={selectedRole}
-                      onChange={(e) => {
-                        setSelectedRole(e.target.value);
-                        setShowVideoInterview(false);
-                      }}
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    >
-                      {Object.entries(SOFTWARE_ROLES).map(([key, role]) => (
-                        <option key={key} value={key}>
-                          {role.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <Button
-                    onClick={() => setShowVideoInterview(true)}
-                    className="w-full mt-4"
-                    size="lg"
-                  >
-                    <svg className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 10.552a14.03 14.03 0 01-3.503 1.383l-7.003 7.003a14.03 14.03 0 01-1.95 0l-3.478-3.478a14.03 14.03 0 010-1.95l7.003-7.003a14.03 14.03 0 011.383-3.503l-3.478-3.478a14.03 14.03 0 011.95-1.95l3.478 3.478a14.03 14.03 0 013.503-1.383l7.003-7.003a14.03 14.03 0 014.886 0l7.003 7.003a14.03 14.03 0 011.383 3.503l-3.478 3.478a14.03 14.03 0 010 1.95l7.003 7.003a14.03 14.03 0 01-1.383 3.503l-7.003 7.003a14.03 14.03 0 01-3.503-1.383l3.478-3.478a14.03 14.03 0 01-1.95 0l-7.003-7.003a14.03 14.03 0 01-3.503-1.383l-3.478 3.478a14.03 14.03 0 010 1.95l-7.003 7.003a14.03 14.03 0 011.383 3.503z" />
-                    </svg>
-                    Start Video Interview
-                  </Button>
-                  <p className="mt-3 text-center text-sm text-foreground-muted">
-                    5 questions · 10-15 minutes · AI-powered analysis
-                  </p>
-                </div>
-              </div>
-            </section>
+            {/* The video interview section was removed on 2026-09-23. It scored
+                candidates on voice "confidence/enthusiasm/emotion" and facial
+                "eye contact", which is emotion recognition in an education and
+                employment context (EU AI Act Art. 5(1)(f)). Hirena is text-only. */}
 
             {/* How It Works Section */}
             <section id="how-it-works" className="border-t border-border bg-background">
@@ -501,7 +447,7 @@ export default function Home() {
                 <div className="mt-16 rounded-2xl border border-border bg-surface p-8 shadow-lg shadow-black/5">
                   <h3 className="text-center text-xl font-semibold text-foreground">Assessment Flow Preview</h3>
                   <p className="mt-2 text-center text-foreground-muted">
-                    Here's what your assessment experience looks like
+                    Here&apos;s what your assessment experience looks like
                   </p>
 
                   <div className="mt-8 grid gap-6 lg:grid-cols-3">

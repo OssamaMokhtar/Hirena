@@ -66,7 +66,7 @@ export default function ProgressPage() {
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-foreground">Your Progress</h1>
             <p className="mt-2 text-foreground-muted">
-              Track your skills assessment history and see how you're growing over time.
+              Track your skills assessment history and see how you&apos;re growing over time.
             </p>
           </div>
 

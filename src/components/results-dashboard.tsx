@@ -64,7 +64,7 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
           </div>
           <h2 className="text-xl font-semibold text-foreground">Assessment Complete</h2>
           <p className="mt-2 text-foreground-muted">
-            Here's your personalized skills assessment for{" "}
+            Here&apos;s your personalized skills assessment for{" "}
             <span className="font-medium text-foreground">{result.targetRole}</span>
           </p>
         </div>
@@ -463,7 +463,7 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
                 <CardHeader>
                   <CardTitle>Skills to Develop</CardTitle>
                   <p className="text-sm text-foreground-muted">
-                    Areas where you're below the target role benchmark — prioritized by importance
+                    Areas where you&apos;re below the target role benchmark — prioritized by importance
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -514,7 +514,7 @@ export function ResultsDashboard({ result }: ResultsDashboardProps) {
                       <div className="text-4xl mb-2">🎯</div>
                       <h3 className="text-lg font-semibold text-foreground">No gaps identified</h3>
                       <p className="text-foreground-muted mt-1">
-                        You're meeting or exceeding expectations for your target role across all skills.
+                        You&apos;re meeting or exceeding expectations for your target role across all skills.
                       </p>
                     </div>
                   )}

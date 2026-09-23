@@ -3,21 +3,6 @@
 
 import type { Skill, SkillCategory, ProficiencyLevel, CareerLevel } from "@/types";
 
-// Import role constants from competency-models index
-import {
-  DATA_ENGINEER_SKILLS, DATA_ENGINEER_CAREER_LADDER,
-  SOFTWARE_ARCHITECT_SKILLS, SOFTWARE_ARCHITECT_CAREER_LADDER,
-  TECH_LEAD_SKILLS, TECH_LEAD_CAREER_LADDER,
-  ENGINEERING_MANAGER_SKILLS, ENGINEERING_MANAGER_CAREER_LADDER,
-  BUSINESS_CONSULTANT_SKILLS, BUSINESS_CONSULTANT_CAREER_LADDER,
-  UX_UI_DESIGNER_SKILLS, UX_UI_DESIGNER_CAREER_LADDER,
-  SCRUM_MASTER_SKILLS, SCRUM_MASTER_CAREER_LADDER,
-  DATA_SCIENTIST_SKILLS, DATA_SCIENTIST_CAREER_LADDER,
-  ML_ENGINEER_SKILLS, ML_ENGINEER_CAREER_LADDER,
-  SECURITY_ENGINEER_SKILLS, SECURITY_ENGINEER_CAREER_LADDER,
-  CLOUD_ARCHITECT_SKILLS, CLOUD_ARCHITECT_CAREER_LADDER,
-} from './competency-models/index';
-
 // ─── 1. Software Engineer ────────────────────────────────────────────────────
 
 export const SOFTWARE_ENGINEER_SKILLS: Record<string, Skill> = {
@@ -1451,72 +1436,6 @@ export const SOFTWARE_ROLES: Record<string, {
     track: "business-analysis",
     skills: BUSINESS_ANALYST_SKILLS,
     careerLadder: BUSINESS_ANALYST_CAREER_LADDER,
-  },
-  "data-engineer": {
-    name: "Data Engineer",
-    track: "data-engineering",
-    skills: DATA_ENGINEER_SKILLS,
-    careerLadder: DATA_ENGINEER_CAREER_LADDER,
-  },
-  "software-architect": {
-    name: "Software Architect",
-    track: "software-architecture",
-    skills: SOFTWARE_ARCHITECT_SKILLS,
-    careerLadder: SOFTWARE_ARCHITECT_CAREER_LADDER,
-  },
-  "tech-lead": {
-    name: "Tech Lead",
-    track: "tech-lead",
-    skills: TECH_LEAD_SKILLS,
-    careerLadder: TECH_LEAD_CAREER_LADDER,
-  },
-  "engineering-manager": {
-    name: "Engineering Manager",
-    track: "engineering-management",
-    skills: ENGINEERING_MANAGER_SKILLS,
-    careerLadder: ENGINEERING_MANAGER_CAREER_LADDER,
-  },
-  "business-consultant": {
-    name: "Business Consultant",
-    track: "business-consulting",
-    skills: BUSINESS_CONSULTANT_SKILLS,
-    careerLadder: BUSINESS_CONSULTANT_CAREER_LADDER,
-  },
-  "ux-ui-designer": {
-    name: "UX/UI Designer",
-    track: "ux-ui-design",
-    skills: UX_UI_DESIGNER_SKILLS,
-    careerLadder: UX_UI_DESIGNER_CAREER_LADDER,
-  },
-  "scrum-master": {
-    name: "Scrum Master",
-    track: "scrum-master",
-    skills: SCRUM_MASTER_SKILLS,
-    careerLadder: SCRUM_MASTER_CAREER_LADDER,
-  },
-  "data-scientist": {
-    name: "Data Scientist",
-    track: "data-science",
-    skills: DATA_SCIENTIST_SKILLS,
-    careerLadder: DATA_SCIENTIST_CAREER_LADDER,
-  },
-  "ml-engineer": {
-    name: "ML Engineer",
-    track: "ml-engineering",
-    skills: ML_ENGINEER_SKILLS,
-    careerLadder: ML_ENGINEER_CAREER_LADDER,
-  },
-  "security-engineer": {
-    name: "Security Engineer",
-    track: "security-engineering",
-    skills: SECURITY_ENGINEER_SKILLS,
-    careerLadder: SECURITY_ENGINEER_CAREER_LADDER,
-  },
-  "cloud-architect": {
-    name: "Cloud Architect",
-    track: "cloud-architecture",
-    skills: CLOUD_ARCHITECT_SKILLS,
-    careerLadder: CLOUD_ARCHITECT_CAREER_LADDER,
   },
 };
 

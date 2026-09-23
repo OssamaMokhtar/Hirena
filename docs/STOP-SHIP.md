@@ -8,7 +8,7 @@ These must be resolved before Hirena is deployed to any live URL. Items marked *
 
 ## SS-1: Remove facial analysis (EU AI Act Art. 5(1)(f))
 
-**Risk:** Biometric categorization of natural persons is prohibited under Article 5(1)(f). Hirena's `/api/facial/analyze` endpoint analyzed facial expressions from video frames — this is exactly the prohibited category.
+**Risk:** EU AI Act Art. 5(1)(f) prohibits AI systems that infer the emotions of a person in the workplace or in education. Hirena's `/api/facial/analyze` endpoint inferred emotions from facial expressions in interview video.
 
 **What was removed:**
 - `src/app/api/facial/analyze/route.ts` — replaced with 410 Gone response
@@ -17,7 +17,7 @@ These must be resolved before Hirena is deployed to any live URL. Items marked *
 - `signal-analysis.ts` — voice/facial signal utilities (deprecated)
 - `facial-analysis.ts` — facial analysis types (deprecated)
 
-**Status: DONE** (2026-09-23)
+**Status: DONE** (2026-09-23), **completed in the audit pass the same day.** The first pass only stubbed the facial endpoint. `/api/voice/analyze` (which scored "confidence", "enthusiasm" and "emotion"), the video interview wizard on the landing page, `/api/interview/session` (which returned `Math.random()` emotion and eye-contact scores), `/api/interview/analyze` (audio transcription of candidates) and the fusion engine were all still live. All are now removed; `src/__tests__/removed-endpoints.test.ts` fails the build if they come back.
 
 ---
 
@@ -30,7 +30,7 @@ These must be resolved before Hirena is deployed to any live URL. Items marked *
 2. **Remove AI inference from demo** — make the demo fully offline (self-assessment only, no AI path).
 3. **Gate AI inference behind a feature flag** — only call GPT-4o when credits are confirmed.
 
-**Status: OPEN** — recommend option 1 (restore credit) as the fastest path.
+**Status: MITIGATED** (2026-09-23). When the model path fails, results now carry the label "Rule-based estimate — no AI model was called", and the landing-page demo shows a "Sample result" banner. Restoring API credit is still needed before claiming live AI inference.
 
 ---
 
@@ -59,8 +59,8 @@ These must be resolved before Hirena is deployed to any live URL. Items marked *
 
 | Item | Risk | Status |
 |------|------|--------|
-| SS-1: Facial analysis removal | EU AI Act violation | **DONE** |
-| SS-2: OpenAI credit / demo fix | 429 errors in AI path | **OPEN** |
+| SS-1: Emotion inference removal (face, voice, video) | EU AI Act Art. 5(1)(f) | **DONE** |
+| SS-2: OpenAI credit / demo honesty | Fallback shown as AI | **MITIGATED** (credit still needed) |
 | SS-3: verify-env/test-env removal | Credential leak | **DONE** |
 | SS-4: Youna encryption claim | False claim in README | **DONE** (Youna) |
 

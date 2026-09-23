@@ -1,9 +1,7 @@
 name: CI
 
-# Hirena — Next.js 15 MVP with OpenAI-powered skills assessment
-# ──────────────────────────────────────────────────────────────────────────────
-# Node.js v20.18.1 (current LTS at time of build)
-# ──────────────────────────────────────────────────────────────────────────────
+# Every step is a real gate. The previous workflow ran lint with `|| echo` and
+# the audit with `|| true`, so neither could ever fail a build.
 
 on:
   push:
@@ -12,31 +10,30 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-build:
+  verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js v20.18.1 (current LTS)
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.18.1'
+          node-version: '22'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
-      - name: TypeScript type check (noEmit)
+      - name: Typecheck
         run: npx tsc --noEmit
 
       - name: Lint
-        run: npm run lint --if-present || echo 'No lint script'
+        run: npm run lint
 
-      - name: Build (Next.js)
+      - name: Tests (scoring determinism, removed endpoints, no emotion inference, fallback labelling)
+        run: npm test
+
+      - name: Build
         run: npm run build
 
-      - name: Dependency audit (production only)
-        run: npm audit --omit=dev --audit-level=moderate || true
+      - name: Dependency audit (high and critical fail the build)
+        run: npm audit --omit=dev --audit-level=high

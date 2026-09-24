@@ -77,7 +77,7 @@ export function AuthForm({ user, onSwitchMode, mode, isLoading }: AuthFormProps)
           </svg>
         </div>
         <h2 className="text-xl font-semibold text-foreground">Welcome back, {user.displayName?.split(" ")[0]}!</h2>
-        <p className="mt-2 text-foreground-muted">You're signed in as {user.email}</p>
+        <p className="mt-2 text-foreground-muted">You&apos;re signed in as {user.email}</p>
         <Button
           variant="outline"
           className="mt-6 w-full"

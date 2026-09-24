@@ -1,3 +1,5 @@
+> Note (23 Sep 2026): roadmap items for video interviews, voice or facial analysis are cancelled by the text-only decision ([ADR-001](10-decision-log.md)).
+
 # Hirena — Roadmap
 
 **Version:** 2.0  

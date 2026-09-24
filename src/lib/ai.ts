@@ -150,6 +150,15 @@ Format your response as JSON:
 }
 
 /**
+ * Rule-based fallback results must never be shown as model output. The results
+ * dashboard renders `reasoning` as the evidence line, so the label goes there.
+ */
+export const FALLBACK_LABEL = "[Rule-based estimate — no AI model was called]";
+function labelFallback(reasoning: string): string {
+  return reasoning.startsWith(FALLBACK_LABEL) ? reasoning : `${FALLBACK_LABEL} ${reasoning}`;
+}
+
+/**
  * Analyze all AI inference inputs and return inferred levels for each skill.
  */
 export async function inferAllSkills(
@@ -162,7 +171,7 @@ export async function inferAllSkills(
     const mockResults = mockInferAllSkills(inputs, targetRole);
     const results: Record<string, { level: ProficiencyLevel; confidence: number; reasoning: string }> = {};
     for (const [id, r] of Object.entries(mockResults)) {
-      results[id] = { level: r.level, confidence: r.confidence, reasoning: r.reasoning };
+      results[id] = { level: r.level, confidence: r.confidence, reasoning: labelFallback(r.reasoning) };
     }
     return results;
   }
@@ -183,13 +192,14 @@ export async function inferAllSkills(
       console.warn(
         `[Hirena AI] Production failed for skill "${input.skillId}": ${error}. Using mock fallback.`
       );
-      results[input.skillId] = mockInferSkillLevel(
+      const fallback = mockInferSkillLevel(
         input.skillId,
         name,
         input.description,
         category,
         targetRole
       );
+      results[input.skillId] = { ...fallback, reasoning: labelFallback(fallback.reasoning) };
     }
   }
 

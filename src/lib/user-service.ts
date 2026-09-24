@@ -217,20 +217,3 @@ export async function saveUserPreferences(
   return { success: true };
 }
 
-/**
- * Toggle facial analysis on/off for the current user.
- */
-export async function setFacialAnalysisEnabled(
-  userId: string,
-  enabled: boolean
-): Promise<{ success: boolean; error?: string }> {
-  return saveUserPreferences(userId, { facialAnalysisEnabled: enabled });
-}
-
-/**
- * Get the facial analysis toggle state for the current user.
- */
-export async function isFacialAnalysisEnabled(userId: string): Promise<boolean> {
-  const prefs = await getUserPreferences(userId);
-  return prefs.facialAnalysisEnabled;
-}

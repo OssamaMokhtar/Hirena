@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { FacialBiasDoc, getFacialBiasSummary } from "@/lib/facial-bias-doc";
 import { getCurrentUser } from "@/lib/user-service";
 import { LanguageSelector } from "@/components/language-selector";
 import { useTranslation } from "@/lib/i18n-provider";
@@ -89,8 +88,6 @@ export function SettingsPage() {
   const { t } = useTranslation();
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState<{ id: string; email: string; displayName: string } | null>(null);
-  const [facialEnabled, setFacialEnabled] = React.useState(false);
-  const [facialLoaded, setFacialLoaded] = React.useState(false);
   const [preferences, setPreferences] = React.useState<{
     facialAnalysisEnabled?: boolean;
     useRealAi?: boolean;
@@ -142,14 +139,12 @@ export function SettingsPage() {
           const data = await res.json();
           if (data.profile) {
             setPreferences(data.profile);
-            setFacialEnabled(data.profile.facialAnalysisEnabled ?? false);
           }
         } else {
           const stored = localStorage.getItem("hirena-preferences");
           if (stored) {
             const prefs = JSON.parse(stored);
             setPreferences(prefs);
-            setFacialEnabled(prefs.facialAnalysisEnabled ?? false);
           }
         }
       } catch {
@@ -157,10 +152,7 @@ export function SettingsPage() {
         if (stored) {
           const prefs = JSON.parse(stored);
           setPreferences(prefs);
-          setFacialEnabled(prefs.facialAnalysisEnabled ?? false);
         }
-      } finally {
-        setFacialLoaded(true);
       }
     };
     loadPrefs();
@@ -190,47 +182,6 @@ export function SettingsPage() {
       toast({ title: "Preferences saved (demo mode)", description: "Settings saved to local storage." });
     } catch (err) {
       toast({ title: "Error", description: "Failed to save preferences.", variant: "destructive" });
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleFacialToggle = async (enabled: boolean) => {
-    setSaving(true);
-    try {
-      const supabaseUser = await getCurrentUser();
-      if (supabaseUser) {
-        const res = await fetch("/api/auth/facial-toggle", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ enabled }),
-        });
-        if (res.ok) {
-          setFacialEnabled(enabled);
-          setPreferences(p => ({ ...p, facialAnalysisEnabled: enabled }));
-          toast({
-            title: enabled ? "Facial analysis enabled" : "Facial analysis disabled",
-            description: enabled
-              ? "Remember: this is an experimental coaching feature — see the bias documentation for details."
-              : "Facial analysis has been disabled.",
-          });
-          setSaving(false);
-          return;
-        }
-      }
-      const stored = localStorage.getItem("hirena-preferences");
-      const current = stored ? JSON.parse(stored) : {};
-      localStorage.setItem("hirena-preferences", JSON.stringify({ ...current, facialAnalysisEnabled: enabled }));
-      setFacialEnabled(enabled);
-      setPreferences(p => ({ ...p, facialAnalysisEnabled: enabled }));
-      toast({
-        title: enabled ? "Facial analysis enabled" : "Facial analysis disabled",
-        description: enabled
-          ? "Remember: this is an experimental coaching feature — see the bias documentation for details."
-          : "Facial analysis has been disabled.",
-      });
-    } catch (err) {
-      toast({ title: "Error", description: "Failed to update facial analysis setting.", variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -381,99 +332,8 @@ export function SettingsPage() {
         </CardContent>
       </Card>
 
-      {/* Facial Analysis Toggle — P2 */}
-      <Card className="mb-6 border-amber-200/50">
-        <CardHeader>
-          <CardTitle className="text-base text-amber-800">{t("settings.facial.title")}</CardTitle>
-          <CardDescription className="text-amber-700/70">
-            {t("settings.facial.description")}
-            <span className="block mt-1 text-[11px]">{t("settings.facial.disclaimerShort")}</span>
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col">
-              <div className="font-medium text-foreground">{t("settings.facial.toggleLabel")}</div>
-              <div className="text-sm text-foreground-muted">
-                {t("settings.facial.toggleDescription")}
-                <span className="block mt-1 text-[11px] text-amber-600/80">
-                  {t("settings.facial.toggleDisclaimer")}
-                </span>
-              </div>
-            </div>
-            <button
-              className={cn(
-                "relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:opacity-50 disabled:pointer-events-none",
-                facialEnabled ? "bg-primary" : "bg-foreground-subtle"
-              )}
-              disabled={saving}
-              onClick={() => handleFacialToggle(!facialEnabled)}
-            >
-              <span className={cn("pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition", facialEnabled ? "translate-x-[18px]" : "translate-x-0")} />
-            </button>
-          </div>
-
-          {facialEnabled && (
-            <div className="rounded-lg bg-amber-50 border border-amber-200/60 p-3">
-              <div className="flex items-start gap-2">
-                <span className="text-amber-700 text-sm font-semibold mt-0.5">Important — Read Before Enabling</span>
-              </div>
-              <p className="text-xs text-amber-700/80 mt-1 leading-relaxed">
-                Facial analysis technology has known biases across race, gender, age, and neurodiversity.
-                Hirena's implementation is a coaching aid only — never used for pass/fail decisions.
-                You can disable this at any time. See the full bias documentation for details.
-              </p>
-            </div>
-          )}
-
-          {/* Bias Documentation */}
-          <div className="rounded-lg border border-border bg-surface p-4">
-            <div className="flex items-start gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700 text-sm">
-                ?
-              </div>
-              <div className="flex-1">
-                <div className="font-medium text-foreground text-sm">Facial Analysis Bias & Ethics Documentation</div>
-                <div className="text-xs text-foreground-muted mt-1 leading-relaxed">
-                  Comprehensive overview of why facial analysis is controversial, known biases (race, gender, age,
-                  disability, neurodiversity, non-native speakers), regulatory context (EU AI Act high-risk,
-                  HireVue 2021 deprecation), and Hirena's ethical safeguards.
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-3 text-xs"
-                  onClick={() => {
-                    document.body.classList.add("overflow-hidden");
-                    const modal = document.createElement("div");
-                    modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4";
-                    modal.innerHTML = `
-                      <div class="max-w-2xl max-h-[85vh] overflow-y-auto rounded-lg border border-border bg-surface p-6 shadow-xl">
-                        <div class="flex items-center justify-between mb-4">
-                          <h3 class="text-lg font-semibold text-foreground">Facial Analysis Bias & Ethics</h3>
-                          <button onclick="this.closest('.fixed').remove(); document.body.classList.remove('overflow-hidden')" class="text-foreground-muted hover:text-foreground text-lg">×</button>
-                        </div>
-                        <div class="text-sm text-foreground-muted leading-relaxed whitespace-pre-wrap">
-                          ${FacialBiasDoc}
-                        </div>
-                      </div>
-                    `;
-                    document.body.appendChild(modal);
-                    modal.addEventListener("click", (e) => {
-                      if (e.target === modal) {
-                        modal.remove();
-                        document.body.classList.remove("overflow-hidden");
-                      }
-                    });
-                  }}
-                >
-                  Read full documentation
-                </Button>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Facial analysis settings removed 2026-09-23: Hirena no longer offers
+          any facial or voice analysis (EU AI Act Art. 5(1)(f)). */}
 
       {/* Save Button */}
       <div className="flex justify-end">

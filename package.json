@@ -9,7 +9,9 @@
     "lint": "eslint",
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",
-    "db:seed": "supabase db seed"
+    "db:seed": "supabase db seed",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.2.6",
@@ -42,6 +44,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
   }
 }

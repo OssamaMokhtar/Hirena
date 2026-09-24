@@ -1,3 +1,5 @@
+> Note (23 Sep 2026): sections of this PRD that describe video interviews, voice or facial analysis are superseded by the text-only decision ([ADR-001](10-decision-log.md)).
+
 # Hirena — Product Requirements Document (PRD)
 
 **Version:** 2.0  
@@ -451,17 +453,17 @@ See [Competency Models Documentation](./competency-models.md) for full specifica
 
 ### B. API Reference
 
-See [API Reference](./api-reference.md) for endpoint specifications.
+See [API](./03-api.md) for current endpoints ([pre-text-only reference](./archive/api-reference.md)).
 
 ### C. Architecture Diagrams
 
-See [Architecture Overview](./architecture-overview.html) for visual diagrams.
+See [System architecture](./01-system-architecture.md).
 
-See [Data Flow Diagrams](./data-flows.md) for detailed flow documentation.
+Historical data flows (including removed video features): [archive/data-flows.md](./archive/data-flows.md).
 
 ### D. Market Research
 
-See [Market Research Report](./market-research.md) for competitive analysis and market context.
+Market research: not published in this repo.
 
 ### E. Roadmap
 
